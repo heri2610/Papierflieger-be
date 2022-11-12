@@ -14,9 +14,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   users.init({
-    name: DataTypes.STRING,
+    gelar: DataTypes.STRING,
+    kebangsaan: DataTypes.STRING,
+    negara: DataTypes.STRING,
+    username: DataTypes.STRING,
+    fullname: DataTypes.STRING,
+    hp: DataTypes.STRING,
+    provinsi: DataTypes.STRING,
+    password: DataTypes.STRING,
+    tanggal_lahir: DataTypes.DATE,
     email: DataTypes.STRING,
-    password: DataTypes.STRING
+    kabupaten: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'users',
