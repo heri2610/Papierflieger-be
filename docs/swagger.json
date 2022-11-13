@@ -1,0 +1,126 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "papierflieger-api",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Users API Collection"
+    }
+  ],
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Registration for new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Users"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Registration success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Registration success!"
+                    },
+                    "user": {
+                      "$ref": "#/components/schemas/Users"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email already registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "user email already exists"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Users": {
+        "type": "object",
+        "properties": {
+          "gelar": {
+            "type": "string",
+            "example": "Ms"
+          },
+          "fullName": {
+            "type": "string",
+            "example": "Agnes Monica"
+          },
+          "tanggal_lahir": {
+            "type": "date",
+            "example": "2002-09-11 22:29:20"
+          },
+          "kebangsaan": {
+            "type": "string",
+            "example": "Indonesia"
+          },
+          "email": {
+            "type": "string",
+            "example": "agnesmo@mail.com"
+          },
+          "hp": {
+            "type": "string",
+            "example": "081384753928"
+          },
+          "negara": {
+            "type": "string",
+            "example": "Indonesia"
+          },
+          "provinsi": {
+            "type": "string",
+            "example": "DKI Jakarta"
+          },
+          "kota": {
+            "type": "string",
+            "example": "Jakarta Timur"
+          },
+          "username": {
+            "type": "string",
+            "example": "agnesmonikah"
+          }
+        }
+      }
+    }
+  }
+}
