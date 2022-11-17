@@ -1,7 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
-const router = require('./app/router');
+const express = require("express");
+const cors = require("cors");
+// const morgan = require('morgan');
+const router = require("./app/router");
 // const { MORGAN_FORMAT } = require('../config/application');
 const { PORT = 3000 } = process.env;
 
@@ -13,6 +13,5 @@ app.use(express.json());
 app.use(router);
 
 app.listen(PORT, () => {
-  console.log("Listening on port", PORT);
+  console.log(`Listening on port ${PORT}, link http://localhost:${PORT}`);
 });
-

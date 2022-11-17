@@ -72,6 +72,73 @@
           }
         }
       }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Users"],
+        "description": "login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "email": {
+                    "type": "email",
+                    "example": "agnesmo@mail.com"
+                  },
+                  "password": {
+                    "type": "password",
+                    "example": "heri1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Registration success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Login success!"
+                    },
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksIndhcmVob3VzZUlkIjoxMiwiaWF0IjoxNjY2MDIyNTc0fQ.HpBlFpKLYexC8uw5Qps6yfNcX_m8OinmqUO4NLPQgHs"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "wrong password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "user email already exists"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -107,6 +174,10 @@
             "type": "string",
             "example": "Indonesia"
           },
+          "password": {
+            "type": "password",
+            "example": "heri1234"
+          },
           "provinsi": {
             "type": "string",
             "example": "DKI Jakarta"
@@ -121,6 +192,12 @@
           }
         }
       }
+    }
+  },
+  "securitySchemes": {
+    "bearerToken": {
+      "type": "http",
+      "scheme": "bearer"
     }
   }
 }
