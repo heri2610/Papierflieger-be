@@ -6,7 +6,12 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000/"
+      "url": "http://localhost:3000/",
+      "description": "local"
+    },
+    {
+      "url": "https://fp-backend-production.up.railway.app/",
+      "description": "production"
     }
   ],
   "tags": [
@@ -182,7 +187,7 @@
             "type": "string",
             "example": "DKI Jakarta"
           },
-          "kota": {
+          "kabupaten": {
             "type": "string",
             "example": "Jakarta Timur"
           },
