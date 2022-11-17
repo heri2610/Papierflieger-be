@@ -35,8 +35,10 @@ const register = async (req, res) => {
     const User = await users.findOne({ where: { email } });
 
     // validasi
-    if (!fullname || !email || !password || !gelar || !kebangsaan || !negara || !username || !hp || !provinsi || !tanggal_lahir || !kabupaten) throw new ApiError(400, "filed cannot be empty");
-    if (User) throw new ApiError(400, "email already exist!");
+    // if (!email) throw new ApiError(400, "email cannot be empty");
+    // if (!fullname) throw new ApiError(400, "name cannot be empty");
+    // if (!password) throw new ApiError(400, "password cannot be empty");
+    // if (User) throw new ApiError(400, "email already exist!");
     if (password.length < 8) throw new ApiError(400, "minimum password length must be 8 charater or more");
 
     // hash password
