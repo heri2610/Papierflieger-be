@@ -37,7 +37,7 @@ const register = async (req, res) => {
   try {
     const { fullName, email, password, gelar, kebangsaan, negara, username, hp, provinsi, tanggal_lahir, kabupaten } = req.body;
     const User = await users.findOne({ where: { email } });
-
+    console.log(fullName);
     // validasi
     if (!email) throw new ApiError(400, "email cannot be empty");
     if (!password) throw new ApiError(400, "password cannot be empty");
