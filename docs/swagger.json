@@ -16,15 +16,16 @@
   ],
   "tags": [
     {
-      "name": "Users",
-      "description": "Users API Collection"
+      "name": "Auth",
+      "description": "Auth API Collection"
     }
   ],
   "paths": {
     "/api/auth/register": {
       "post": {
-        "tags": ["Users"],
-        "description": "Registration for new user",
+        "summary": "Register",
+        "tags": ["Auth"],
+        "description": "Create new user",
         "requestBody": {
           "required": true,
           "content": {
@@ -68,7 +69,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "user email already exists"
+                      "example": "email already exists"
                     }
                   }
                 }
@@ -80,8 +81,9 @@
     },
     "/api/auth/login": {
       "post": {
-        "tags": ["Users"],
-        "description": "login",
+        "summary": "Login",
+        "tags": ["Auth"],
+        "description": "Retrieve access tokens",
         "requestBody": {
           "required": true,
           "content": {
@@ -90,7 +92,7 @@
                 "properties": {
                   "email": {
                     "type": "email",
-                    "example": "agnesmo@mail.com"
+                    "example": "haerisuh@mail.com"
                   },
                   "password": {
                     "type": "password",
@@ -103,7 +105,7 @@
         },
         "responses": {
           "200": {
-            "description": "Registration success",
+            "description": "Login success",
             "content": {
               "application/json": {
                 "schema": {
@@ -113,9 +115,9 @@
                       "type": "string",
                       "example": "Login success!"
                     },
-                    "token": {
+                    "accessToken": {
                       "type": "string",
-                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksIndhcmVob3VzZUlkIjoxMiwiaWF0IjoxNjY2MDIyNTc0fQ.HpBlFpKLYexC8uw5Qps6yfNcX_m8OinmqUO4NLPQgHs"
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksIndhcmVob3Vz"
                     }
                   }
                 }
@@ -135,7 +137,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "user email already exists"
+                      "example": "Wrong password!"
                     }
                   }
                 }
@@ -151,49 +153,53 @@
       "Users": {
         "type": "object",
         "properties": {
-          "gelar": {
+          "title": {
             "type": "string",
-            "example": "Ms"
+            "example": "Mr"
           },
           "fullName": {
             "type": "string",
-            "example": "Agnes Monica"
+            "example": "Suhaeri"
           },
-          "tanggal_lahir": {
-            "type": "date",
-            "example": "2002-09-11 22:29:20"
-          },
-          "kebangsaan": {
+          "username": {
             "type": "string",
-            "example": "Indonesia"
+            "example": "hetotheri"
           },
           "email": {
             "type": "string",
-            "example": "agnesmo@mail.com"
-          },
-          "hp": {
-            "type": "string",
-            "example": "081384753928"
-          },
-          "negara": {
-            "type": "string",
-            "example": "Indonesia"
+            "example": "haerisuh@mail.com"
           },
           "password": {
             "type": "password",
             "example": "heri1234"
           },
-          "provinsi": {
+          "phone": {
+            "type": "string",
+            "example": "081384753928"
+          },
+          "birthdate": {
+            "type": "date",
+            "example": "2002-09-11"
+          },
+          "nationality": {
+            "type": "string",
+            "example": "Indonesia"
+          },
+          "country": {
+            "type": "string",
+            "example": "Indonesia"
+          },
+          "province": {
             "type": "string",
             "example": "DKI Jakarta"
           },
-          "kabupaten": {
+          "regency": {
             "type": "string",
             "example": "Jakarta Timur"
           },
-          "username": {
+          "avatar": {
             "type": "string",
-            "example": "agnesmonikah"
+            "example": "https://ik.imagekit.io/lscxjpnrv/1621489149086_P77H3rCBW.jpg"
           }
         }
       }
