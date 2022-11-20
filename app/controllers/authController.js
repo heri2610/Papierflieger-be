@@ -1,17 +1,19 @@
-const dotenv = require("dotenv");
+const dotenv = require('dotenv');
+
 dotenv.config();
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const { users } = require("../models");
-const ApiError = require("../../utils/ApiError");
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const { users } = require('../models');
+const ApiError = require('../../utils/ApiError');
 
 const login = async (req, res) => {
   try {
-    const { email = "", password = "" } = req.body;
+    const { email = '', password = '' } = req.body;
     const user = await users.findOne({ where: { email } });
     // validasi
-    if (!user) throw new ApiError(400, "email or password is wrong");
-    if (!bcrypt.compareSync(password, user.password)) throw new ApiError(400, "email or password is wrong");
+    if (!user) throw new ApiError(400, 'email or password is wrong');
+    if (!bcrypt.compareSync(password, user.password))
+      throw new ApiError(400, 'email or password is wrong');
 
     if (bcrypt.compareSync(password, user.password)) {
       // generate token utk user yg success login
@@ -22,7 +24,7 @@ const login = async (req, res) => {
         process.env.SECRET_KEY
       );
       res.status(200).json({
-        message: "Berhasil login",
+        message: 'Berhasil login',
         token,
       });
     }
@@ -35,21 +37,48 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { fullName, email, password, gelar, kebangsaan, negara, username, hp, provinsi, tanggal_lahir, kabupaten } = req.body;
+    const {
+      fullName,
+      email,
+      password,
+      gelar,
+      kebangsaan,
+      negara,
+      username,
+      hp,
+      provinsi,
+      tanggalLahir,
+      kabupaten,
+    } = req.body;
     const User = await users.findOne({ where: { email } });
-    console.log(fullName);
     // validasi
-    if (!email) throw new ApiError(400, "email cannot be empty");
-    if (!password) throw new ApiError(400, "password cannot be empty");
-    if (!fullName) throw new ApiError(400, "name cannot be empty");
-    if (!username) throw new ApiError(400, "username cannot be empty");
-    if (User) throw new ApiError(400, "email already exist!");
-    if (password.length < 8) throw new ApiError(400, "minimum password length must be 8 charater or more");
+    if (!email) throw new ApiError(400, 'email cannot be empty');
+    if (!password) throw new ApiError(400, 'password cannot be empty');
+    if (!fullName) throw new ApiError(400, 'name cannot be empty');
+    if (!username) throw new ApiError(400, 'username cannot be empty');
+    if (User) throw new ApiError(400, 'email already exist!');
+    if (password.length < 8)
+      throw new ApiError(
+        400,
+        'minimum password length must be 8 charater or more'
+      );
     // hash password
     const hashedPassword = bcrypt.hashSync(password, 10);
-    const newUser = await users.create({ fullName, email, password: hashedPassword, gelar, kebangsaan, negara, username, hp, provinsi, tanggal_lahir, kabupaten });
+    const newUser = await users.create({
+      fullName,
+      email,
+      password: hashedPassword,
+      gelar,
+      kebangsaan,
+      negara,
+      username,
+      hp,
+      provinsi,
+      tanggalLahir,
+      kabupaten,
+    });
     res.status(200).json({
-      message: "registrasi berhasil, silahkan login",
+      message: 'registrasi berhasil, silahkan login',
       newUser,
     });
   } catch (error) {
