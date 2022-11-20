@@ -9,13 +9,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      gelar: {
+      title: {
         type: Sequelize.STRING,
       },
-      kebangsaan: {
+      nationality: {
         type: Sequelize.STRING,
       },
-      negara: {
+      country: {
         type: Sequelize.STRING,
       },
       username: {
@@ -24,23 +24,26 @@ module.exports = {
       fullName: {
         type: Sequelize.STRING,
       },
-      hp: {
+      phone: {
         type: Sequelize.STRING,
       },
-      provinsi: {
+      province: {
         type: Sequelize.STRING,
       },
       password: {
         type: Sequelize.STRING,
       },
-      tanggal_lahir: {
+      birthdate: {
         type: Sequelize.DATE,
       },
       email: {
         type: Sequelize.STRING,
       },
-      kabupaten: {
+      regency: {
         type: Sequelize.STRING,
+      },
+      verified: {
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,

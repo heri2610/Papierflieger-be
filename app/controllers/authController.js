@@ -38,17 +38,17 @@ const login = async (req, res) => {
 const register = async (req, res) => {
   try {
     const {
-      fullName,
-      email,
-      password,
-      gelar,
-      kebangsaan,
-      negara,
+      title,
+      nationality,
+      country,
       username,
-      hp,
-      provinsi,
-      tanggalLahir,
-      kabupaten,
+      fullName,
+      phone,
+      province,
+      password,
+      birthdate,
+      email,
+      regency,
     } = req.body;
     const User = await users.findOne({ where: { email } });
     // validasi
@@ -65,17 +65,17 @@ const register = async (req, res) => {
     // hash password
     const hashedPassword = bcrypt.hashSync(password, 10);
     const newUser = await users.create({
-      fullName,
-      email,
-      password: hashedPassword,
-      gelar,
-      kebangsaan,
-      negara,
+      title,
+      nationality,
+      country,
       username,
-      hp,
-      provinsi,
-      tanggalLahir,
-      kabupaten,
+      fullName,
+      phone,
+      province,
+      password: hashedPassword,
+      birthdate,
+      email,
+      regency,
     });
     res.status(200).json({
       message: 'registrasi berhasil, silahkan login',
