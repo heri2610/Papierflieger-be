@@ -1,11 +1,13 @@
 const dotenv = require('dotenv');
-// const { v4: uuidv4 } = require('uuid');
-// const url = uuidv4();
-dotenv.config();
+const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { users } = require('../models');
+const sendMail = require('../../lib/nodemailer');
+const { users, verify } = require('../models');
 const ApiError = require('../../utils/ApiError');
+
+const tokenVerify = uuidv4();
+dotenv.config();
 
 const login = async (req, res) => {
   try {
@@ -65,6 +67,7 @@ const register = async (req, res) => {
       );
     // hash password
     const hashedPassword = bcrypt.hashSync(password, 10);
+    // buat user baru
     const newUser = await users.create({
       title,
       nationality,
@@ -78,6 +81,17 @@ const register = async (req, res) => {
       email,
       regency,
     });
+    // email verify
+    const date = Date.now() + 1000 * 60 * 60 * 24;
+    await verify.create({ userId: newUser.id, tokenVerify, expired: date });
+    const data = {
+      EMAIL: email,
+      subject: 'Testing Email',
+      text: 'hello word',
+      html: `${process.env.URLSENEMAIL}?token=${tokenVerify}`,
+    };
+    sendMail(data);
+
     res.status(200).json({
       message: 'registrasi berhasil, silahkan login',
       newUser,
@@ -88,4 +102,31 @@ const register = async (req, res) => {
     });
   }
 };
-module.exports = { login, register };
+const verified = async (req, res) => {
+  try {
+    const urlToken = req.query.token;
+    const cekToken = await verify.findOne({ where: { tokenVerify: urlToken } });
+    const ExpiredDate = cekToken.expired;
+    const dateNow = Date.now();
+    if (dateNow >= ExpiredDate) {
+      throw new ApiError(400, 'token expaired');
+    }
+    const userVerify = await users.update(
+      { verified: true },
+      {
+        where: {
+          id: cekToken.userId,
+        },
+      }
+    );
+    res.status(200).json({
+      message: 'akun berhasil terverifikasi',
+      userVerify: userVerify.verified,
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      message: error.message,
+    });
+  }
+};
+module.exports = { login, register, verified };
