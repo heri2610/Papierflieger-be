@@ -7,8 +7,8 @@ const auth = (req, res, next) => {
     const token = bearerToken.split('Bearer ')[1];
     if (!token) {
       return res.status(401).json({
-        status: 'fail',
-        message: 'required authorization',
+        status: 'failed',
+        message: 'Required authorization',
       });
     }
     const payload = jwt.verify(token, 'rahasia');
@@ -18,8 +18,8 @@ const auth = (req, res, next) => {
     });
   } catch {
     res.status(401).json({
-      status: 'fail',
-      message: 'Invalid Token',
+      status: 'failed',
+      message: 'Invalid token',
     });
   }
 };
