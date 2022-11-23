@@ -14,16 +14,20 @@ module.exports = (sequelize, DataTypes) => {
   users.init(
     {
       title: DataTypes.STRING,
+      fullName: DataTypes.STRING,
+      username: DataTypes.STRING,
+      email: DataTypes.STRING,
+      password: DataTypes.STRING,
+      phone: DataTypes.STRING,
+      birthdate: DataTypes.DATE,
       nationality: DataTypes.STRING,
       country: DataTypes.STRING,
-      username: DataTypes.STRING,
-      fullName: DataTypes.STRING,
-      phone: DataTypes.STRING,
       province: DataTypes.STRING,
-      password: DataTypes.STRING,
-      birthdate: DataTypes.DATE,
-      email: DataTypes.STRING,
       regency: DataTypes.STRING,
+      avatar: {
+        type: DataTypes.TEXT,
+        defaultValue: "https://ik.imagekit.io/lscxjpnrv/defaultava.png",
+      },
       verified: DataTypes.BOOLEAN,
     },
     {

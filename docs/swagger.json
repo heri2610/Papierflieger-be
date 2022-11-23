@@ -196,10 +196,6 @@
           "regency": {
             "type": "string",
             "example": "Jakarta Timur"
-          },
-          "avatar": {
-            "type": "string",
-            "example": "https://ik.imagekit.io/lscxjpnrv/1621489149086_P77H3rCBW.jpg"
           }
         }
       }

@@ -15,9 +15,9 @@ const login = async (req, res) => {
     const { email = '', password = '' } = req.body;
     const user = await users.findOne({ where: { email } });
     // validasi
-    if (!user) throw new ApiError(400, 'email or password is wrong');
+    if (!user) throw new ApiError(400, 'Email atau password tidak cocok');
     if (!bcrypt.compareSync(password, user.password))
-      throw new ApiError(400, 'email or password is wrong');
+      throw new ApiError(400, 'Email atau password tidak cocok');
 
     if (bcrypt.compareSync(password, user.password)) {
       // generate token utk user yg success login
@@ -28,7 +28,7 @@ const login = async (req, res) => {
         process.env.SECRET_KEY
       );
       res.status(200).json({
-        message: 'Login success',
+        message: 'Berhasil Login',
         token,
       });
     }
@@ -43,15 +43,15 @@ const register = async (req, res) => {
   try {
     const {
       title,
-      fullName,
-      username,
-      email,
-      password,
-      phone,
-      birthdate,
       nationality,
       country,
+      username,
+      fullName,
+      phone,
       province,
+      password,
+      birthdate,
+      email,
       regency,
     } = req.body;
 
@@ -59,18 +59,17 @@ const register = async (req, res) => {
     const usernameExist = await users.findOne({ where: { username } });
     // validasi
     const validateEmail = isEmailValid(email);
-    if (!email) throw new ApiError(400, 'Email cannot be empty');
-    if (!validateEmail)
-      throw new ApiError(400, 'Please enter a valid email address');
-    if (!password) throw new ApiError(400, 'Password cannot be empty');
-    if (!fullName) throw new ApiError(400, 'Name cannot be empty');
-    if (!username) throw new ApiError(400, 'Username cannot be empty');
-    if (User) throw new ApiError(400, 'Email is already exist!');
-    if (usernameExist) throw new ApiError(400, 'Username is already taken');
+    if (!email) throw new ApiError(400, 'Email tidak boleh kosong');
+    if (!validateEmail) throw new ApiError(400, 'Email tidak valid');
+    if (!password) throw new ApiError(400, 'Password tidak boleh kosong');
+    if (!fullName) throw new ApiError(400, 'Nama tidak boleh kosong');
+    if (!username) throw new ApiError(400, 'Username tidak boleh kosong');
+    if (User) throw new ApiError(400, 'Email telah terdaftar');
+    if (usernameExist) throw new ApiError(400, 'Username tidak tersedia');
     if (password.length < 8)
       throw new ApiError(
         400,
-        'Minimum password length must be 8 charater or more'
+        'Masukkan password minimal 8 karakter'
       );
 
     // hash password
@@ -78,15 +77,15 @@ const register = async (req, res) => {
     // buat user baru
     const newUser = await users.create({
       title,
-      fullName,
-      username,
-      email,
-      password: hashedPassword,
-      phone,
-      birthdate,
       nationality,
       country,
+      username,
+      fullName,
+      phone,
       province,
+      password: hashedPassword,
+      birthdate,
+      email,
       regency,
     });
 
@@ -102,8 +101,7 @@ const register = async (req, res) => {
     sendMail(data);
 
     res.status(200).json({
-      message:
-        'Registration successful. Please check inbox to verify your account.',
+      message: 'Registrasi berhasil. Silakan cek email dan verifikasi akun untuk melanjutkan.',
       newUser,
     });
   } catch (error) {
@@ -131,7 +129,7 @@ const verified = async (req, res) => {
       }
     );
     res.status(200).json({
-      message: 'Account verified successfully',
+      message: 'Akun berhasil diverifikasi',
       userVerify: userVerify.verified,
     });
   } catch (error) {
