@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       userId: DataTypes.INTEGER,
       tokenVerify: DataTypes.STRING,
-      expired: DataTypes.DATE,
+      expiredAt: DataTypes.DATE,
     },
     {
       sequelize,

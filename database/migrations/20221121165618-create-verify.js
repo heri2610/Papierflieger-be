@@ -15,7 +15,7 @@ module.exports = {
       tokenVerify: {
         type: Sequelize.STRING
       },
-      expired: {
+      expiredAt: {
         type: Sequelize.DATE
       },
       createdAt: {
