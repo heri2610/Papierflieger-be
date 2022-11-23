@@ -52,7 +52,7 @@ const register = async (req, res) => {
       nationality,
       country,
       province,
-      regency
+      regency,
     } = req.body;
 
     const User = await users.findOne({ where: { email } });
@@ -60,7 +60,8 @@ const register = async (req, res) => {
     // validasi
     const validateEmail = isEmailValid(email);
     if (!email) throw new ApiError(400, 'Email cannot be empty');
-    if (!validateEmail) throw new ApiError(400, 'Please enter a valid email address');
+    if (!validateEmail)
+      throw new ApiError(400, 'Please enter a valid email address');
     if (!password) throw new ApiError(400, 'Password cannot be empty');
     if (!fullName) throw new ApiError(400, 'Name cannot be empty');
     if (!username) throw new ApiError(400, 'Username cannot be empty');
@@ -101,7 +102,8 @@ const register = async (req, res) => {
     sendMail(data);
 
     res.status(200).json({
-      message: 'Registration successful. Please check inbox to verify your account.',
+      message:
+        'Registration successful. Please check inbox to verify your account.',
       newUser,
     });
   } catch (error) {
