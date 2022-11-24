@@ -46,7 +46,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Registration success!"
+                      "example": "Registrasi berhasil. Silakan cek email dan verifikasi akun untuk melanjutkan."
                     },
                     "user": {
                       "$ref": "#/components/schemas/Users"
@@ -69,7 +69,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "email already exists"
+                      "example": "Email telah terdaftar."
                     }
                   }
                 }
@@ -92,7 +92,7 @@
                 "properties": {
                   "email": {
                     "type": "email",
-                    "example": "haerisuh@mail.com"
+                    "example": "haerisuh@gmail.com"
                   },
                   "password": {
                     "type": "password",
@@ -113,7 +113,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Login success!"
+                      "example": "Login berhasil."
                     },
                     "accessToken": {
                       "type": "string",
@@ -137,7 +137,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Wrong password!"
+                      "example": "Password salah."
                     }
                   }
                 }
@@ -167,10 +167,13 @@
           },
           "email": {
             "type": "string",
-            "example": "haerisuh@mail.com"
+            "format": "email",
+            "example": "haerisuh@gmail.com"
           },
           "password": {
-            "type": "password",
+            "type": "string",
+            "format": "password",
+            "minLength": 8,
             "example": "heri1234"
           },
           "phone": {
@@ -196,6 +199,197 @@
           "regency": {
             "type": "string",
             "example": "Jakarta Timur"
+          }
+        }
+      },
+      "Transactions": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "bookingCode": {
+            "type": "string",
+            "example": "HN629DNS"
+          },
+          "userId": {
+            "type": "integer"
+          },
+          "ticketNumber": {
+            "type": "string",
+            "example": "JKT2742T2YDHF"
+          },
+          "totalPayment": {
+            "type": "integer"
+          },
+          "bookingDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "payDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "payMethod": {
+            "type": "integer",
+            "example": "1 (Bank BCA)"
+          },
+          "status": {
+            "type": "boolean",
+            "example": "1 (pembayaran berhasil)"
+          }
+        }
+      },
+      "PaymentMethods": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "bank": {
+            "type": "string",
+            "example": "Bank BCA"
+          },
+          "details": {
+            "type": "string",
+            "example": "Nomor Rekening: 32649712"
+          }
+        }
+      },
+      "Tickets": {
+        "type": "object",
+        "properties": {
+          "ticketNumber": {
+            "type": "integer"
+          },
+          "passengerName": {
+            "type": "string",
+            "example": "Suhaeri"
+          },
+          "class": {
+            "type": "string",
+            "example": "Business Class"
+          },
+          "trip": {
+            "type": "string",
+            "example": "One-Way"
+          },
+          "flightNumber": {
+            "type": "string",
+            "example": "AC-815"
+          },
+          "flightFrom": {
+            "type": "string",
+            "example": "Kuala Lumpur (KUL)"
+          },
+          "flightTo": {
+            "type": "string",
+            "example": "Jakarta (CGK)"
+          },
+          "boarding": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gate": {
+            "type": "integer",
+            "example": 8
+          },
+          "seat": {
+            "type": "string",
+            "example": "12B"
+          },
+          "price": {
+            "type": "integer",
+            "example": "8000000"
+          },
+          "baggage": {
+            "type": "string"
+          }
+        }
+      },
+      "Airports": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string",
+            "example": "Juanda International Airport (SUB)"
+          },
+          "location": {
+            "type": "string",
+            "example": "Surabaya, Indonesia"
+          }
+        }
+      },
+      "Airplanes": {
+        "type": "object",
+        "properties": {
+          "airplaneCode": {
+            "type": "string"
+          },
+          "airplaneType": {
+            "type": "string"
+          },
+          "seatCapacity": {
+            "type": "integer"
+          }
+        }
+      },
+      "Flights": {
+        "type": "object",
+        "properties": {
+          "flightNumber": {
+            "type": "string",
+            "example": "JT-281"
+          },
+          "airplaneCode": {
+            "type": "string"
+          },
+          "flightFrom": {
+            "type": "string",
+            "example": "Juanda International Airport (SUB)"
+          },
+          "flightTo": {
+            "type": "string",
+            "example": "Kuala Lumpur International Airport (KUL)"
+          },
+          "departureTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "arrivalTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalTransit": {
+            "type": "integer",
+            "format": 1
+          },
+          "transitPoint": {
+            "type": "string",
+            "example": "Soekarno Hatta International Airport (CGK)"
+          },
+          "transitDuration": {
+            "type": "string",
+            "example": "14h40m"
+          }
+        }
+      },
+      "Schedules": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "flightNumber": {
+            "type": "string",
+            "example": "JT-281"
           }
         }
       }
