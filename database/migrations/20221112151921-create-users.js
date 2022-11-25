@@ -42,6 +42,9 @@ module.exports = {
       regency: {
         type: Sequelize.STRING,
       },
+      role: {
+        type: Sequelize.STRING,
+      },
       avatar: {
         type: Sequelize.TEXT,
       },

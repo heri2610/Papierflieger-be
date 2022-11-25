@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       country: DataTypes.STRING,
       province: DataTypes.STRING,
       regency: DataTypes.STRING,
+      role: {
+        type: DataTypes.STRING,
+        defaultValue: "Customer",
+      },
       avatar: {
         type: DataTypes.TEXT,
         defaultValue: "https://ik.imagekit.io/lscxjpnrv/defaultava.png",

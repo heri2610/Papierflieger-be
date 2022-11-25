@@ -7,6 +7,7 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate": "sequelize db:migrate",
+    "seed": "sequelize db:seed:all",
     "start": "node index.js"
   },
   "author": "tim3",
