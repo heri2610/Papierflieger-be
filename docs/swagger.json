@@ -234,6 +234,10 @@
             "type": "integer",
             "example": "1 (Bank BCA)"
           },
+          "paymentProof": {
+            "type": "string",
+            "example": "https://ik.imagekit.io/lscxjpnrv/contohbuktitf_f2ZLTGHfH.jpg"
+          },
           "status": {
             "type": "boolean",
             "example": "1 (pembayaran berhasil)"

@@ -43,6 +43,9 @@ module.exports = {
           key: 'id'
         }
       },
+      paymentProof: {
+        type: Sequelize.STRING
+      },
       status: {
         type: Sequelize.BOOLEAN
       },
