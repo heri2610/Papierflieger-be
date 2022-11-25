@@ -216,8 +216,8 @@
             "type": "integer"
           },
           "ticketNumber": {
-            "type": "string",
-            "example": "JKT2742T2YDHF"
+            "type": "integer",
+            "example": "674286"
           },
           "totalPayment": {
             "type": "integer"
@@ -260,7 +260,8 @@
         "type": "object",
         "properties": {
           "ticketNumber": {
-            "type": "integer"
+            "type": "integer",
+            "example": "674286"
           },
           "passengerName": {
             "type": "string",
