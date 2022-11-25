@@ -12,6 +12,6 @@ const { login, register, verified } = require('../controllers/authController');
 
 router.post('/login', login);
 router.post('/register', register);
-router.get('/sendEmail', verified);
+router.get('/send-email', verified);
 
 module.exports = router;
