@@ -2,18 +2,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('flights', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
+    await queryInterface.createTable('Flights', {
       flightNumber: {
+        allowNull: false,
+        primaryKey: true,
         type: Sequelize.STRING,
       },
       airplaneCode: {
         type: Sequelize.STRING,
+        references: {
+          model: 'Airplanes',
+          key: 'airplaneCode',
+        },
       },
       flightFrom: {
         type: Sequelize.STRING,
@@ -27,13 +27,13 @@ module.exports = {
       arrivalTime: {
         type: Sequelize.TIME,
       },
-      totalTransite: {
+      totalTransit: {
         type: Sequelize.INTEGER,
       },
-      transitePoint: {
+      transitPoint: {
         type: Sequelize.STRING,
       },
-      transiteDuration: {
+      transitDuration: {
         type: Sequelize.TIME,
       },
       createdAt: {
@@ -47,6 +47,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('flights');
+    await queryInterface.dropTable('Flights');
   },
 };

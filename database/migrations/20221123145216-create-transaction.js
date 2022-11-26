@@ -25,7 +25,7 @@ module.exports = {
         references: {
           model: 'Tickets',
           key: 'ticketNumber'
-        }
+        },
       },
       totalPayment: {
         type: Sequelize.INTEGER

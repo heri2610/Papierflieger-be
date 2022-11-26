@@ -10,7 +10,7 @@ const {
 
 router.get('/flights', auth, getFlght);
 router.post('/flights', auth, isAdmin, addFlight);
-router.update('/flights/:id', auth, isAdmin, updateflight);
+router.put('/flights/:id', auth, isAdmin, updateflight);
 router.delete('/flights/:id', auth, isAdmin, deleteFlight);
 
 module.exports = router;

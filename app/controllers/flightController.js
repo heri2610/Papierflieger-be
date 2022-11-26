@@ -12,9 +12,9 @@ const getFlght = async (req, res) => {
     });
   }
 };
-const addFlight = (req, res) => {};
-const updateflight = (req, res) => {};
-const deleteFlight = (req, res) => {};
+const addFlight = (req, res) => { };
+const updateflight = (req, res) => { };
+const deleteFlight = (req, res) => { };
 module.exports = {
   getFlght,
   addFlight,
