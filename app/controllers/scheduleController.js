@@ -27,7 +27,7 @@ const getScheduleById = async (req, res) => {
   }
 };
 
-const addAirplane = async (req, res) => {
+const addSchedule = async (req, res) => {
   try {
     const newFlight = await Schedule.create(req.body);
     res.status(200).json({
@@ -41,7 +41,7 @@ const addAirplane = async (req, res) => {
   }
 };
 
-const updateAirplane = async (req, res) => {
+const updateSchedule = async (req, res) => {
   try {
     const { airplaneCode } = req.params;
     await Schedule.update(req.body, { where: { airplaneCode } });
@@ -55,7 +55,7 @@ const updateAirplane = async (req, res) => {
   }
 };
 
-const deleteAirplane = async (req, res) => {
+const deleteSchedule = async (req, res) => {
   try {
     const { airplaneCode } = req.params;
     await Schedule.delete({ where: { airplaneCode } });
@@ -72,7 +72,7 @@ const deleteAirplane = async (req, res) => {
 module.exports = {
   getSchedule,
   getScheduleById,
-  addAirplane,
-  updateAirplane,
-  deleteAirplane,
+  addSchedule,
+  updateSchedule,
+  deleteSchedule,
 };
