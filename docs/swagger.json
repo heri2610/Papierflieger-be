@@ -18,6 +18,10 @@
     {
       "name": "Auth",
       "description": "Auth API Collection"
+    },
+    {
+      "name": "Flight",
+      "description": "Flight API Collection"
     }
   ],
   "paths": {
@@ -49,7 +53,31 @@
                       "example": "Registrasi berhasil. Silakan cek email dan verifikasi akun untuk melanjutkan."
                     },
                     "user": {
-                      "$ref": "#/components/schemas/Users"
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/Users"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "avatar": {
+                              "type": "string",
+                              "example": "https://ik.imagekit.io/lscxjpnrv/defaultava.png"
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          }
+                        }
+                      ]
                     }
                   }
                 }
@@ -138,6 +166,361 @@
                     "message": {
                       "type": "string",
                       "example": "Password salah."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/flights": {
+      "post": {
+        "summary": "Create Flight",
+        "tags": ["Flight"],
+        "description": "Add new flight on the database",
+        "security": [{ "bearerToken": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Flights"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Berhasil menambahkan daftar penerbangan baru."
+                    },
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/Flights"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "createdAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token. Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hanya bisa diakses oleh admin."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Flight number cannot be blank.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Nomor penerbangan tidak boleh kosong."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List Flights",
+        "tags": ["Flight"],
+        "description": "Retrieve list of flights",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Flights"
+                    },
+                    "count": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/flights/{flightNumber}": {
+      "get": {
+        "tags": ["Flight"],
+        "summary": "Get a flight",
+        "description": "Retrieve flight detail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "flightNumber",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Flights"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The flight number is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Nomor penerbangan tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Flight"],
+        "summary": "Update flight",
+        "description": "Change flight information",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "flightNumber",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Flights"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Informasi penerbangan berhasil diperbarui."
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Flights"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token. Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hanya bisa diakses oleh admin."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The flight number is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Nomor penerbangan tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Flight"],
+        "summary": "Delete flight",
+        "description": "Remove existing flight by flight number",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "flightNumber",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Data penerbangan berhasil dihapus."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token. Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hanya bisa diakses oleh admin."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The flight number is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Nomor penerbangan tidak ditemukan."
                     }
                   }
                 }
@@ -312,22 +695,6 @@
           }
         }
       },
-      "Airports": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "name": {
-            "type": "string",
-            "example": "Juanda International Airport (SUB)"
-          },
-          "location": {
-            "type": "string",
-            "example": "Surabaya, Indonesia"
-          }
-        }
-      },
       "Airplanes": {
         "type": "object",
         "properties": {
@@ -370,7 +737,7 @@
           },
           "totalTransit": {
             "type": "integer",
-            "format": 1
+            "example": 1
           },
           "transitPoint": {
             "type": "string",
@@ -398,12 +765,13 @@
           }
         }
       }
-    }
-  },
-  "securitySchemes": {
-    "bearerToken": {
-      "type": "http",
-      "scheme": "bearer"
+    },
+    "securitySchemes": {
+      "bearerToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
     }
   }
 }

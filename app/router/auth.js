@@ -10,8 +10,8 @@ const { login, register, verified } = require('../controllers/authController');
 //   login
 // );
 
-router.post('/login', login);
-router.post('/register', register);
-router.get('/send-email', verified);
+router.post('/auth/login', login);
+router.post('/auth/register', register);
+router.get('/auth/send-email', verified);
 
 module.exports = router;
