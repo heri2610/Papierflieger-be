@@ -9,16 +9,29 @@ module.exports = {
     //  * Add seed commands here.
     //  *
     //  * Example:
-    await queryInterface.bulkInsert('Users', [{
-      email: 'suhaeriheri45@gmail.com',
-      password: bcrypt.hashSync('tim3hore', 10),
-      username: 'haeri2610',
-      fullName: 'Suhaeri',
-      role: 'Admin',
-      verified: true,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }], {});
+    await queryInterface.bulkInsert(
+      'Users',
+      [
+        {
+          email: 'suhaeriheri45@gmail.com',
+          password: bcrypt.hashSync('tim3hore', 10),
+          username: 'haeri2610',
+          fullName: 'Suhaeri',
+          role: 'Admin',
+          verified: true,
+          title: 'Mr',
+          phone: '081384753928',
+          birthdate: '2002-09-11',
+          nationality: 'Indonesia',
+          country: 'Indonesia',
+          province: 'DKI Jakarta',
+          regency: 'Jakarta Timur',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ],
+      {}
+    );
   },
 
   async down(queryInterface, Sequelize) {
@@ -26,5 +39,5 @@ module.exports = {
 
     //  Example:
     await queryInterface.bulkDelete('User', null, {});
-  }
+  },
 };

@@ -3,6 +3,7 @@ const swaggerUI = require('swagger-ui-express');
 const swaggerDocument = require('../../docs/swagger.json');
 const Auth = require('./auth');
 const flight = require('./flight');
+const airplane = require('./airplane');
 
 const router = Router();
 

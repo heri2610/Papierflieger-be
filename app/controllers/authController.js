@@ -14,10 +14,11 @@ const login = async (req, res) => {
   try {
     const { email = '', password = '' } = req.body;
     const user = await users.findOne({ where: { email } });
-    // validasi`
+    // validasi
     if (!user) throw new ApiError(400, 'Email tidak terdaftar.');
-    if (!bcrypt.compareSync(password, user.password))
+    if (!bcrypt.compareSync(password, user.password)) {
       throw new ApiError(400, 'Password salah.');
+    }
     const verifikasi = user.verified;
     if (!verifikasi) throw new ApiError(400, 'email belum terverifikasi');
     if (bcrypt.compareSync(password, user.password)) {

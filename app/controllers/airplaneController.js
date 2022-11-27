@@ -1,8 +1,8 @@
-const { Flight } = require('../models');
+const { Airplane } = require('../models');
 
-const getFlight = async (req, res) => {
+const getAirplane = async (req, res) => {
   try {
-    const dataFlight = await Flight.findAll();
+    const dataFlight = await Airplane.findAll();
     res.status(200).json({
       dataFlight,
     });
@@ -13,10 +13,10 @@ const getFlight = async (req, res) => {
   }
 };
 
-const getFlightById = async (req, res) => {
+const getAirplaneById = async (req, res) => {
   try {
     const { flightNumber } = req.params;
-    const flight = await Flight.findOne({ where: { flightNumber } });
+    const flight = await Airplane.findOne({ where: { flightNumber } });
     res.status(200).json({
       flight,
     });
@@ -27,31 +27,9 @@ const getFlightById = async (req, res) => {
   }
 };
 
-const addFlight = async (req, res) => {
+const addAirplane = async (req, res) => {
   try {
-    console.log(req.body);
-    const {
-      flightNumber,
-      airplaneCode,
-      flightFrom,
-      flightTo,
-      depatureTime,
-      arrivalTime,
-      totalTransit,
-      transitPoint,
-      transitDuration,
-    } = req.body;
-    const newFlight = await Flight.create({
-      flightNumber,
-      airplaneCode,
-      flightFrom,
-      flightTo,
-      depatureTime,
-      arrivalTime,
-      totalTransit,
-      transitPoint,
-      transitDuration,
-    });
+    const newFlight = await Airplane.create(req.body);
     res.status(200).json({
       message: 'data berhasil ditambahkan',
       newFlight,
@@ -63,10 +41,10 @@ const addFlight = async (req, res) => {
   }
 };
 
-const updateflight = async (req, res) => {
+const updateAirplane = async (req, res) => {
   try {
     const { flightNumber } = req.params;
-    await Flight.update(req.body, { where: { flightNumber } });
+    await Airplane.update(req.body, { where: { flightNumber } });
     res.status(200).json({
       message: 'data berhasil diubah',
     });
@@ -80,7 +58,7 @@ const updateflight = async (req, res) => {
 const deleteFlight = async (req, res) => {
   try {
     const { flightNumber } = req.params;
-    await Flight.delete({ where: { flightNumber } });
+    await Airplane.delete({ where: { flightNumber } });
     res.status(200).json({
       message: 'data berhasil dihapus',
     });
@@ -92,9 +70,9 @@ const deleteFlight = async (req, res) => {
 };
 
 module.exports = {
-  getFlight,
-  getFlightById,
-  addFlight,
-  updateflight,
+  getAirplane,
+  getAirplaneById,
+  addAirplane,
+  updateAirplane,
   deleteFlight,
 };

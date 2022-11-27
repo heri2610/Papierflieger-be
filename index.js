@@ -8,9 +8,14 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 // app.use(morgan(MORGAN_FORMAT));
-app.use(cors());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 app.use(express.json());
 app.use(router);
+app.use(cors());
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
