@@ -15,6 +15,7 @@ module.exports = {
       username: 'haeri2610',
       fullName: 'Suhaeri',
       role: 'Admin',
+      verified: true,
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});

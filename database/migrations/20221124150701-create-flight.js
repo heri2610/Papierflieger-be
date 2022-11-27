@@ -3,10 +3,15 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Flights', {
-      flightNumber: {
+      id: {
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      flightNumber: {
         type: Sequelize.STRING,
+        unique: true
       },
       airplaneCode: {
         type: Sequelize.STRING,
@@ -21,7 +26,7 @@ module.exports = {
       flightTo: {
         type: Sequelize.STRING,
       },
-      depatureTime: {
+      departureTime: {
         type: Sequelize.TIME,
       },
       arrivalTime: {
@@ -34,7 +39,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       transitDuration: {
-        type: Sequelize.TIME,
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,

@@ -744,8 +744,8 @@
             "example": "Soekarno Hatta International Airport (CGK)"
           },
           "transitDuration": {
-            "type": "string",
-            "example": "14h40m"
+            "type": "integer",
+            "example": 90
           }
         }
       },
