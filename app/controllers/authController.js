@@ -18,7 +18,8 @@ const login = async (req, res) => {
     if (!user) throw new ApiError(400, 'Email tidak terdaftar.');
     if (!bcrypt.compareSync(password, user.password))
       throw new ApiError(400, 'Password salah.');
-
+    const verifikasi = user.verified;
+    if (!verifikasi) throw new ApiError(400, 'email belum terverifikasi');
     if (bcrypt.compareSync(password, user.password)) {
       // generate token utk user yg success login
       const token = jwt.sign(
@@ -67,10 +68,7 @@ const register = async (req, res) => {
     if (User) throw new ApiError(400, 'Email telah terdaftar.');
     if (usernameExist) throw new ApiError(400, 'Username telah digunakan.');
     if (password.length < 8)
-      throw new ApiError(
-        400,
-        'Masukkan password minimal 8 karakter'
-      );
+      throw new ApiError(400, 'Masukkan password minimal 8 karakter');
 
     // hash password
     const hashedPassword = bcrypt.hashSync(password, 10);
@@ -101,7 +99,8 @@ const register = async (req, res) => {
     sendMail(data);
 
     res.status(200).json({
-      message: 'Registrasi berhasil. Silakan cek email dan verifikasi akun untuk melanjutkan.',
+      message:
+        'Registrasi berhasil. Silakan cek email dan verifikasi akun untuk melanjutkan.',
       newUser,
     });
   } catch (error) {

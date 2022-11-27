@@ -13,7 +13,19 @@ const getFlight = async (req, res) => {
   }
 };
 
-const getFlightById = (req, res) => { };
+const getFlightById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const flight = await Flight.findOne({ where: { id } });
+    res.status(200).json({
+      flight,
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      message: error.message,
+    });
+  }
+};
 
 const addFlight = async (req, res) => {
   try {
@@ -26,7 +38,7 @@ const addFlight = async (req, res) => {
       arrivalTime,
       totalTransit,
       transitPoint,
-      transitDuration
+      transitDuration,
     } = req.body;
 
     const newFlight = await Flight.create({
@@ -38,7 +50,11 @@ const addFlight = async (req, res) => {
       arrivalTime,
       totalTransit,
       transitPoint,
-      transitDuration
+      transitDuration,
+    });
+    res.status(200).json({
+      message: 'data berhasil ditambahkan',
+      newFlight,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
@@ -47,9 +63,33 @@ const addFlight = async (req, res) => {
   }
 };
 
-const updateflight = (req, res) => { };
+const updateflight = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Flight.update(req.body, { where: { id } });
+    res.status(200).json({
+      message: 'data berhasil diubah',
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      message: error.message,
+    });
+  }
+};
 
-const deleteFlight = (req, res) => { };
+const deleteFlight = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Flight.delete({ where: { id } });
+    res.status(200).json({
+      message: 'data berhasil dihapus',
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      message: error.message,
+    });
+  }
+};
 
 module.exports = {
   getFlight,
