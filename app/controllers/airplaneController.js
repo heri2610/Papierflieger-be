@@ -15,8 +15,8 @@ const getAirplane = async (req, res) => {
 
 const getAirplaneById = async (req, res) => {
   try {
-    const { flightNumber } = req.params;
-    const flight = await Airplane.findOne({ where: { flightNumber } });
+    const { airplaneCode } = req.params;
+    const flight = await Airplane.findOne({ where: { airplaneCode } });
     res.status(200).json({
       flight,
     });
@@ -43,8 +43,8 @@ const addAirplane = async (req, res) => {
 
 const updateAirplane = async (req, res) => {
   try {
-    const { flightNumber } = req.params;
-    await Airplane.update(req.body, { where: { flightNumber } });
+    const { airplaneCode } = req.params;
+    await Airplane.update(req.body, { where: { airplaneCode } });
     res.status(200).json({
       message: 'data berhasil diubah',
     });
@@ -55,10 +55,10 @@ const updateAirplane = async (req, res) => {
   }
 };
 
-const deleteFlight = async (req, res) => {
+const deleteAirplane = async (req, res) => {
   try {
-    const { flightNumber } = req.params;
-    await Airplane.delete({ where: { flightNumber } });
+    const { airplaneCode } = req.params;
+    await Airplane.delete({ where: { airplaneCode } });
     res.status(200).json({
       message: 'data berhasil dihapus',
     });
@@ -74,5 +74,5 @@ module.exports = {
   getAirplaneById,
   addAirplane,
   updateAirplane,
-  deleteFlight,
+  deleteAirplane,
 };

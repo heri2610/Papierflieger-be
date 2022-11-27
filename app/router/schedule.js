@@ -9,10 +9,10 @@ const {
   deleteSchedule,
 } = require('../controllers/scheduleController');
 
-router.get('/schedule ', getSchedule);
-router.get('/schedule /:id', getScheduleById);
-router.post('/schedule ', auth, isAdmin, addSchedule);
-router.put('/schedule /:id', auth, isAdmin, updateSchedule);
-router.delete('/schedule /:id', auth, isAdmin, deleteSchedule);
+router.get('/schedules', getSchedule);
+router.get('/schedules/:id', getScheduleById);
+router.post('/schedules', auth, isAdmin, addSchedule);
+router.put('/schedules/:id', auth, isAdmin, updateSchedule);
+router.delete('/schedules/:id', auth, isAdmin, deleteSchedule);
 
 module.exports = router;
