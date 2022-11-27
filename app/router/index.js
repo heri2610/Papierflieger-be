@@ -18,5 +18,6 @@ router.get('/', (req, res) => {
 
 router.use('/api', Auth);
 router.use('/api', flight);
+router.use('/api', airplane);
 
 module.exports = router;

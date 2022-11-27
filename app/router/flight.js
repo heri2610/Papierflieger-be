@@ -9,8 +9,8 @@ const {
   deleteFlight,
 } = require('../controllers/flightController');
 
-router.get('/flights', auth, getFlight);
-router.get('/flights/:flightNumber', auth, getFlightById);
+router.get('/flights', getFlight);
+router.get('/flights/:flightNumber', getFlightById);
 router.post('/flights', auth, isAdmin, addFlight);
 router.put('/flights/:flightNumber', auth, isAdmin, updateflight);
 router.delete('/flights/:flightNumber', auth, isAdmin, deleteFlight);
