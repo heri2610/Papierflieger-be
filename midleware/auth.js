@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { users } = require('../app/models');
-
+const dotenv = require('dotenv');
+dotenv.config();
 const auth = (req, res, next) => {
   try {
     const bearerToken = req.headers.authorization;
@@ -11,7 +12,7 @@ const auth = (req, res, next) => {
         message: 'Required authorization',
       });
     }
-    const payload = jwt.verify(token, 'rahasia');
+    const payload = jwt.verify(token, process.env.SECRET_KEY);
     users.findByPk(payload.id).then((instance) => {
       req.user = instance;
       next();
