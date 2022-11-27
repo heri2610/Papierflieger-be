@@ -22,6 +22,14 @@
     {
       "name": "Flight",
       "description": "Flight API Collection"
+    },
+    {
+      "name": "Airplane",
+      "description": "Airplane API Collection"
+    },
+    {
+      "name": "Schedule",
+      "description": "Flight Schedule API Collection"
     }
   ],
   "paths": {
@@ -251,26 +259,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Flight number cannot be blank.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "failed"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Nomor penerbangan tidak boleh kosong."
-                    }
-                  }
-                }
-              }
-            }
           }
         }
       },
@@ -310,8 +298,7 @@
           {
             "in": "path",
             "name": "flightNumber",
-            "required": true,
-            "type": "integer"
+            "required": true
           }
         ],
         "responses": {
@@ -373,8 +360,7 @@
           {
             "in": "path",
             "name": "flightNumber",
-            "required": true,
-            "type": "integer"
+            "required": true
           }
         ],
         "requestBody": {
@@ -462,8 +448,7 @@
           {
             "in": "path",
             "name": "flightNumber",
-            "required": true,
-            "type": "integer"
+            "required": true
           }
         ],
         "responses": {
@@ -521,6 +506,338 @@
                     "message": {
                       "type": "string",
                       "example": "Nomor penerbangan tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/airplanes": {
+      "post": {
+        "summary": "Create Airplane",
+        "tags": ["Airplane"],
+        "description": "Add new airplane on the database",
+        "security": [{ "bearerToken": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Airplanes"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Berhasil menambahkan data pesawat baru."
+                    },
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/Airplanes"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "createdAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token. Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hanya bisa diakses oleh admin."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List Airplanes",
+        "tags": ["Airplane"],
+        "description": "Retrieve list of airplane",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Airplanes"
+                    },
+                    "count": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/airplanes/{airplaneCode}": {
+      "get": {
+        "tags": ["Airplane"],
+        "summary": "Get a aiplane",
+        "description": "Retrieve airplane detail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "airplaneCode",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Airplanes"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The airplane code is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Kode pesawat tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Airplane"],
+        "summary": "Update airplane",
+        "description": "Change airplane information",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "airplaneCode",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Airplanes"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Data pesawat berhasil diperbarui."
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Airplanes"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token. Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hanya bisa diakses oleh admin."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The airplane code is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Kode pesawat tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Airplane"],
+        "summary": "Delete airplane",
+        "description": "Remove existing airplane by airplane code.",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "airplaneCode",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Data pesawat berhasil dihapus."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token. Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hanya bisa diakses oleh admin."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The airplane code is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Kode pesawat tidak ditemukan."
                     }
                   }
                 }
