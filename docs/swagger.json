@@ -882,6 +882,14 @@
                     "data": {
                       "allOf": [
                         {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            }
+                          }
+                        },
+                        {
                           "$ref": "#/components/schemas/Schedules"
                         },
                         {
@@ -1405,9 +1413,6 @@
       "Schedules": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
           "date": {
             "type": "string",
             "format": "date-time"
