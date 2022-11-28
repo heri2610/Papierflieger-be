@@ -11,21 +11,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Transaction, { foreignKey: 'ticketNumber' });
+      this.hasMany(models.Transaction, { foreignKey: 'ticketId' });
+      this.belongsTo(models.Airplane, { foreignKey: 'airplaneId' });
+      this.belongsTo(models.Airport, { foreignKey: 'flightFrom' });
+      this.belongsTo(models.Airport, { foreignKey: 'flightTo' });
+      this.belongsTo(models.Airport, { foreignKey: 'transitPoint' });
     }
   }
   Ticket.init({
-    ticketNumber: DataTypes.STRING,
-    passengerName: DataTypes.STRING,
-    trip: DataTypes.STRING,
-    flightNumber: DataTypes.STRING,
-    flightFrom: DataTypes.STRING,
-    flightTo: DataTypes.STRING,
-    boarding: DataTypes.DATE,
-    gate: DataTypes.INTEGER,
-    seat: DataTypes.STRING,
+    ticketNumber: DataTypes.INTEGER,
+    departureDate: DataTypes.DATE,
+    departureTime: DataTypes.TIME,
+    arrivalDate: DataTypes.DATE,
+    arrivalTime: DataTypes.TIME,
+    flightFrom: DataTypes.INTEGER,
+    flightTo: DataTypes.INTEGER,
+    airplaneId: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
-    baggage: DataTypes.STRING
+    seat: DataTypes.STRING,
+    totalTransit: DataTypes.INTEGER,
+    transitPoint: DataTypes.INTEGER,
+    transitDuration: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Ticket',

@@ -29,13 +29,13 @@ const getFlightById = async (req, res) => {
 
 const addFlight = async (req, res) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     const {
       flightNumber,
-      airplaneCode,
+      // airplaneCode,
       flightFrom,
       flightTo,
-      depatureTime,
+      departureTime,
       arrivalTime,
       totalTransit,
       transitPoint,
@@ -43,10 +43,10 @@ const addFlight = async (req, res) => {
     } = req.body;
     const newFlight = await Flight.create({
       flightNumber,
-      airplaneCode,
+      // airplaneCode,
       flightFrom,
       flightTo,
-      depatureTime,
+      departureTime,
       arrivalTime,
       totalTransit,
       transitPoint,

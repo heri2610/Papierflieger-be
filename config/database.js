@@ -1,19 +1,20 @@
-const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT } = process.env;
+const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST } = process.env;
 const { MYSQLDATABASE, MYSQLHOST, MYSQLPASSWORD, MYSQLPORT, MYSQLUSER } = process.env;
+
 const db = {
   development: {
     username: DB_USER,
     password: DB_PASSWORD,
     database: DB_NAME,
     host: DB_HOST,
-    dialect: "mysql",
+    dialect: "postgres",
   },
   test: {
     username: DB_USER,
     password: DB_PASSWORD,
     database: `${DB_NAME}_test`,
     host: DB_HOST,
-    dialect: "mysql",
+    dialect: "postgres",
   },
   production: {
     username: MYSQLUSER,
@@ -21,7 +22,7 @@ const db = {
     database: MYSQLDATABASE,
     port: MYSQLPORT,
     host: MYSQLHOST,
-    dialect: "mysql",
+    dialect: "postgres",
   },
 };
 module.exports = db;

@@ -218,6 +218,14 @@
                     "data": {
                       "allOf": [
                         {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            }
+                          }
+                        },
+                        {
                           "$ref": "#/components/schemas/Flights"
                         },
                         {
@@ -1376,6 +1384,10 @@
             "type": "string",
             "example": "JT-281"
           },
+          "departureDate": {
+            "type": "string",
+            "format": "date-time"
+          },
           "airplaneCode": {
             "type": "string",
             "example": "AP-345"
@@ -1407,19 +1419,6 @@
           "transitDuration": {
             "type": "integer",
             "example": 90
-          }
-        }
-      },
-      "Schedules": {
-        "type": "object",
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "flightNumber": {
-            "type": "string",
-            "example": "JT-281"
           }
         }
       }

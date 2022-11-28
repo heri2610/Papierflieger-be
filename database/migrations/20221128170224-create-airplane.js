@@ -9,15 +9,17 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      airplaneCode: {
-        type: Sequelize.STRING,
-        unique: true
-      },
-      type: {
+      airplaneName: {
         type: Sequelize.STRING
       },
-      seatCapacity: {
-        type: Sequelize.INTEGER
+      airplaneCode: {
+        type: Sequelize.STRING
+      },
+      class: {
+        type: Sequelize.STRING
+      },
+      class: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

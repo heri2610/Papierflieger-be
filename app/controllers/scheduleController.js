@@ -1,21 +1,25 @@
-const { Schedule } = require('../models');
-const { Flight } = require('../models');
-const { Airplane } = require('../models');
+const { Schedule, Flight, Airplane, sequelize } = require('../models');
 
 const getAllSchedule = async (req, res) => {
   try {
-    const dataSchedule = await Schedule.findOne({
-      where: {
-        id: req.params.id,
-      },
-      include: [
-        {
-          model: Flight,
-          include: [{ model: Airplane }],
-        },
-      ],
-      // include: [{ model: Airplane }],
-    });
+    // const dataSchedule = await Schedule.findOne({
+    //   where: {
+    //     id: req.params.id,
+    //   },
+    //   include: [
+    //     {
+    //       model: Flight,
+    //       include: [
+    //         {
+    //           model: Airplane
+    //         }
+    //       ],
+    //     },
+    //   ],
+    // });
+    const dataSchedule = await sequelize.query(
+      `SELECT  FROM Schedules s JOIN Flights f AS f ON Schedules.flightNumber = Flights.flightNumber WHERE Schedules.id = ${req.params.id}`
+    );
     res.status(200).json({
       dataSchedule,
     });
@@ -25,6 +29,7 @@ const getAllSchedule = async (req, res) => {
     });
   }
 };
+
 const getSchedule = async (req, res) => {
   try {
     const dataSchedule = await Schedule.findAll();

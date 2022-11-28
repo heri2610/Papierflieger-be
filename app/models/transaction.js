@@ -11,20 +11,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.PaymentMethod, { foreignKey: 'payMethod' });
-      this.belongsTo(models.users, { foreignKey: 'userId' });
-      this.belongsTo(models.Ticket, { foreignKey: 'ticketNumber' });
+      this.belongsTo(models.User, { foreignKey: 'userId' });
+      this.belongsTo(models.Payment, { foreignKey: 'paymentId' });
+      this.belongsTo(models.Ticket, { foreignKey: 'ticketId' });
+      this.hasMany(models.History, { foreignKey: 'transactionId' });
     }
   }
   Transaction.init({
-    bookingCode: DataTypes.STRING,
     userId: DataTypes.INTEGER,
-    ticketNumber: DataTypes.STRING,
-    totalPayment: DataTypes.INTEGER,
-    bookingDate: DataTypes.DATE,
-    payDate: DataTypes.DATE,
-    payMethod: DataTypes.INTEGER,
-    paymentProof: DataTypes.STRING,
+    paymentId: DataTypes.INTEGER,
+    ticketId: DataTypes.ARRAY(DataTypes.INTEGER),
+    trip: DataTypes.STRING,
+    totalPrice: DataTypes.INTEGER,
     status: DataTypes.BOOLEAN
   }, {
     sequelize,

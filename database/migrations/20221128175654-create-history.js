@@ -2,15 +2,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Transactions', {
+    await queryInterface.createTable('Histories', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
-      },
-      bookingCode: {
-        type: Sequelize.STRING
       },
       userId: {
         type: Sequelize.INTEGER,
@@ -20,34 +17,13 @@ module.exports = {
         },
         onDelete: 'CASCADE'
       },
-      ticketNumber: {
+      transactionId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Tickets',
-          key: 'ticketNumber'
-        },
-      },
-      totalPayment: {
-        type: Sequelize.INTEGER
-      },
-      bookingDate: {
-        type: Sequelize.DATE
-      },
-      payDate: {
-        type: Sequelize.DATE
-      },
-      payMethod: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'PaymentMethods',
+          model: 'Transactions',
           key: 'id'
-        }
-      },
-      paymentProof: {
-        type: Sequelize.STRING
-      },
-      status: {
-        type: Sequelize.BOOLEAN
+        },
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -60,6 +36,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Transactions');
+    await queryInterface.dropTable('Histories');
   }
 };
