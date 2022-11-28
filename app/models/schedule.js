@@ -9,7 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsToMany(models.Flight, { through: 'flightNumber' });
+      this.belongsToMany(models.Flight, {
+        through: 'flights',
+        foreignKey: 'flightNumber',
+      });
     }
   }
   Schedule.init(

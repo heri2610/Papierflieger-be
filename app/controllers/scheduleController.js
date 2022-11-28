@@ -1,10 +1,35 @@
 const { Schedule } = require('../models');
+const { Flight } = require('../models');
+const { Airplane } = require('../models');
 
+const getAllSchedule = async (req, res) => {
+  try {
+    const dataSchedule = await Schedule.findOne({
+      where: {
+        id: req.params.id,
+      },
+      include: [
+        {
+          model: Flight,
+          include: [{ model: Airplane }],
+        },
+      ],
+      // include: [{ model: Airplane }],
+    });
+    res.status(200).json({
+      dataSchedule,
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      message: error.message,
+    });
+  }
+};
 const getSchedule = async (req, res) => {
   try {
-    const dataFlight = await Schedule.findAll();
+    const dataSchedule = await Schedule.findAll();
     res.status(200).json({
-      dataFlight,
+      dataSchedule,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
@@ -29,10 +54,10 @@ const getScheduleById = async (req, res) => {
 
 const addSchedule = async (req, res) => {
   try {
-    const newFlight = await Schedule.create(req.body);
+    const newSchedule = await Schedule.create(req.body);
     res.status(200).json({
       message: 'data berhasil ditambahkan',
-      newFlight,
+      newSchedule,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
@@ -70,6 +95,7 @@ const deleteSchedule = async (req, res) => {
 };
 
 module.exports = {
+  getAllSchedule,
   getSchedule,
   getScheduleById,
   addSchedule,

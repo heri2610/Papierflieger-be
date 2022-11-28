@@ -3,6 +3,7 @@ const { Airplane } = require('../models');
 const getAirplane = async (req, res) => {
   try {
     const dataAirplane = await Airplane.findAll();
+    console.log(dataAirplane)
     res.status(200).json({
       message: 'data pesawat',
       dataAirplane,

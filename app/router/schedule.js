@@ -7,8 +7,10 @@ const {
   addSchedule,
   updateSchedule,
   deleteSchedule,
+  getAllSchedule,
 } = require('../controllers/scheduleController');
 
+router.get('/schedules-all/:id', getAllSchedule);
 router.get('/schedules', getSchedule);
 router.get('/schedules/:id', getScheduleById);
 router.post('/schedules', auth, isAdmin, addSchedule);
