@@ -2,9 +2,9 @@ const { Router } = require('express');
 const swaggerUI = require('swagger-ui-express');
 const swaggerDocument = require('../../docs/swagger.json');
 const Auth = require('./auth');
-const flight = require('./flight');
+const ticket = require('./ticket');
 const airplane = require('./airplane');
-const schedule = require('./schedule');
+const destination = require('./destination');
 
 const router = Router();
 
@@ -18,8 +18,8 @@ router.get('/', (req, res) => {
 });
 
 router.use('/api', Auth);
-router.use('/api', flight);
+router.use('/api', ticket);
 router.use('/api', airplane);
-router.use('/api', schedule);
+router.use('/api', destination);
 
 module.exports = router;

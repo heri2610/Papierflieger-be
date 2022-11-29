@@ -2,6 +2,7 @@ const dotenv = require('dotenv');
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const imageKit = require('../../lib/imageKit');
 const sendMail = require('../../lib/nodemailer');
 const { Users, Verify } = require('../models');
 const ApiError = require('../../utils/ApiError');
@@ -68,8 +69,9 @@ const register = async (req, res) => {
     if (!username) throw new ApiError(400, 'Username tidak boleh kosong.');
     if (User) throw new ApiError(400, 'Email telah terdaftar.');
     if (usernameExist) throw new ApiError(400, 'Username telah digunakan.');
-    if (password.length < 8)
+    if (password.length < 8) {
       throw new ApiError(400, 'Masukkan password minimal 8 karakter');
+    }
 
     // hash password
     const hashedPassword = bcrypt.hashSync(password, 10);
@@ -138,5 +140,60 @@ const verified = async (req, res) => {
     });
   }
 };
+const updateProfile = async (req, res) => {
+  const { id } = req.user;
+  const {
+    title,
+    fullName,
+    username,
+    email,
+    phone,
+    birthdate,
+    nationality,
+    country,
+    province,
+    regency,
+  } = req.body;
+  const { file } = req;
+  const validFormat =
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/jpeg' ||
+    file.mimetype === 'image/gif';
+  if (!validFormat) {
+    res.status(400).json({
+      status: 'failed',
+      message: 'Wrong Image Format',
+    });
+  }
+  const split = file.originalname.split('.');
+  const ext = split[split.length - 1];
 
-module.exports = { login, register, verified };
+  // upload file ke imagekit
+  const img = await imageKit.upload({
+    file: file.buffer,
+    fileName: `IMG-${Date.now()}.${ext}`,
+  });
+  await Users.update(
+    {
+      title,
+      fullName,
+      username,
+      email,
+      phone,
+      birthdate,
+      nationality,
+      country,
+      province,
+      regency,
+      avatar: img,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  );
+};
+
+module.exports = { login, register, verified, updateProfile };

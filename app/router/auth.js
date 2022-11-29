@@ -1,17 +1,16 @@
 const router = require('express').Router();
-const { login, register, verified } = require('../controllers/authController');
-// gunakan ini jika ada upload mage
-// const Uploader = require('../middlewares/uploader');
-// ini contoh
-// router.post(
-//   '/login',
-//   Authentication,
-//   Uploader.single('image'),
-//   login
-// );
+const auth = require('../../midleware/auth');
+const upload = require('../../midleware/uploader');
+const {
+  login,
+  register,
+  verified,
+  updateProfile,
+} = require('../controllers/authController');
 
 router.post('/auth/login', login);
 router.post('/auth/register', register);
+router.put('/auth/update-Profile', auth, upload.single('image'), updateProfile);
 router.get('/auth/send-email', verified);
 
 module.exports = router;

@@ -8,18 +8,18 @@ const {
   addDestination,
   updateDestination,
   deleteDestination,
-} = require('../controllers/destination');
+} = require('../controllers/destinationControoller');
 
-router.get('/schedules', getDestination);
-router.get('/schedules/:id', getDestinationById);
+router.get('/destination', getDestination);
+router.get('/destination/:id', getDestinationById);
 router.post(
-  '/schedules',
+  '/destination',
   auth,
   isAdmin,
   upload.array('images'),
   addDestination
 );
-router.put('/schedules/:id', auth, isAdmin, updateDestination);
-router.delete('/schedules/:id', auth, isAdmin, deleteDestination);
+router.put('/destination/:id', auth, isAdmin, updateDestination);
+router.delete('/destination/:id', auth, isAdmin, deleteDestination);
 
 module.exports = router;

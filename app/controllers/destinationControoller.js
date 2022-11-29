@@ -1,10 +1,10 @@
-const { destination, airport } = require('../models');
+const { Destination, Airport } = require('../models');
 const imagekit = require('../../lib/imageKit');
 
 const getDestination = async (req, res) => {
   try {
-    const destinations = await destination.findAll({
-      include: [{ airport }],
+    const destinations = await Destination.findAll({
+      include: [{ Airport }],
     });
     res.status(200).json({
       destinations,
@@ -19,7 +19,7 @@ const getDestination = async (req, res) => {
 const getDestinationById = async (req, res) => {
   try {
     const { id } = req.params;
-    const flight = await destination.findOne({ where: { id } });
+    const flight = await Destination.findOne({ where: { id } });
     res.status(200).json({
       flight,
     });
@@ -64,7 +64,7 @@ const addDestination = async (req, res) => {
       })
     );
 
-    const newDestination = await destination.create({
+    const newDestination = await Destination.create({
       name,
       image: req.body.images,
       location,
@@ -116,7 +116,7 @@ const updateDestination = async (req, res) => {
         req.body.images.push(img.url);
       })
     );
-    await destination.update(
+    await Destination.update(
       {
         name,
         image: req.body.images,
@@ -139,7 +139,7 @@ const updateDestination = async (req, res) => {
 const deleteDestination = async (req, res) => {
   try {
     const { id } = req.params;
-    await destination.delete({ where: { id } });
+    await Destination.delete({ where: { id } });
     res.status(200).json({
       message: 'data berhasil dihapus',
     });
