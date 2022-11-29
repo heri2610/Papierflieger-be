@@ -20,16 +20,32 @@
       "description": "Auth API Collection"
     },
     {
-      "name": "Flight",
-      "description": "Flight API Collection"
+      "name": "Ticket",
+      "description": "Ticket API Collection"
     },
     {
       "name": "Airplane",
       "description": "Airplane API Collection"
     },
     {
-      "name": "Schedule",
-      "description": "Flight Schedule API Collection"
+      "name": "Airport",
+      "description": "Airport API Collection"
+    },
+    {
+      "name": "Payment",
+      "description": "Payment API Collection"
+    },
+    {
+      "name": "Transaction",
+      "description": "Transaction API Collection"
+    },
+    {
+      "name": "Destination",
+      "description": "Destination API Collection"
+    },
+    {
+      "name": "User",
+      "description": "Users API Collection"
     }
   ],
   "paths": {
@@ -183,18 +199,18 @@
         }
       }
     },
-    "/api/flights": {
+    "/api/tickets": {
       "post": {
-        "summary": "Create Flight",
-        "tags": ["Flight"],
-        "description": "Add new flight on the database",
+        "summary": "Create Ticket",
+        "tags": ["Ticket"],
+        "description": "Add new ticket on the database",
         "security": [{ "bearerToken": [] }],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Flights"
+                "$ref": "#/components/schemas/Tickets"
               }
             }
           }
@@ -213,35 +229,10 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Berhasil menambahkan daftar penerbangan baru."
+                      "example": "Berhasil menambahkan tiket."
                     },
                     "data": {
-                      "allOf": [
-                        {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "integer"
-                            }
-                          }
-                        },
-                        {
-                          "$ref": "#/components/schemas/Flights"
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "createdAt": {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            "updatedAt": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          }
-                        }
-                      ]
+                      "$ref": "#/components/schemas/ticketResponse"
                     }
                   }
                 }
@@ -271,9 +262,9 @@
         }
       },
       "get": {
-        "summary": "List Flights",
-        "tags": ["Flight"],
-        "description": "Retrieve list of flights",
+        "summary": "List Tickets",
+        "tags": ["Ticket"],
+        "description": "Retrieve list of tickets / available flights.",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -283,7 +274,7 @@
                   "type": "object",
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/Flights"
+                      "$ref": "#/components/schemas/ticketResponse"
                     },
                     "count": {
                       "type": "integer",
@@ -297,15 +288,15 @@
         }
       }
     },
-    "/api/flights/{flightNumber}": {
+    "/api/tickets/{id}": {
       "get": {
-        "tags": ["Flight"],
-        "summary": "Get a flight",
-        "description": "Retrieve flight detail",
+        "tags": ["Ticket"],
+        "summary": "Get A Ticket",
+        "description": "Retrieve the ticket details",
         "parameters": [
           {
             "in": "path",
-            "name": "flightNumber",
+            "name": "id",
             "required": true
           }
         ],
@@ -315,30 +306,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/Flights"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "createdAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      }
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ticketResponse"
                 }
               }
             }
           },
           "404": {
-            "description": "The flight number is not found.",
+            "description": "The ticket id is not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -350,7 +324,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Nomor penerbangan tidak ditemukan."
+                      "example": "ID tiket tidak ditemukan."
                     }
                   }
                 }
@@ -360,14 +334,14 @@
         }
       },
       "put": {
-        "tags": ["Flight"],
-        "summary": "Update flight",
-        "description": "Change flight information",
+        "tags": ["Ticket"],
+        "summary": "Update Ticket",
+        "description": "Change ticket information",
         "security": [{ "bearerToken": [] }],
         "parameters": [
           {
             "in": "path",
-            "name": "flightNumber",
+            "name": "id",
             "required": true
           }
         ],
@@ -376,7 +350,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Flights"
+                "$ref": "#/components/schemas/Tickets"
               }
             }
           }
@@ -395,10 +369,10 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Informasi penerbangan berhasil diperbarui."
+                      "example": "Informasi tiket penerbangan berhasil diperbarui."
                     },
                     "data": {
-                      "$ref": "#/components/schemas/Flights"
+                      "$ref": "#/components/schemas/ticketResponse"
                     }
                   }
                 }
@@ -426,7 +400,7 @@
             }
           },
           "404": {
-            "description": "The flight number is not found.",
+            "description": "The ticket id is not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -438,7 +412,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Nomor penerbangan tidak ditemukan."
+                      "example": "ID tiket penerbangan tidak ditemukan."
                     }
                   }
                 }
@@ -448,14 +422,14 @@
         }
       },
       "delete": {
-        "tags": ["Flight"],
-        "summary": "Delete flight",
-        "description": "Remove existing flight by flight number",
+        "tags": ["Ticket"],
+        "summary": "Delete Ticket",
+        "description": "Remove existing ticket flight by id",
         "security": [{ "bearerToken": [] }],
         "parameters": [
           {
             "in": "path",
-            "name": "flightNumber",
+            "name": "id",
             "required": true
           }
         ],
@@ -473,7 +447,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Data penerbangan berhasil dihapus."
+                      "example": "Data tiket penerbangan berhasil dihapus."
                     }
                   }
                 }
@@ -501,7 +475,7 @@
             }
           },
           "404": {
-            "description": "The flight number is not found.",
+            "description": "The ticket id is not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -513,7 +487,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Nomor penerbangan tidak ditemukan."
+                      "example": "ID tiket penerbangan tidak ditemukan."
                     }
                   }
                 }
@@ -556,24 +530,7 @@
                       "example": "Berhasil menambahkan data pesawat baru."
                     },
                     "data": {
-                      "allOf": [
-                        {
-                          "$ref": "#/components/schemas/Airplanes"
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "createdAt": {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            "updatedAt": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          }
-                        }
-                      ]
+                      "$ref": "#/components/schemas/airplaneResponse"
                     }
                   }
                 }
@@ -615,7 +572,7 @@
                   "type": "object",
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/Airplanes"
+                      "$ref": "#/components/schemas/airplaneResponse"
                     },
                     "count": {
                       "type": "integer",
@@ -629,15 +586,15 @@
         }
       }
     },
-    "/api/airplanes/{airplaneCode}": {
+    "/api/airplanes/{id}": {
       "get": {
         "tags": ["Airplane"],
-        "summary": "Get a aiplane",
+        "summary": "Get An Airplane",
         "description": "Retrieve airplane detail",
         "parameters": [
           {
             "in": "path",
-            "name": "airplaneCode",
+            "name": "id",
             "required": true
           }
         ],
@@ -647,30 +604,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/Airplanes"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "createdAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      }
-                    }
-                  ]
+                  "$ref": "#/components/schemas/airplaneResponse"
                 }
               }
             }
           },
           "404": {
-            "description": "The airplane code is not found.",
+            "description": "The airplane id is not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -682,7 +622,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Kode pesawat tidak ditemukan."
+                      "example": "ID pesawat tidak ditemukan."
                     }
                   }
                 }
@@ -693,13 +633,13 @@
       },
       "put": {
         "tags": ["Airplane"],
-        "summary": "Update airplane",
+        "summary": "Update Airplane",
         "description": "Change airplane information",
         "security": [{ "bearerToken": [] }],
         "parameters": [
           {
             "in": "path",
-            "name": "airplaneCode",
+            "name": "id",
             "required": true
           }
         ],
@@ -730,7 +670,7 @@
                       "example": "Data pesawat berhasil diperbarui."
                     },
                     "data": {
-                      "$ref": "#/components/schemas/Airplanes"
+                      "$ref": "#/components/schemas/airplaneResponse"
                     }
                   }
                 }
@@ -758,7 +698,7 @@
             }
           },
           "404": {
-            "description": "The airplane code is not found.",
+            "description": "The airplane id is not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -770,7 +710,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Kode pesawat tidak ditemukan."
+                      "example": "ID pesawat tidak ditemukan."
                     }
                   }
                 }
@@ -781,13 +721,13 @@
       },
       "delete": {
         "tags": ["Airplane"],
-        "summary": "Delete airplane",
+        "summary": "Delete Airplane",
         "description": "Remove existing airplane by airplane code.",
         "security": [{ "bearerToken": [] }],
         "parameters": [
           {
             "in": "path",
-            "name": "airplaneCode",
+            "name": "id",
             "required": true
           }
         ],
@@ -833,7 +773,7 @@
             }
           },
           "404": {
-            "description": "The airplane code is not found.",
+            "description": "The airplane id is not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -845,7 +785,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Kode pesawat tidak ditemukan."
+                      "example": "ID pesawat tidak ditemukan."
                     }
                   }
                 }
@@ -855,18 +795,18 @@
         }
       }
     },
-    "/api/schedules": {
+    "/api/airports": {
       "post": {
-        "summary": "Create Schedule",
-        "tags": ["Schedule"],
-        "description": "Add new schedule on the database",
+        "summary": "Create Airport",
+        "tags": ["Airport"],
+        "description": "Add new airport on the database",
         "security": [{ "bearerToken": [] }],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Schedules"
+                "$ref": "#/components/schemas/Airports"
               }
             }
           }
@@ -885,35 +825,10 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Berhasil menambahkan jadwal."
+                      "example": "Berhasil menambahkan data bandara."
                     },
                     "data": {
-                      "allOf": [
-                        {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "integer"
-                            }
-                          }
-                        },
-                        {
-                          "$ref": "#/components/schemas/Schedules"
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "createdAt": {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            "updatedAt": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          }
-                        }
-                      ]
+                      "$ref": "#/components/schemas/airportResponse"
                     }
                   }
                 }
@@ -943,9 +858,9 @@
         }
       },
       "get": {
-        "summary": "List Schedules",
-        "tags": ["Schedule"],
-        "description": "Retrieve list of schedule",
+        "summary": "List Airports",
+        "tags": ["Airport"],
+        "description": "Retrieve list of airport",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -955,7 +870,7 @@
                   "type": "object",
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/Schedules"
+                      "$ref": "#/components/schemas/airportResponse"
                     },
                     "count": {
                       "type": "integer",
@@ -969,11 +884,11 @@
         }
       }
     },
-    "/api/schedules/{id}": {
+    "/api/airports/{id}": {
       "get": {
-        "tags": ["Schedule"],
-        "summary": "Get a schedule",
-        "description": "Retrieve schedule detail",
+        "tags": ["Airport"],
+        "summary": "Get An Airport",
+        "description": "Retrieve airport detail",
         "parameters": [
           {
             "in": "path",
@@ -987,30 +902,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/Schedules"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "createdAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      }
-                    }
-                  ]
+                  "$ref": "#/components/schemas/airportResponse"
                 }
               }
             }
           },
           "404": {
-            "description": "Schedule id is not found.",
+            "description": "The airport id is not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1022,7 +920,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Jadwal tidak ditemukan."
+                      "example": "ID bandara tidak ditemukan."
                     }
                   }
                 }
@@ -1032,9 +930,9 @@
         }
       },
       "put": {
-        "tags": ["Schedule"],
-        "summary": "Update schedule",
-        "description": "Change schedule information",
+        "tags": ["Airport"],
+        "summary": "Update Airport",
+        "description": "Change airport information",
         "security": [{ "bearerToken": [] }],
         "parameters": [
           {
@@ -1048,7 +946,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Schedules"
+                "$ref": "#/components/schemas/Airports"
               }
             }
           }
@@ -1067,10 +965,10 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Jadwal berhasil diperbarui."
+                      "example": "Data bandara berhasil diperbarui."
                     },
                     "data": {
-                      "$ref": "#/components/schemas/Schedules"
+                      "$ref": "#/components/schemas/airportResponse"
                     }
                   }
                 }
@@ -1098,7 +996,7 @@
             }
           },
           "404": {
-            "description": "Schedule id is not found.",
+            "description": "The airport id is not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1110,7 +1008,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Jadwal tidak ditemukan."
+                      "example": "ID bandara tidak ditemukan."
                     }
                   }
                 }
@@ -1120,9 +1018,9 @@
         }
       },
       "delete": {
-        "tags": ["Schedule"],
-        "summary": "Delete schedule",
-        "description": "Remove existing schedule by id.",
+        "tags": ["Airport"],
+        "summary": "Delete Airport",
+        "description": "Remove existing airport by id.",
         "security": [{ "bearerToken": [] }],
         "parameters": [
           {
@@ -1145,7 +1043,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Jadwal berhasil dihapus."
+                      "example": "Data bandara berhasil dihapus."
                     }
                   }
                 }
@@ -1173,7 +1071,7 @@
             }
           },
           "404": {
-            "description": "Schedule id is not found.",
+            "description": "The airport id is not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1185,7 +1083,1180 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Jadwal tidak ditemukan."
+                      "example": "ID bandara tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/payments": {
+      "post": {
+        "summary": "Create Payment",
+        "tags": ["Payment"],
+        "description": "Add new payment method on the database",
+        "security": [{ "bearerToken": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Payments"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Berhasil menambahkan metode pembayaran."
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Payments"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token. Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hanya bisa diakses oleh admin."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List Payment Methods",
+        "tags": ["Payment"],
+        "description": "Retrieve list of payment methods",
+        "security": [{ "bearerToken": [] }],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Payments"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/payments/{id}": {
+      "get": {
+        "tags": ["Payment"],
+        "summary": "Get a Payment Method",
+        "description": "Retrieve payment method detail",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Payments"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The payment id is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Id metode pembayaran tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Payment"],
+        "summary": "Update Payment Method",
+        "description": "Change payment method information",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Payments"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Metode pembayaran berhasil diperbarui."
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Payments"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token. Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hanya bisa diakses oleh admin."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The payment id is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "ID metode pembayaran tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Payment"],
+        "summary": "Delete Payment Method",
+        "description": "Remove existing payment method by id.",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Metode pembayaran berhasil dihapus."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token. Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hanya bisa diakses oleh admin."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The payment id is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "ID metode pembayaran tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transactions": {
+      "post": {
+        "summary": "Create Transaction",
+        "tags": ["Transaction"],
+        "description": "Add new transaction on the database",
+        "security": [{ "bearerToken": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transactions"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Transaksi berhasil."
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/transactionResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token. Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hanya bisa diakses oleh admin."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List Transaction",
+        "tags": ["Transaction"],
+        "description": "Retrieve list of transactions.",
+        "security": [{ "bearerToken": [] }],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/transactionResponse"
+                    },
+                    "count": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transactions/{id}": {
+      "get": {
+        "tags": ["Transaction"],
+        "summary": "Get A Transaction",
+        "description": "Retrieve the transaction details",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/transactionResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The transaction is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Transaksi tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Transaction"],
+        "summary": "Delete Transaction",
+        "description": "Remove existing transaction by id",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Transaksi berhasil dibatalkan."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token. Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hanya bisa diakses oleh admin."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Transaction is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Transaksi tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/destinations": {
+      "post": {
+        "summary": "Create Destination",
+        "tags": ["Destination"],
+        "description": "Add new destination on the database",
+        "security": [{ "bearerToken": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Destinations"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Destinasi baru berhasil ditambahkan."
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Destinations"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token. Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hanya bisa diakses oleh admin."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List Destination",
+        "tags": ["Destination"],
+        "description": "Retrieve list of destination",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Destinations"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/destinations/{id}": {
+      "get": {
+        "tags": ["Destination"],
+        "summary": "Get a Destination",
+        "description": "Retrieve destination detail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Destinations"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The destination does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Destinasi tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Destination"],
+        "summary": "Update Destination",
+        "description": "Change destination information",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Destinations"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Informasi destinasi berhasil diperbarui."
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Destinations"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token. Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hanya bisa diakses oleh admin."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Destination id is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "ID tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Destination"],
+        "summary": "Delete Destination",
+        "description": "Remove existing destination by id.",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Destinasi berhasil dihapus."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token. Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hanya bisa diakses oleh admin."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The destination id is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "ID tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profiles/{userId}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get User Profile",
+        "description": "Retrieve user profile information",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["User"],
+        "summary": "Update User Profile",
+        "description": "Change user information",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Users"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Profil berhasil diperbarui."
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Users"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Token tidak valid."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User id is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Id tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/history/{userId}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get User History Transaction",
+        "description": "Retrieve user history transactions",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Histories"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Token tidak valid."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No transactions yet.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Belum melakukan transaksi apa pun."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/wishlists": {
+      "post": {
+        "summary": "Create wishlist",
+        "tags": ["User"],
+        "description": "Add user wishlist on the database",
+        "security": [{ "bearerToken": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Wishlists"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Berhasil menambahkan destinasi ke dalam wishlist."
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Wishlists"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Token tidak valid."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "User Wishlist",
+        "tags": ["User"],
+        "description": "Retrieve all user wishlist",
+        "security": [{ "bearerToken": [] }],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Wishlists"
+                }
+              }
+            }
+          },
+
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Token tidak valid."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/wishlists/{id}": {
+      "delete": {
+        "tags": ["User"],
+        "summary": "Delete Wishlist",
+        "description": "Remove existing wishlist by id.",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Berhasil menghapus wishlist."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Token tidak valid."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Wishlist id is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "ID tidak ditemukan."
                     }
                   }
                 }
@@ -1253,58 +2324,49 @@
       "Transactions": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "bookingCode": {
-            "type": "string",
-            "example": "HN629DNS"
-          },
           "userId": {
-            "type": "integer"
-          },
-          "ticketNumber": {
             "type": "integer",
-            "example": "674286"
+            "example": 2
           },
-          "totalPayment": {
-            "type": "integer"
-          },
-          "bookingDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "payDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "payMethod": {
+          "paymentId": {
             "type": "integer",
-            "example": "1 (Bank BCA)"
+            "example": 1
           },
-          "paymentProof": {
+          "ticketId": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "example": [1, 2]
+          },
+          "trip": {
             "type": "string",
-            "example": "https://ik.imagekit.io/lscxjpnrv/contohbuktitf_f2ZLTGHfH.jpg"
+            "example": "One-Way"
+          },
+          "totalPrice": {
+            "type": "integer",
+            "example": 2500000
           },
           "status": {
             "type": "boolean",
-            "example": "1 (pembayaran berhasil)"
+            "example": true
           }
         }
       },
-      "PaymentMethods": {
+      "Payments": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "bank": {
+          "bankName": {
             "type": "string",
             "example": "Bank BCA"
           },
-          "details": {
+          "accountName": {
             "type": "string",
-            "example": "Nomor Rekening: 32649712"
+            "example": "PT Papier Flieger"
+          },
+          "accountNumber": {
+            "type": "integer",
+            "example": 392891280
           }
         }
       },
@@ -1315,21 +2377,21 @@
             "type": "integer",
             "example": "674286"
           },
-          "passengerName": {
+          "departureDate": {
             "type": "string",
-            "example": "Suhaeri"
+            "format": "date-time"
           },
-          "class": {
+          "departureTime": {
             "type": "string",
-            "example": "Business Class"
+            "example": "09:05:00"
           },
-          "trip": {
+          "arrivalDate": {
             "type": "string",
-            "example": "One-Way"
+            "format": "date-time"
           },
-          "flightNumber": {
+          "arrivalTime": {
             "type": "string",
-            "example": "AC-815"
+            "example": "11:40:00"
           },
           "flightFrom": {
             "type": "string",
@@ -1337,76 +2399,19 @@
           },
           "flightTo": {
             "type": "string",
-            "example": "Jakarta (CGK)"
+            "example": "Juanda International Airport (SUB)"
           },
-          "boarding": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "gate": {
+          "airplaneId": {
             "type": "integer",
-            "example": 8
-          },
-          "seat": {
-            "type": "string",
-            "example": "12B"
+            "example": 1
           },
           "price": {
             "type": "integer",
             "example": "8000000"
           },
-          "baggage": {
-            "type": "string"
-          }
-        }
-      },
-      "Airplanes": {
-        "type": "object",
-        "properties": {
-          "airplaneCode": {
+          "seat": {
             "type": "string",
-            "example": "AP-345"
-          },
-          "type": {
-            "type": "string",
-            "example": "Boeing G7792"
-          },
-          "seatCapacity": {
-            "type": "integer",
-            "example": 250
-          }
-        }
-      },
-      "Flights": {
-        "type": "object",
-        "properties": {
-          "flightNumber": {
-            "type": "string",
-            "example": "JT-281"
-          },
-          "departureDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "airplaneCode": {
-            "type": "string",
-            "example": "AP-345"
-          },
-          "flightFrom": {
-            "type": "string",
-            "example": "Juanda International Airport (SUB)"
-          },
-          "flightTo": {
-            "type": "string",
-            "example": "Kuala Lumpur International Airport (KUL)"
-          },
-          "departureTime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "arrivalTime": {
-            "type": "string",
-            "format": "date-time"
+            "example": "12B"
           },
           "totalTransit": {
             "type": "integer",
@@ -1421,6 +2426,233 @@
             "example": 90
           }
         }
+      },
+      "Airplanes": {
+        "type": "object",
+        "properties": {
+          "airplaneName": {
+            "type": "string",
+            "example": "Boeing G7792"
+          },
+          "airplaneCode": {
+            "type": "string",
+            "example": "AP-345"
+          },
+          "class": {
+            "type": "string",
+            "example": "Business"
+          }
+        }
+      },
+      "Airports": {
+        "type": "object",
+        "properties": {
+          "airportName": {
+            "type": "string",
+            "example": "Ngurah Rai International Airport"
+          },
+          "city": {
+            "type": "string",
+            "example": "Denpasar, Bali, Indonesia"
+          },
+          "cityCode": {
+            "type": "string",
+            "example": "DPS"
+          }
+        }
+      },
+      "Destinations": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Pura Ulun Danu Beratan"
+          },
+          "image": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "location": {
+            "type": "string",
+            "example": "Bali"
+          },
+          "description": {
+            "type": "string",
+            "example": "Pura Ulun Danu Beratan / Pura Penataran Agung Ulun Danu Beratan adalah salah satu dari sembilan Pura Khayangan Jagat yang mengelilingi Pulau Bali."
+          },
+          "airportId": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "Histories": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "userId": {
+            "type": "integer",
+            "example": 1
+          },
+          "transactionId": {
+            "type": "integer",
+            "example": 1
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Wishlists": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "userId": {
+            "type": "integer",
+            "example": 1
+          },
+          "destinationId": {
+            "type": "integer",
+            "example": 1
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ticketResponse": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/Tickets"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        ]
+      },
+      "airplaneResponse": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/Airplanes"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        ]
+      },
+      "airportResponse": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/Airports"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        ]
+      },
+      "transactionResponse": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/Transactions"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        ]
       }
     },
     "securitySchemes": {
