@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const sendMail = require('../../lib/nodemailer');
-const { users, verify } = require('../models');
+const { Users, Verify } = require('../models');
 const ApiError = require('../../utils/ApiError');
 const isEmailValid = require('../../utils/emailValidation');
 
@@ -13,7 +13,7 @@ dotenv.config();
 const login = async (req, res) => {
   try {
     const { email = '', password = '' } = req.body;
-    const user = await users.findOne({ where: { email } });
+    const user = await Users.findOne({ where: { email } });
     // validasi
     if (!user) throw new ApiError(400, 'Email tidak terdaftar.');
     if (!bcrypt.compareSync(password, user.password)) {
@@ -57,8 +57,8 @@ const register = async (req, res) => {
       regency,
     } = req.body;
 
-    const User = await users.findOne({ where: { email } });
-    const usernameExist = await users.findOne({ where: { username } });
+    const User = await Users.findOne({ where: { email } });
+    const usernameExist = await Users.findOne({ where: { username } });
     // validasi
     const validateEmail = isEmailValid(email);
     if (!email) throw new ApiError(400, 'Email tidak boleh kosong.');
@@ -74,7 +74,7 @@ const register = async (req, res) => {
     // hash password
     const hashedPassword = bcrypt.hashSync(password, 10);
     // buat user baru
-    const newUser = await users.create({
+    const newUser = await Users.create({
       title,
       fullName,
       username,
@@ -90,10 +90,10 @@ const register = async (req, res) => {
 
     // email verify
     const date = Date.now() + 1000 * 60 * 60 * 24;
-    await verify.create({ userId: newUser.id, tokenVerify, expiredAt: date });
+    await Verify.create({ userId: newUser.id, tokenVerify, expiredAt: date });
     const data = {
       EMAIL: email,
-      subject: 'Testing Email',
+      subject: 'Email Verification',
       text: 'hello word',
       html: `${process.env.URLSENDEMAIL}?token=${tokenVerify}`,
     };
@@ -114,13 +114,13 @@ const register = async (req, res) => {
 const verified = async (req, res) => {
   try {
     const urlToken = req.query.token;
-    const cekToken = await verify.findOne({ where: { tokenVerify: urlToken } });
+    const cekToken = await Verify.findOne({ where: { tokenVerify: urlToken } });
     const ExpiredDate = cekToken.expiredAt;
     const dateNow = Date.now();
     if (dateNow >= ExpiredDate) {
       throw new ApiError(400, 'Expired token');
     }
-    const userVerify = await users.update(
+    const userVerify = await Users.update(
       { verified: true },
       {
         where: {

@@ -1,6 +1,5 @@
 'use strict';
 
-const User = require('../../app/models/users');
 const bcrypt = require('bcrypt');
 
 /** @type {import('sequelize-cli').Migration} */
@@ -38,6 +37,6 @@ module.exports = {
     //  Add commands to revert seed here.
 
     //  Example:
-    await queryInterface.bulkDelete('User', null, {});
+    await queryInterface.bulkDelete('Users', null, {});
   },
 };
