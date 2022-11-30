@@ -1,9 +1,25 @@
-const { Tiket, Airport, Airplane } = require('../models');
+const { Ticket, Airport, Airplane } = require('../models');
 
 const getTicket = async (req, res) => {
   try {
-    const dataTicket = await Tiket.findAll({
-      include: [{ Airplane }, { Airport }],
+    const dataTicket = await Ticket.findAll({
+      include: [
+        {
+          model: Airplane
+        },
+        {
+          model: Airport,
+          as: "from"
+        },
+        {
+          model: Airport,
+          as: "to"
+        },
+        {
+          model: Airport,
+          as: "transit"
+        }
+      ],
     });
     res.status(200).json({
       dataTicket,
@@ -18,9 +34,29 @@ const getTicket = async (req, res) => {
 const getTicketById = async (req, res) => {
   try {
     const { id } = req.params;
-    const flight = await Tiket.findOne({ where: { id } });
+    const ticket = await Ticket.findOne({
+      include: [
+        {
+          model: Airplane
+        },
+        {
+          model: Airport,
+          as: "from"
+        },
+        {
+          model: Airport,
+          as: "to"
+        },
+        {
+          model: Airport,
+          as: "transit"
+        }
+      ],
+    }, {
+      where: { id }
+    });
     res.status(200).json({
-      flight,
+      ticket,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
@@ -43,11 +79,11 @@ const addTicket = async (req, res) => {
       airplaneId,
       price,
       seat,
-      totalTransit = '',
-      transitPoint = '',
-      transitDuration = '',
+      totalTransit,
+      transitPoint,
+      transitDuration,
     } = req.body;
-    const newTicket = await Tiket.create({
+    const newTicket = await Ticket.create({
       ticketNumber,
       departureDate,
       departureTime,
@@ -76,7 +112,7 @@ const addTicket = async (req, res) => {
 const updateTicket = async (req, res) => {
   try {
     const { id } = req.params;
-    await Tiket.update(req.body, { where: { id } });
+    await Ticket.update(req.body, { where: { id } });
     res.status(200).json({
       message: 'data berhasil diubah',
     });
@@ -90,7 +126,7 @@ const updateTicket = async (req, res) => {
 const deleteTicket = async (req, res) => {
   try {
     const { id } = req.params;
-    await Tiket.destroy({ where: { id } });
+    await Ticket.destroy({ where: { id } });
     res.status(200).json({
       message: 'data berhasil dihapus',
     });
