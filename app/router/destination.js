@@ -10,16 +10,16 @@ const {
   deleteDestination,
 } = require('../controllers/destinationControoller');
 
-router.get('/destination', getDestination);
-router.get('/destination/:id', getDestinationById);
+router.get('/destinations', getDestination);
+router.get('/destinations/:id', getDestinationById);
 router.post(
-  '/destination',
+  '/destinations',
   auth,
   isAdmin,
   upload.array('images'),
   addDestination
 );
-router.put('/destination/:id', auth, isAdmin, updateDestination);
-router.delete('/destination/:id', auth, isAdmin, deleteDestination);
+router.put('/destinations/:id', auth, isAdmin, updateDestination);
+router.delete('/destinations/:id', auth, isAdmin, deleteDestination);
 
 module.exports = router;

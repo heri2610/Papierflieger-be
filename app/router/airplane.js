@@ -10,9 +10,9 @@ const {
 } = require('../controllers/airplaneController');
 
 router.get('/airplanes', getAirplane);
-router.get('/airplanes/:airplaneCode', getAirplaneById);
+router.get('/airplanes/:id', getAirplaneById);
 router.post('/airplanes', auth, isAdmin, addAirplane);
-router.put('/airplanes/:airplaneCode', auth, isAdmin, updateAirplane);
-router.delete('/airplanes/:airplaneCode', auth, isAdmin, deleteAirplane);
+router.put('/airplanes/:id', auth, isAdmin, updateAirplane);
+router.delete('/airplanes/:id', auth, isAdmin, deleteAirplane);
 
 module.exports = router;

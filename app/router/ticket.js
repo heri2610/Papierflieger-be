@@ -9,10 +9,10 @@ const {
   deleteTicket,
 } = require('../controllers/ticketController');
 
-router.get('/ticket', getTicket);
-router.get('/ticket/:id', getTicketById);
-router.post('/ticket', auth, isAdmin, addTicket);
-router.put('/ticket/:id', auth, isAdmin, updateTicket);
-router.delete('/ticket/:id', auth, isAdmin, deleteTicket);
+router.get('/tickets', getTicket);
+router.get('/tickets/:id', getTicketById);
+router.post('/tickets', auth, isAdmin, addTicket);
+router.put('/tickets/:id', auth, isAdmin, updateTicket);
+router.delete('/tickets/:id', auth, isAdmin, deleteTicket);
 
 module.exports = router;
