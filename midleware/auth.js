@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { users } = require('../app/models');
+const { Users } = require('../app/models');
 const dotenv = require('dotenv');
 dotenv.config();
 const auth = (req, res, next) => {
@@ -14,7 +14,7 @@ const auth = (req, res, next) => {
       });
     }
     const payload = jwt.verify(bearerToken, process.env.SECRET_KEY);
-    users.findByPk(payload.id).then((instance) => {
+    Users.findByPk(payload.id).then((instance) => {
       req.user = instance;
       next();
     });
