@@ -16,10 +16,12 @@ const getWishlist = async (req, res) => {
 
 const addWishlist = async (req, res) => {
   try {
-    const newFlight = await Wishlist.create(req.body);
+    const userId = req.user;
+    const destinationId = req.body;
+    const newWishlish = await Wishlist.create({ userId, destinationId });
     res.status(200).json({
       message: 'data berhasil ditambahkan',
-      newFlight,
+      newWishlish,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
