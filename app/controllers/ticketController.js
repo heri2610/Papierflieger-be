@@ -90,7 +90,7 @@ const updateTicket = async (req, res) => {
 const deleteTicket = async (req, res) => {
   try {
     const { id } = req.params;
-    await ticket.delete({ where: { id } });
+    await ticket.destroy({ where: { id } });
     res.status(200).json({
       message: 'data berhasil dihapus',
     });

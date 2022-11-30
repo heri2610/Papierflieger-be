@@ -139,7 +139,7 @@ const updateDestination = async (req, res) => {
 const deleteDestination = async (req, res) => {
   try {
     const { id } = req.params;
-    await Destination.delete({ where: { id } });
+    await Destination.destroy({ where: { id } });
     res.status(200).json({
       message: 'data berhasil dihapus',
     });
