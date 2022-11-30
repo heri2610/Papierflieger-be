@@ -59,7 +59,7 @@ const updateAirport = async (req, res) => {
 const deleteAirport = async (req, res) => {
   try {
     const { id } = req.params;
-    await Airport.delete({ where: { id } });
+    await Airport.destroy({ where: { id } });
     res.status(200).json({
       message: 'data berhasil dihapus',
     });

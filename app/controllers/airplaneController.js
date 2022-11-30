@@ -59,7 +59,7 @@ const updateAirplane = async (req, res) => {
 const deleteAirplane = async (req, res) => {
   try {
     const { id } = req.params;
-    await Airplane.delete({ where: { id } });
+    await Airplane.destroy({ where: { id } });
     res.status(200).json({
       message: 'data berhasil dihapus',
     });
