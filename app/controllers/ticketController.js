@@ -1,8 +1,8 @@
-const { ticket, Airport, Airplane } = require('../models');
+const { Tiket, Airport, Airplane } = require('../models');
 
 const getTicket = async (req, res) => {
   try {
-    const dataTicket = await ticket.findAll({
+    const dataTicket = await Tiket.findAll({
       include: [{ Airplane }, { Airport }],
     });
     res.status(200).json({
@@ -18,7 +18,7 @@ const getTicket = async (req, res) => {
 const getTicketById = async (req, res) => {
   try {
     const { id } = req.params;
-    const flight = await ticket.findOne({ where: { id } });
+    const flight = await Tiket.findOne({ where: { id } });
     res.status(200).json({
       flight,
     });
@@ -47,7 +47,7 @@ const addTicket = async (req, res) => {
       transitPoint = '',
       transitDuration = '',
     } = req.body;
-    const newTicket = await ticket.create({
+    const newTicket = await Tiket.create({
       ticketNumber,
       departureDate,
       departureTime,
@@ -76,7 +76,7 @@ const addTicket = async (req, res) => {
 const updateTicket = async (req, res) => {
   try {
     const { id } = req.params;
-    await ticket.update(req.body, { where: { id } });
+    await Tiket.update(req.body, { where: { id } });
     res.status(200).json({
       message: 'data berhasil diubah',
     });
@@ -90,7 +90,7 @@ const updateTicket = async (req, res) => {
 const deleteTicket = async (req, res) => {
   try {
     const { id } = req.params;
-    await ticket.destroy({ where: { id } });
+    await Tiket.destroy({ where: { id } });
     res.status(200).json({
       message: 'data berhasil dihapus',
     });
