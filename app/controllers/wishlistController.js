@@ -1,6 +1,6 @@
 const { Wishlist } = require('../models');
 
-const getAirplane = async (req, res) => {
+const getWishlist = async (req, res) => {
   try {
     const dataAirplane = await Wishlist.findAll();
     res.status(200).json({
@@ -14,7 +14,7 @@ const getAirplane = async (req, res) => {
   }
 };
 
-const addAirplane = async (req, res) => {
+const addWishlist = async (req, res) => {
   try {
     const newFlight = await Wishlist.create(req.body);
     res.status(200).json({
@@ -28,7 +28,7 @@ const addAirplane = async (req, res) => {
   }
 };
 
-const deleteAirplane = async (req, res) => {
+const deleteWishlist = async (req, res) => {
   try {
     const { id } = req.params;
     await Wishlist.destroy({ where: { id } });
@@ -43,7 +43,7 @@ const deleteAirplane = async (req, res) => {
 };
 
 module.exports = {
-  getAirplane,
-  addAirplane,
-  deleteAirplane,
+  getWishlist,
+  addWishlist,
+  deleteWishlist,
 };
