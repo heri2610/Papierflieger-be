@@ -43,9 +43,9 @@ const addTicket = async (req, res) => {
       airplaneId,
       price,
       seat,
-      totalTransit = '',
-      transitPoint = '',
-      transitDuration = '',
+      totalTransit,
+      transitPoint,
+      transitDuration,
     } = req.body;
     const newTicket = await Ticket.create({
       ticketNumber,
