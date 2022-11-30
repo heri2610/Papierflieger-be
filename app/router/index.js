@@ -4,6 +4,7 @@ const swaggerDocument = require('../../docs/swagger.json');
 const Auth = require('./auth');
 const ticket = require('./ticket');
 const airplane = require('./airplane');
+const airport = require('./airport');
 const destination = require('./destination');
 
 const router = Router();
@@ -21,5 +22,6 @@ router.use('/api', Auth);
 router.use('/api', ticket);
 router.use('/api', airplane);
 router.use('/api', destination);
+router.use('/api', airport);
 
 module.exports = router;
