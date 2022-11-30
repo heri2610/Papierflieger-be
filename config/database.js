@@ -1,5 +1,9 @@
-const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST } = process.env;
-const { MYSQLDATABASE, MYSQLHOST, MYSQLPASSWORD, MYSQLPORT, MYSQLUSER } = process.env;
+const dotenv = require('dotenv');
+
+dotenv.config();
+const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT } = process.env;
+const { MYSQLDATABASE, MYSQLHOST, MYSQLPASSWORD, MYSQLPORT, MYSQLUSER } =
+  process.env;
 
 const db = {
   development: {
@@ -7,14 +11,15 @@ const db = {
     password: DB_PASSWORD,
     database: DB_NAME,
     host: DB_HOST,
-    dialect: "postgres",
+    port: DB_PORT,
+    dialect: 'postgres',
   },
   test: {
     username: DB_USER,
     password: DB_PASSWORD,
     database: `${DB_NAME}_test`,
     host: DB_HOST,
-    dialect: "postgres",
+    dialect: 'postgres',
   },
   production: {
     username: MYSQLUSER,
@@ -22,7 +27,7 @@ const db = {
     database: MYSQLDATABASE,
     port: MYSQLPORT,
     host: MYSQLHOST,
-    dialect: "postgres",
+    dialect: 'postgres',
   },
 };
 module.exports = db;
