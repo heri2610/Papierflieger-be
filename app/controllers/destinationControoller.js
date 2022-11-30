@@ -4,7 +4,7 @@ const imagekit = require('../../lib/imageKit');
 const getDestination = async (req, res) => {
   try {
     const destinations = await Destination.findAll({
-      include: [{ Airport }],
+      include: [{ model: Airport }],
     });
     res.status(200).json({
       destinations,
@@ -33,40 +33,40 @@ const getDestinationById = async (req, res) => {
 const addDestination = async (req, res) => {
   try {
     const { name, location, description, airportId } = req.body;
-    const { files } = req;
-    req.body.images = [];
+    // const { files } = req;
+    // req.body.images = [];
 
-    await Promise.all(
-      // eslint-disable-next-line consistent-return
-      files.map(async (file) => {
-        const validFormat =
-          file.mimetype === 'image/png' ||
-          file.mimetype === 'image/jpg' ||
-          file.mimetype === 'image/jpeg' ||
-          file.mimetype === 'image/gif';
-        if (!validFormat) {
-          return res.status(400).json({
-            status: 'failed',
-            message: 'Wrong Image Format',
-          });
-        }
-        // untuk dapat extension file nya
-        const split = file.originalname.split('.');
-        const ext = split[split.length - 1];
+    // await Promise.all(
+    //   // eslint-disable-next-line consistent-return
+    //   files.map(async (file) => {
+    //     const validFormat =
+    //       file.mimetype === 'image/png' ||
+    //       file.mimetype === 'image/jpg' ||
+    //       file.mimetype === 'image/jpeg' ||
+    //       file.mimetype === 'image/gif';
+    //     if (!validFormat) {
+    //       return res.status(400).json({
+    //         status: 'failed',
+    //         message: 'Wrong Image Format',
+    //       });
+    //     }
+    //     // untuk dapat extension file nya
+    //     const split = file.originalname.split('.');
+    //     const ext = split[split.length - 1];
 
-        // upload file ke imagekit
-        const img = await imagekit.upload({
-          file: file.buffer,
-          fileName: `IMG-${Date.now()}.${ext}`,
-        });
+    //     // upload file ke imagekit
+    //     const img = await imagekit.upload({
+    //       file: file.buffer,
+    //       fileName: `IMG-${Date.now()}.${ext}`,
+    //     });
 
-        req.body.images.push(img.url);
-      })
-    );
+    //     req.body.images.push(img.url);
+    //   })
+    // );
 
     const newDestination = await Destination.create({
       name,
-      image: req.body.images,
+      // image: req.body.images,
       location,
       description,
       airportId,
