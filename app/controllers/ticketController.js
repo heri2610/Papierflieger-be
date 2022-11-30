@@ -34,27 +34,7 @@ const getTicket = async (req, res) => {
 const getTicketById = async (req, res) => {
   try {
     const { id } = req.params;
-    const ticket = await Ticket.findOne({
-      include: [
-        {
-          model: Airplane
-        },
-        {
-          model: Airport,
-          as: "from"
-        },
-        {
-          model: Airport,
-          as: "to"
-        },
-        {
-          model: Airport,
-          as: "transit"
-        }
-      ],
-    }, {
-      where: { id }
-    });
+    const ticket = await Ticket.findOne({ where: { id } });
     res.status(200).json({
       ticket,
     });
