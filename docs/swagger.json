@@ -2394,12 +2394,12 @@
             "example": "11:40:00"
           },
           "flightFrom": {
-            "type": "string",
-            "example": "Kuala Lumpur (KUL)"
+            "type": "integer",
+            "example": 1
           },
           "flightTo": {
-            "type": "string",
-            "example": "Juanda International Airport (SUB)"
+            "type": "integer",
+            "example": 2
           },
           "airplaneId": {
             "type": "integer",
@@ -2418,8 +2418,8 @@
             "example": 1
           },
           "transitPoint": {
-            "type": "string",
-            "example": "Soekarno Hatta International Airport (CGK)"
+            "type": "integer",
+            "example": 3
           },
           "transitDuration": {
             "type": "integer",
