@@ -10,7 +10,7 @@
       "description": "local"
     },
     {
-      "url": "https://fp-backend-production.up.railway.app/",
+      "url": "https://web-production-e882.up.railway.app/",
       "description": "production"
     }
   ],
@@ -2464,6 +2464,10 @@
       "Destinations": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
           "name": {
             "type": "string",
             "example": "Pura Ulun Danu Beratan"
