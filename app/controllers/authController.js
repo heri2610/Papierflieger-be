@@ -92,12 +92,17 @@ const register = async (req, res) => {
 
     // email verify
     const date = Date.now() + 1000 * 60 * 60 * 24;
-    await Verify.create({ userId: newUser.id, tokenVerify, expiredAt: date });
+    const token = `${tokenVerify}${Date.now()}`;
+    await Verify.create({
+      userId: newUser.id,
+      tokenVerify: token,
+      expiredAt: date,
+    });
     const data = {
       EMAIL: email,
       subject: 'Email Verification',
       text: 'hello word',
-      html: `${process.env.URLSENDEMAIL}?token=${tokenVerify}`,
+      html: `${process.env.URLSENDEMAIL}?token=${token}`,
     };
     sendMail(data);
 
