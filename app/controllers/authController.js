@@ -147,18 +147,6 @@ const verified = async (req, res) => {
 };
 const updateProfile = async (req, res) => {
   const { id } = req.user;
-  const {
-    title,
-    fullName,
-    username,
-    email,
-    phone,
-    birthdate,
-    nationality,
-    country,
-    province,
-    regency,
-  } = req.body;
   const { file } = req;
   const validFormat =
     file.mimetype === 'image/png' ||
@@ -179,26 +167,27 @@ const updateProfile = async (req, res) => {
     file: file.buffer,
     fileName: `IMG-${Date.now()}.${ext}`,
   });
-  await Users.update(
-    {
-      title,
-      fullName,
-      username,
-      email,
-      phone,
-      birthdate,
-      nationality,
-      country,
-      province,
-      regency,
-      avatar: img,
-    },
-    {
-      where: {
-        id,
+  if (file) {
+    await Users.update(
+      {
+        avatar: img,
       },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+    if (req.body) {
+      await Users.update(
+        {},
+        {
+          where: {
+            id,
+          },
+        }
+      );
     }
-  );
+  }
 };
-
 module.exports = { login, register, verified, updateProfile };
