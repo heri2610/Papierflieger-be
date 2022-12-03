@@ -5,20 +5,20 @@ const getTicket = async (req, res) => {
     const dataTicket = await Ticket.findAll({
       include: [
         {
-          model: Airplane
+          model: Airplane,
         },
         {
           model: Airport,
-          as: "from"
+          as: 'from',
         },
         {
           model: Airport,
-          as: "to"
+          as: 'to',
         },
         {
           model: Airport,
-          as: "transit"
-        }
+          as: 'transit',
+        },
       ],
     });
     res.status(200).json({
@@ -34,27 +34,30 @@ const getTicket = async (req, res) => {
 const getTicketById = async (req, res) => {
   try {
     const { id } = req.params;
-    const ticket = await Ticket.findOne({
-      include: [
-        {
-          model: Airplane
-        },
-        {
-          model: Airport,
-          as: "from"
-        },
-        {
-          model: Airport,
-          as: "to"
-        },
-        {
-          model: Airport,
-          as: "transit"
-        }
-      ],
-    }, {
-      where: { id }
-    });
+    const ticket = await Ticket.findOne(
+      {
+        include: [
+          {
+            model: Airplane,
+          },
+          {
+            model: Airport,
+            as: 'from',
+          },
+          {
+            model: Airport,
+            as: 'to',
+          },
+          {
+            model: Airport,
+            as: 'transit',
+          },
+        ],
+      },
+      {
+        where: { id },
+      }
+    );
     res.status(200).json({
       ticket,
     });
@@ -67,37 +70,7 @@ const getTicketById = async (req, res) => {
 
 const addTicket = async (req, res) => {
   try {
-    // console.log(req.body);
-    const {
-      ticketNumber,
-      departureDate,
-      departureTime,
-      arrivalDate,
-      arrivalTime,
-      flightFrom,
-      flightTo,
-      airplaneId,
-      price,
-      seat,
-      totalTransit,
-      transitPoint,
-      transitDuration,
-    } = req.body;
-    const newTicket = await Ticket.create({
-      ticketNumber,
-      departureDate,
-      departureTime,
-      arrivalDate,
-      arrivalTime,
-      flightFrom,
-      flightTo,
-      airplaneId,
-      price,
-      seat,
-      totalTransit,
-      transitPoint,
-      transitDuration,
-    });
+    const newTicket = await Ticket.create(req.body);
     res.status(200).json({
       message: 'data berhasil ditambahkan',
       newTicket,

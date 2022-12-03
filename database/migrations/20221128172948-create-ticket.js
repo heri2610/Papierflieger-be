@@ -7,49 +7,49 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       ticketNumber: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       departureDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       departureTime: {
-        type: Sequelize.TIME
+        type: Sequelize.TIME,
       },
       arrivalDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       arrivalTime: {
-        type: Sequelize.TIME
+        type: Sequelize.TIME,
       },
       flightFrom: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Airports',
-          key: 'id'
+          key: 'id',
         },
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       flightTo: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Airports',
-          key: 'id'
+          key: 'id',
         },
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       airplaneId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Airplanes',
-          key: 'id'
+          key: 'id',
         },
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       price: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       totalTransit: {
         type: Sequelize.INTEGER,
@@ -58,24 +58,27 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: 'Airports',
-          key: 'id'
+          key: 'id',
         },
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       transitDuration: {
         type: Sequelize.INTEGER,
       },
+      ticketType: {
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Tickets');
-  }
+  },
 };
