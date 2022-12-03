@@ -51,9 +51,6 @@ module.exports = {
       price: {
         type: Sequelize.INTEGER
       },
-      seat: {
-        type: Sequelize.STRING
-      },
       totalTransit: {
         type: Sequelize.INTEGER,
       },

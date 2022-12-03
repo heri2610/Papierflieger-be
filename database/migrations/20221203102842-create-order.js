@@ -12,7 +12,7 @@ module.exports = {
       passengerName: {
         type: Sequelize.STRING
       },
-      BirthDate: {
+      birthDate: {
         type: Sequelize.DATE
       },
       seat: {
@@ -37,7 +37,11 @@ module.exports = {
         type: Sequelize.STRING
       },
       ticketId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Tickets',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,
