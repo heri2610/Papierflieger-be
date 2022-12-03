@@ -7,46 +7,46 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       userId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Users',
-          key: 'id'
+          key: 'id',
         },
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       paymentId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Payments',
-          key: 'id'
-        }
+          key: 'id',
+        },
       },
-      ticketId: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER)
+      orderId: {
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
       },
       trip: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       totalPrice: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       status: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Transactions');
-  }
+  },
 };

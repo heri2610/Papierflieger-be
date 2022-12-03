@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Transaction extends Model {
     /**
@@ -17,16 +15,19 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.History, { foreignKey: 'transactionId' });
     }
   }
-  Transaction.init({
-    userId: DataTypes.INTEGER,
-    paymentId: DataTypes.INTEGER,
-    ticketId: DataTypes.ARRAY(DataTypes.INTEGER),
-    trip: DataTypes.STRING,
-    totalPrice: DataTypes.INTEGER,
-    status: DataTypes.BOOLEAN
-  }, {
-    sequelize,
-    modelName: 'Transaction',
-  });
+  Transaction.init(
+    {
+      userId: DataTypes.INTEGER,
+      paymentId: DataTypes.INTEGER,
+      orderId: DataTypes.ARRAY(DataTypes.INTEGER),
+      trip: DataTypes.STRING,
+      totalPrice: DataTypes.INTEGER,
+      status: DataTypes.BOOLEAN,
+    },
+    {
+      sequelize,
+      modelName: 'Transaction',
+    }
+  );
   return Transaction;
 };

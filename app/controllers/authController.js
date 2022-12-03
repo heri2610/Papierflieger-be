@@ -179,14 +179,11 @@ const updateProfile = async (req, res) => {
       }
     );
     if (req.body) {
-      await Users.update(
-        {},
-        {
-          where: {
-            id,
-          },
-        }
-      );
+      await Users.update(req.body, {
+        where: {
+          id,
+        },
+      });
     }
   }
 };
