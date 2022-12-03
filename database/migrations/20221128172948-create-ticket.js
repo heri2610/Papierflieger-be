@@ -66,7 +66,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       ticketType: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

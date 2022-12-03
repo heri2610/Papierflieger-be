@@ -8,9 +8,9 @@ const {
   deleteTransaction,
 } = require('../controllers/transactionController');
 
-router.get('/transaction/:id', getTransactionById);
-router.post('/transaction', auth, isAdmin, addTransaction);
-router.put('/transaction/:id', auth, isAdmin, updateTransaction);
-router.delete('/transaction/:id', auth, isAdmin, deleteTransaction);
+router.get('/transactions/:id', auth, getTransactionById);
+router.post('/transactions', auth, addTransaction);
+router.put('/transactions/:id', auth, isAdmin, updateTransaction);
+router.delete('/transactions/:id', auth, isAdmin, deleteTransaction);
 
 module.exports = router;

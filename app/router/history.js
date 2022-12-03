@@ -1,9 +1,7 @@
 const router = require('express').Router();
 const auth = require('../../midleware/auth');
-const isAdmin = require('../../midleware/isAdmin');
-const { getHistory, addHistory } = require('../controllers/historyController');
+const { getHistory } = require('../controllers/historyController');
 
-router.get('/orders', getHistory);
-router.post('/orders', auth, isAdmin, addHistory);
+router.get('/histories', auth, getHistory);
 
 module.exports = router;

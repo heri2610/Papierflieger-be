@@ -10,7 +10,7 @@ const {
 
 router.post('/auth/login', login);
 router.post('/auth/register', register);
-router.put('/auth/update-Profile', auth, upload.single('image'), updateProfile);
+router.put('/auth/update-profile', auth, upload.single('image'), updateProfile);
 router.get('/auth/send-email', verified);
 
 module.exports = router;
