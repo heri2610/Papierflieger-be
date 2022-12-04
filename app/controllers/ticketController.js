@@ -30,6 +30,7 @@ const getTicket = async (req, res) => {
     });
   }
 };
+// eslint-disable-next-line consistent-return
 const searchTicket = async (req, res) => {
   const { dari, tujuan, tanggalBerangkat, tanggalPulang } = req.query;
   try {
@@ -57,6 +58,12 @@ const searchTicket = async (req, res) => {
       },
       { where: { departureDate: tanggalBerangkat } }
     );
+    if (!tanggalPulang) {
+      return res.status(200).json({
+        message: 'tiket hasil pencarian',
+        tiketBerangkat,
+      });
+    }
     const tiketPulang = await Ticket.findAll(
       {
         include: [
@@ -81,12 +88,6 @@ const searchTicket = async (req, res) => {
       },
       { where: { departureDate: tanggalBerangkat } }
     );
-    if (!tanggalPulang) {
-      res.status(200).json({
-        message: 'tiket hasil pencarian',
-        tiketBerangkat,
-      });
-    }
     res.status(200).json({
       message: 'tiket hasil pencarian',
       tiketBerangkat,
