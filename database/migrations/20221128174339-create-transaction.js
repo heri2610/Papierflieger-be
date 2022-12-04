@@ -24,11 +24,11 @@ module.exports = {
           key: 'id',
         },
       },
-      orderId: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
-      },
       trip: {
         type: Sequelize.STRING,
+      },
+      orderId: {
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
       },
       totalPrice: {
         type: Sequelize.INTEGER,

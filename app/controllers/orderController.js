@@ -1,4 +1,4 @@
-const { Order } = require('../models');
+const { Order, Transaction, Ticket } = require('../models');
 
 const getOrder = async (req, res) => {
   try {
@@ -30,11 +30,48 @@ const getOrderById = async (req, res) => {
 };
 
 const addOrder = async (req, res) => {
+  const userId = req.user.id;
+  const reqBodies = req.body;
+  const orderId = [];
+  let trip;
+  const ticketId = [];
+  const totalPriceOneOrder = [];
   try {
-    const newOrder = await Order.create(req.body);
+    if (reqBodies[0].ticketId.length === 2) {
+      trip = 'round-trip';
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < 2; i++) {
+        ticketId.push(reqBodies[0].ticketId[i]);
+      }
+    } else {
+      trip = 'one-way';
+      ticketId.push(reqBodies[0].ticketId[0]);
+    }
+    reqBodies.forEach(async (reqBody) => {
+      const order = await Order.create(reqBody);
+      orderId.push(order.id);
+    });
+    ticketId.forEach(async (id) => {
+      const prices = await Ticket.findOne({ where: { id } });
+      totalPriceOneOrder.push(prices.price);
+    });
+    let totalPrice;
+    if (ticketId.length === 2) {
+      totalPrice =
+        (totalPriceOneOrder[0] + totalPriceOneOrder[1]) * reqBodies.length;
+    } else {
+      totalPrice = totalPriceOneOrder[0] * reqBodies.length;
+    }
+    const transaksi = await Transaction.create({
+      userId,
+      orderId,
+      totalPrice,
+      trip,
+    });
     res.status(200).json({
       message: 'data berhasil ditambahkan',
-      newOrder,
+      totalPrice: transaksi.totalPrice,
+      transaksiId: transaksi.id,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({

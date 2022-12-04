@@ -19,8 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       userId: DataTypes.INTEGER,
       paymentId: DataTypes.INTEGER,
-      orderId: DataTypes.ARRAY(DataTypes.INTEGER),
       trip: DataTypes.STRING,
+      orderId: DataTypes.ARRAY(DataTypes.INTEGER),
       totalPrice: DataTypes.INTEGER,
       status: DataTypes.BOOLEAN,
     },

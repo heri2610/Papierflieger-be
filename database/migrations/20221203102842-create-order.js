@@ -7,53 +7,53 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       passengerName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       birthDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       seat: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       gate: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       nationality: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       passportNumber: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       issuingCountry: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       expired: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       NIK: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       ticketId: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
         references: {
           model: 'Tickets',
-          key: 'id'
-        }
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Orders');
-  }
+  },
 };

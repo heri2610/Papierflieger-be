@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       issuingCountry: DataTypes.STRING,
       expired: DataTypes.DATE,
       NIK: DataTypes.STRING,
-      ticketId: DataTypes.INTEGER,
+      ticketId: DataTypes.ARRAY(DataTypes.INTEGER),
     },
     {
       sequelize,
