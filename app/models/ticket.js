@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       price: DataTypes.INTEGER,
       totalTransit: DataTypes.INTEGER,
       transitPoint: DataTypes.INTEGER,
-      transitDuration: DataTypes.INTEGER,
+      transitDuration: DataTypes.STRING,
       ticketType: DataTypes.STRING,
     },
     {

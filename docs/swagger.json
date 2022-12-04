@@ -2121,19 +2121,12 @@
         }
       }
     },
-    "/api/auth/update-profile/{userId}": {
+    "/api/auth/update-profile": {
       "get": {
         "tags": ["User"],
         "summary": "Get User Profile",
         "description": "Retrieve user profile information",
         "security": [{ "bearerToken": [] }],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "userId",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -2145,8 +2138,8 @@
               }
             }
           },
-          "404": {
-            "description": "User does not exist.",
+          "401": {
+            "description": "Unauthorized.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2158,7 +2151,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "User tidak ditemukan."
+                      "example": "Token tidak valid."
                     }
                   }
                 }
@@ -2172,13 +2165,6 @@
         "summary": "Update User Profile",
         "description": "Change user information",
         "security": [{ "bearerToken": [] }],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "userId",
-            "required": true
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2227,26 +2213,6 @@
                     "message": {
                       "type": "string",
                       "example": "Token tidak valid."
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "User id is not found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "failed"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Id tidak ditemukan."
                     }
                   }
                 }

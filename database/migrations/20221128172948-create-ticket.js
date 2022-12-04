@@ -63,7 +63,7 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       transitDuration: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       ticketType: {
         type: Sequelize.STRING,

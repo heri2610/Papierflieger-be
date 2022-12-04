@@ -2,10 +2,10 @@ const { Payment } = require('../models');
 
 const getPayment = async (req, res) => {
   try {
-    const airports = await Payment.findAll();
+    const payments = await Payment.findAll();
     res.status(200).json({
-      message: 'data pesawat',
-      airports,
+      message: 'data metode pembayaran',
+      payments,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
@@ -17,9 +17,9 @@ const getPayment = async (req, res) => {
 const getPaymentById = async (req, res) => {
   try {
     const { id } = req.params;
-    const airport = await Payment.findOne({ where: { id } });
+    const payments = await Payment.findOne({ where: { id } });
     res.status(200).json({
-      airport,
+      payments,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
@@ -30,10 +30,10 @@ const getPaymentById = async (req, res) => {
 
 const addPayment = async (req, res) => {
   try {
-    const newAirport = await Payment.create(req.body);
+    const newPayment = await Payment.create(req.body);
     res.status(200).json({
-      message: 'data berhasil ditambahkan',
-      newAirport,
+      message: 'Berhasil menambahkan metode pembayaran.',
+      newPayment,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
