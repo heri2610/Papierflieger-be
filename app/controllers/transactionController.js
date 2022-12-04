@@ -27,19 +27,18 @@ const getTransactionById = async (req, res) => {
   }
 };
 
-const addTransaction = async (req, res) => {
+const addTransaction = async (userId, orderId, totalPrice, trip) => {
   try {
-    const userId = req.user.id;
-    const newTransaksi = await Transaction.create(req.body);
+    const newTransaksi = await Transaction.create(
+      userId,
+      orderId,
+      totalPrice,
+      trip
+    );
     addHistory(userId, newTransaksi.id);
-    res.status(200).json({
-      message: 'pembayaran berhasil',
-      newTransaksi,
-    });
+    return newTransaksi;
   } catch (error) {
-    res.status(error.statusCode || 500).json({
-      message: error.message,
-    });
+    return error;
   }
 };
 

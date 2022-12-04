@@ -1,4 +1,5 @@
-const { Order, Transaction, Ticket } = require('../models');
+const { Order, Ticket } = require('../models');
+const { addTransaction } = require('./transactionController');
 
 const getOrder = async (req, res) => {
   try {
@@ -62,12 +63,7 @@ const addOrder = async (req, res) => {
     } else {
       totalPrice = totalPriceOneOrder[0] * reqBodies.length;
     }
-    const transaksi = await Transaction.create({
-      userId,
-      orderId,
-      totalPrice,
-      trip,
-    });
+    const transaksi = addTransaction(userId, orderId, totalPrice, trip);
     res.status(200).json({
       message: 'data berhasil ditambahkan',
       totalPrice: transaksi.totalPrice,

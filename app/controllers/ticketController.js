@@ -31,11 +31,66 @@ const getTicket = async (req, res) => {
   }
 };
 const searchTicket = async (req, res) => {
+  const { dari, tujuan, tanggalBerangkat, tanggalPulang } = req.query;
   try {
-    const tiketSearch = await Ticket.findAll();
+    const tiketBerangkat = await Ticket.findAll(
+      {
+        include: [
+          {
+            model: Airplane,
+          },
+          {
+            model: Airport,
+            as: 'from',
+            where: { airportName: dari },
+          },
+          {
+            model: Airport,
+            as: 'to',
+            where: { airportName: tujuan },
+          },
+          {
+            model: Airport,
+            as: 'transit',
+          },
+        ],
+      },
+      { where: { departureDate: tanggalBerangkat } }
+    );
+    const tiketPulang = await Ticket.findAll(
+      {
+        include: [
+          {
+            model: Airplane,
+          },
+          {
+            model: Airport,
+            as: 'from',
+            where: { airportName: dari },
+          },
+          {
+            model: Airport,
+            as: 'to',
+            where: { airportName: tujuan },
+          },
+          {
+            model: Airport,
+            as: 'transit',
+          },
+        ],
+      },
+      { where: { departureDate: tanggalBerangkat } }
+    );
+    if (!tanggalPulang) {
+      res.status(200).json({
+        message: 'tiket hasil pencarian',
+        tiketBerangkat,
+      });
+    }
     res.status(200).json({
       message: 'tiket hasil pencarian',
-      tiketSearch,
+      tiketBerangkat,
+      tiketPulang,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
