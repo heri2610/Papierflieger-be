@@ -187,4 +187,19 @@ const updateProfile = async (req, res) => {
     }
   }
 };
-module.exports = { login, register, verified, updateProfile };
+const getProfile = async (req, res) => {
+  const { id } = req.user;
+  try {
+    const profile = await Users.findOne({ where: { id } });
+    res.status(200).json({
+      message: 'data semua pesawat',
+      profile,
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      message: error.message,
+    });
+  }
+};
+
+module.exports = { login, register, verified, updateProfile, getProfile };
