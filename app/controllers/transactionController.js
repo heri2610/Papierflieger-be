@@ -1,4 +1,5 @@
-const { Transaction, History, Order, Ticket } = require('../models');
+const { Transaction, Order, Ticket } = require('../models');
+const { addHistory } = require('./historyController');
 
 const getTransactionById = async (req, res) => {
   try {
@@ -30,10 +31,7 @@ const addTransaction = async (req, res) => {
   try {
     const userId = req.user.id;
     const newTransaksi = await Transaction.create(req.body);
-    await History.create({
-      userId,
-      transactionId: newTransaksi.id,
-    });
+    addHistory(userId, newTransaksi.id);
     res.status(200).json({
       message: 'pembayaran berhasil',
       newTransaksi,

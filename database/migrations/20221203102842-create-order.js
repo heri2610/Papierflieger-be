@@ -37,11 +37,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       ticketId: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-        references: {
-          model: 'Tickets',
-          key: 'id',
-        },
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
       },
       createdAt: {
         allowNull: false,

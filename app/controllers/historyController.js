@@ -24,7 +24,19 @@ const getHistory = async (req, res) => {
     });
   }
 };
+const addHistory = async (userId, transactionId) => {
+  try {
+    const history = await History.create({
+      userId,
+      transactionId,
+    });
+    return history;
+  } catch (error) {
+    return error;
+  }
+};
 
 module.exports = {
   getHistory,
+  addHistory,
 };
