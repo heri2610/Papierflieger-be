@@ -43,12 +43,12 @@ const searchTicket = async (req, res) => {
           {
             model: Airport,
             as: 'from',
-            where: { airportName: dari },
+            where: { id: dari },
           },
           {
             model: Airport,
             as: 'to',
-            where: { airportName: tujuan },
+            where: { id: tujuan },
           },
           {
             model: Airport,
@@ -73,12 +73,12 @@ const searchTicket = async (req, res) => {
           {
             model: Airport,
             as: 'from',
-            where: { airportName: dari },
+            where: { id: dari },
           },
           {
             model: Airport,
             as: 'to',
-            where: { airportName: tujuan },
+            where: { id: tujuan },
           },
           {
             model: Airport,
