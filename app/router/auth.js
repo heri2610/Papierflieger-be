@@ -10,7 +10,7 @@ const {
 } = require('../controllers/authController');
 
 router.post('/auth/login', login);
-router.post('/auth/profile', getProfile);
+router.get('/auth/profile', auth, getProfile);
 router.post('/auth/register', register);
 router.put('/auth/update-profile', auth, upload.single('image'), updateProfile);
 router.get('/auth/send-email', verified);

@@ -145,32 +145,36 @@ const verified = async (req, res) => {
     });
   }
 };
+
+// eslint-disable-next-line consistent-return
 const updateProfile = async (req, res) => {
   const { id } = req.user;
   const { file } = req;
-  const validFormat =
-    file.mimetype === 'image/png' ||
-    file.mimetype === 'image/jpg' ||
-    file.mimetype === 'image/jpeg' ||
-    file.mimetype === 'image/gif';
-  if (!validFormat) {
-    res.status(400).json({
-      status: 'failed',
-      message: 'Wrong Image Format',
-    });
-  }
-  const split = file.originalname.split('.');
-  const ext = split[split.length - 1];
 
-  // upload file ke imagekit
-  const img = await imageKit.upload({
-    file: file.buffer,
-    fileName: `IMG-${Date.now()}.${ext}`,
-  });
   if (file) {
+    const validFormat =
+      file.mimetype === 'image/png' ||
+      file.mimetype === 'image/jpg' ||
+      file.mimetype === 'image/jpeg' ||
+      file.mimetype === 'image/gif';
+    if (!validFormat) {
+      res.status(400).json({
+        status: 'failed',
+        message: 'Wrong Image Format',
+      });
+    }
+    const split = file.originalname.split('.');
+    const ext = split[split.length - 1];
+
+    // upload file ke imagekit
+    const img = await imageKit.upload({
+      file: file.buffer,
+      fileName: `IMG-${Date.now()}.${ext}`,
+    });
+
     await Users.update(
       {
-        avatar: img,
+        avatar: img.url,
       },
       {
         where: {
@@ -178,21 +182,26 @@ const updateProfile = async (req, res) => {
         },
       }
     );
-    if (req.body) {
-      await Users.update(req.body, {
-        where: {
-          id,
-        },
-      });
-    }
+  }
+
+  if (req.body) {
+    await Users.update(req.body, {
+      where: {
+        id,
+      },
+    });
+
+    return res.status(200).json({
+      message: 'Update profil berhasil.'
+    });
   }
 };
+
 const getProfile = async (req, res) => {
   const { id } = req.user;
   try {
     const profile = await Users.findOne({ where: { id } });
     res.status(200).json({
-      message: 'data semua pesawat',
       profile,
     });
   } catch (error) {
