@@ -4,7 +4,7 @@ const getAirport = async (req, res) => {
   try {
     const airports = await Airport.findAll();
     res.status(200).json({
-      message: 'data pesawat',
+      message: 'data semua bandara',
       airports,
     });
   } catch (error) {
@@ -32,7 +32,7 @@ const addAirport = async (req, res) => {
   try {
     const newAirport = await Airport.create(req.body);
     res.status(200).json({
-      message: 'data berhasil ditambahkan',
+      message: 'data bandara berhasil ditambahkan',
       newAirport,
     });
   } catch (error) {
@@ -47,7 +47,7 @@ const updateAirport = async (req, res) => {
     const { id } = req.params;
     await Airport.update(req.body, { where: { id } });
     res.status(200).json({
-      message: 'data berhasil diubah',
+      message: 'data bandara berhasil diubah',
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
@@ -61,7 +61,7 @@ const deleteAirport = async (req, res) => {
     const { id } = req.params;
     await Airport.destroy({ where: { id } });
     res.status(200).json({
-      message: 'data berhasil dihapus',
+      message: 'data bandara berhasil dihapus',
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({

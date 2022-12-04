@@ -30,7 +30,19 @@ const getTicket = async (req, res) => {
     });
   }
 };
-
+const searchTicket = async (req, res) => {
+  try {
+    const tiketSearch = await Ticket.findAll();
+    res.status(200).json({
+      message: 'tiket hasil pencarian',
+      tiketSearch,
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      message: error.message,
+    });
+  }
+};
 const getTicketById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -72,7 +84,7 @@ const addTicket = async (req, res) => {
   try {
     const newTicket = await Ticket.create(req.body);
     res.status(200).json({
-      message: 'data berhasil ditambahkan',
+      message: 'tiket berhasil ditambahkan',
       newTicket,
     });
   } catch (error) {
@@ -87,7 +99,7 @@ const updateTicket = async (req, res) => {
     const { id } = req.params;
     await Ticket.update(req.body, { where: { id } });
     res.status(200).json({
-      message: 'data berhasil diubah',
+      message: 'tiket berhasil diubah',
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
@@ -101,7 +113,7 @@ const deleteTicket = async (req, res) => {
     const { id } = req.params;
     await Ticket.destroy({ where: { id } });
     res.status(200).json({
-      message: 'data berhasil dihapus',
+      message: 'tiket berhasil dihapus',
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
@@ -112,6 +124,7 @@ const deleteTicket = async (req, res) => {
 
 module.exports = {
   getTicket,
+  searchTicket,
   getTicketById,
   addTicket,
   updateTicket,
