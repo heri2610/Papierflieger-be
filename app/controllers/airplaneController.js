@@ -4,7 +4,7 @@ const getAirplane = async (req, res) => {
   try {
     const dataAirplane = await Airplane.findAll();
     res.status(200).json({
-      message: 'data pesawat',
+      message: 'data semua pesawat',
       dataAirplane,
     });
   } catch (error) {
@@ -19,6 +19,7 @@ const getAirplaneById = async (req, res) => {
     const { id } = req.params;
     const flight = await Airplane.findOne({ where: { id } });
     res.status(200).json({
+      message: 'data pesawat berdasarkan id',
       flight,
     });
   } catch (error) {
@@ -32,7 +33,7 @@ const addAirplane = async (req, res) => {
   try {
     const newFlight = await Airplane.create(req.body);
     res.status(200).json({
-      message: 'data berhasil ditambahkan',
+      message: 'data pesawat berhasil ditambahkan',
       newFlight,
     });
   } catch (error) {
@@ -47,7 +48,7 @@ const updateAirplane = async (req, res) => {
     const { id } = req.params;
     await Airplane.update(req.body, { where: { id } });
     res.status(200).json({
-      message: 'data berhasil diubah',
+      message: 'data pesawat berhasil diubah',
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
@@ -61,7 +62,7 @@ const deleteAirplane = async (req, res) => {
     const { id } = req.params;
     await Airplane.destroy({ where: { id } });
     res.status(200).json({
-      message: 'data berhasil dihapus',
+      message: 'data pesawat berhasil dihapus',
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({

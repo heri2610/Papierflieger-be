@@ -3,6 +3,7 @@ const auth = require('../../midleware/auth');
 const isAdmin = require('../../midleware/isAdmin');
 const {
   getTicket,
+  searchTicket,
   addTicket,
   getTicketById,
   updateTicket,
@@ -10,6 +11,7 @@ const {
 } = require('../controllers/ticketController');
 
 router.get('/tickets', getTicket);
+router.get('/search-tickets', searchTicket);
 router.get('/tickets/:id', getTicketById);
 router.post('/tickets', auth, isAdmin, addTicket);
 router.put('/tickets/:id', auth, isAdmin, updateTicket);
