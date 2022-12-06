@@ -501,6 +501,54 @@
         }
       }
     },
+    "/search-tickets": {
+      "get": {
+        "tags": ["Ticket"],
+        "summary": "Search ticket",
+        "description": "Search ticket by user",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "tiket hasil pencarian"
+                    },
+                    "ticket": {
+                      "$ref": "#/components/schemas/ticketResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ticket is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Tiket tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/airplanes": {
       "post": {
         "summary": "Create Airplane",
@@ -2620,12 +2668,24 @@
             "example": 3
           },
           "transitDuration": {
-            "type": "integer",
-            "example": 90
+            "type": "string",
+            "example": "1 Jam 2 Menit" 
           },
           "ticketType": {
             "type": "string",
             "example": "Domestik"
+          },
+          "flightDuration": {
+            "type": "string",
+            "example": "8 Jam"
+          },
+          "arrivalTimeAtTransit": {
+            "type": "string",
+            "example": "10:14:00"
+          },
+          "departureTimeFromTransit": {
+            "type": "string",
+            "example": "10:54:00"
           }
         }
       },
