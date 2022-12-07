@@ -68,6 +68,15 @@ module.exports = {
       ticketType: {
         type: Sequelize.STRING,
       },
+      flightDuration: {
+        type: Sequelize.STRING
+      },
+      arrivalTimeAtTransit: {
+        type: Sequelize.TIME
+      },
+      departureTimeFromTransit: {
+        type: Sequelize.TIME
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

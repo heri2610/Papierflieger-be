@@ -34,6 +34,9 @@ module.exports = (sequelize, DataTypes) => {
       transitPoint: DataTypes.INTEGER,
       transitDuration: DataTypes.STRING,
       ticketType: DataTypes.STRING,
+      flightDuration: DataTypes.STRING,
+      arrivalTimeAtTransit: DataTypes.TIME,
+      departureTimeFromTransit: DataTypes.TIME,
     },
     {
       sequelize,
