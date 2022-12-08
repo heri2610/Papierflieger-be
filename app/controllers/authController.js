@@ -20,6 +20,7 @@ const login = async (req, res) => {
     if (!bcrypt.compareSync(password, user.password)) {
       throw new ApiError(400, 'Password salah.');
     }
+
     const verifikasi = user.verified;
     if (!verifikasi) throw new ApiError(400, 'email belum terverifikasi');
     if (bcrypt.compareSync(password, user.password)) {
@@ -72,7 +73,6 @@ const register = async (req, res) => {
     if (password.length < 8) {
       throw new ApiError(400, 'Masukkan password minimal 8 karakter');
     }
-
     // hash password
     const hashedPassword = bcrypt.hashSync(password, 10);
     // buat user baru
@@ -192,7 +192,7 @@ const updateProfile = async (req, res) => {
     });
 
     return res.status(200).json({
-      message: 'Update profil berhasil.'
+      message: 'Update profil berhasil.',
     });
   }
 };

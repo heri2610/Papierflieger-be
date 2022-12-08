@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "migrate": "sequelize db:migrate:undo --name 20221128175654-create-history.js && sequelize db:migrate:undo --name 20221128174339-create-transaction.js && sequelize db:migrate:undo --name 20221128172948-create-ticket.js && sequelize db:migrate ",
-    "seed": "sequelize db:seed:all",
+    "migrate": "sequelize db:migrate ",
+    "seed": "sequelize db:seed --seed 20221208044811-insert-ticket.js",
     "start": "node index.js",
     "test": "jest --setupFiles dotenv/config --coverage --forceExit",
     "lint": "eslint .",
