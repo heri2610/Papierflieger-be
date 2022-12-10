@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "migrate": "sequelize db:migrate ",
-    "seed": "sequelize db:seed --seed 20221208044811-insert-ticket.js",
+    "seed": "sequelize db:seed:all",
     "start": "node index.js",
     "test": "jest --setupFiles dotenv/config --coverage --forceExit",
     "lint": "eslint .",
