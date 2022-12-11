@@ -9,6 +9,8 @@ const {
   deleteAirplane,
 } = require('../controllers/airplaneController');
 
+console.log('test')
+
 router.get('/airplanes', getAirplane);
 router.get('/airplanes/:id', getAirplaneById);
 router.post('/airplanes', auth, isAdmin, addAirplane);
