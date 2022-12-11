@@ -218,7 +218,7 @@ const airportsData = [
   {
     id: 28,
     airportName: "Supadio",
-    city: "Pekan Baru, Kalimantan Barat, Indonesia",
+    city: "Kubu Raya, Kalimantan Barat, Indonesia",
     cityCode: "PNK",
     createdAt: "2022-12-01T14:49:57.753Z",
     updatedAt: "2022-12-01T14:49:57.753Z"
@@ -494,6 +494,38 @@ const airportsData = [
     cityCode: "CNS",
     createdAt: "2022-12-04T13:44:57.052Z",
     updatedAt: "2022-12-04T13:44:57.052Z"
+  },
+  {
+    id: 63,
+    airportName: "Istanbul Airport",
+    city: "Istanbul, Turki",
+    cityCode: "IST",
+    createdAt: "2022-12-04T15:29:30.302Z",
+    updatedAt: "2022-12-04T15:29:30.302Z"
+  },
+  {
+    id: 64,
+    airportName: "Hamad International Airport",
+    city: "Doha, Qatar",
+    cityCode: "DOH",
+    createdAt: "2022-12-04T15:46:14.949Z",
+    updatedAt: "2022-12-04T15:46:14.949Z"
+  },
+  {
+    id: 67,
+    airportName: "Adelaide International Airport",
+    city: "Adelaide, Australia",
+    cityCode: "ADL",
+    createdAt: "2022-12-04T16:24:52.239Z",
+    updatedAt: "2022-12-04T16:24:52.239Z"
+  },
+  {
+    id: 68,
+    airportName: "Taoyuan International Airport",
+    city: "Taoyuan, Taiwan",
+    cityCode: "TPE",
+    createdAt: "2022-12-04T19:38:20.852Z",
+    updatedAt: "2022-12-04T19:38:20.852Z"
   }
 ];
 
