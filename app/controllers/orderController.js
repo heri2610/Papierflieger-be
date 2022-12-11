@@ -1,5 +1,5 @@
-const { Order, Ticket } = require('../models');
-const { addTransaction } = require('./transactionController');
+const { Order, Ticket, } = require('../models');
+const { addTransaction, } = require('./transactionController');
 
 const getOrder = async (req, res) => {
   try {
@@ -16,9 +16,9 @@ const getOrder = async (req, res) => {
 
 const getOrderById = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id, } = req.params;
     const order = await Order.findOne({
-      where: { id },
+      where: { id, },
     });
     res.status(200).json({
       order,
@@ -53,7 +53,7 @@ const addOrder = async (req, res) => {
       orderId.push(order.id);
     });
     ticketId.forEach(async (id) => {
-      const prices = await Ticket.findOne({ where: { id } });
+      const prices = await Ticket.findOne({ where: { id, }, });
       totalPriceOneOrder.push(prices.price);
     });
     let totalPrice;
@@ -78,8 +78,8 @@ const addOrder = async (req, res) => {
 
 const deleteOrder = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Order.destroy({ where: { id } });
+    const { id, } = req.params;
+    await Order.destroy({ where: { id, }, });
     res.status(200).json({
       message: 'data berhasil dihapus',
     });

@@ -1,4 +1,4 @@
-const { Airplane } = require('../models');
+const { Airplane, } = require('../models');
 
 const getAirplane = async (req, res) => {
   try {
@@ -16,8 +16,8 @@ const getAirplane = async (req, res) => {
 
 const getAirplaneById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const flight = await Airplane.findOne({ where: { id } });
+    const { id, } = req.params;
+    const flight = await Airplane.findOne({ where: { id, }, });
     res.status(200).json({
       message: 'data pesawat berdasarkan id',
       flight,
@@ -45,8 +45,8 @@ const addAirplane = async (req, res) => {
 
 const updateAirplane = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Airplane.update(req.body, { where: { id } });
+    const { id, } = req.params;
+    await Airplane.update(req.body, { where: { id, }, });
     res.status(200).json({
       message: 'data pesawat berhasil diubah',
     });
@@ -59,8 +59,8 @@ const updateAirplane = async (req, res) => {
 
 const deleteAirplane = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Airplane.destroy({ where: { id } });
+    const { id, } = req.params;
+    await Airplane.destroy({ where: { id, }, });
     res.status(200).json({
       message: 'data pesawat berhasil dihapus',
     });

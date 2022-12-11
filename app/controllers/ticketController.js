@@ -1,4 +1,4 @@
-const { Ticket, Airport, Airplane } = require('../models');
+const { Ticket, Airport, Airplane, } = require('../models');
 
 const getTicket = async (req, res) => {
   try {
@@ -32,11 +32,11 @@ const getTicket = async (req, res) => {
 };
 // eslint-disable-next-line consistent-return
 const searchTicket = async (req, res) => {
-  const { flightFrom, flightTo, departureDate, returnDate } = req.query;
+  const { flightFrom, flightTo, departureDate, returnDate, } = req.query;
   try {
     const tiketBerangkat = await Ticket.findAll(
       {
-        where: { departureDate }
+        where: { departureDate, },
       },
       {
         include: [
@@ -46,12 +46,12 @@ const searchTicket = async (req, res) => {
           {
             model: Airport,
             as: 'from',
-            where: { id: flightFrom },
+            where: { id: flightFrom, },
           },
           {
             model: Airport,
             as: 'to',
-            where: { id: flightTo },
+            where: { id: flightTo, },
           },
           {
             model: Airport,
@@ -68,7 +68,7 @@ const searchTicket = async (req, res) => {
     }
     const tiketPulang = await Ticket.findAll(
       {
-        where: { departureDate: returnDate }
+        where: { departureDate: returnDate, },
       },
       {
         include: [
@@ -78,12 +78,12 @@ const searchTicket = async (req, res) => {
           {
             model: Airport,
             as: 'from',
-            where: { id: flightTo },
+            where: { id: flightTo, },
           },
           {
             model: Airport,
             as: 'to',
-            where: { id: flightFrom },
+            where: { id: flightFrom, },
           },
           {
             model: Airport,
@@ -105,10 +105,10 @@ const searchTicket = async (req, res) => {
 };
 const getTicketById = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id, } = req.params;
     const ticket = await Ticket.findOne(
       {
-        where: { id },
+        where: { id, },
       },
       {
         include: [
@@ -156,8 +156,8 @@ const addTicket = async (req, res) => {
 
 const updateTicket = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Ticket.update(req.body, { where: { id } });
+    const { id, } = req.params;
+    await Ticket.update(req.body, { where: { id, }, });
     res.status(200).json({
       message: 'tiket berhasil diubah',
     });
@@ -170,8 +170,8 @@ const updateTicket = async (req, res) => {
 
 const deleteTicket = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Ticket.destroy({ where: { id } });
+    const { id, } = req.params;
+    await Ticket.destroy({ where: { id, }, });
     res.status(200).json({
       message: 'tiket berhasil dihapus',
     });
