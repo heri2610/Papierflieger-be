@@ -19,7 +19,7 @@
         "exports": "never",
         "functions": "never"
     }],
-    "quotes": ["error", "double"],
+    "quotes": ["error", "single"],
     "max-len": ["error", { 
         "code": 80, 
         "tabWidth": 2,
