@@ -1,3 +1,5 @@
 app/models
 database
 midleware
+utils/emailValidation.js
+tests

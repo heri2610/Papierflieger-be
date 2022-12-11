@@ -1,20 +1,20 @@
-const { Transaction, Order, Ticket } = require('../models');
-const { addHistory } = require('./historyController');
+const { Transaction, Order, Ticket, } = require('../models');
+const { addHistory, } = require('./historyController');
 
 const getTransactionById = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id, } = req.params;
     const transaksi = await Transaction.findOne(
       {
         include: [
           {
             model: Order,
-            include: [{ model: Ticket }],
+            include: [{ model: Ticket, },],
           },
         ],
       },
       {
-        where: { id },
+        where: { id, },
       }
     );
     res.status(200).json({
@@ -44,8 +44,8 @@ const addTransaction = async (userId, orderId, totalPrice, trip) => {
 
 const updateTransaction = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Transaction.update(req.body, { where: { id } });
+    const { id, } = req.params;
+    await Transaction.update(req.body, { where: { id, }, });
     res.status(200).json({
       message: 'data berhasil diubah',
     });
@@ -58,8 +58,8 @@ const updateTransaction = async (req, res) => {
 
 const deleteTransaction = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Transaction.destroy({ where: { id } });
+    const { id, } = req.params;
+    await Transaction.destroy({ where: { id, }, });
     res.status(200).json({
       message: 'data berhasil dihapus',
     });

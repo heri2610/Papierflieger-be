@@ -1,10 +1,10 @@
 const dotenv = require('dotenv');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4, } = require('uuid');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const imageKit = require('../../lib/imageKit');
 const sendMail = require('../../lib/nodemailer');
-const { Users, Verify } = require('../models');
+const { Users, Verify, } = require('../models');
 const ApiError = require('../../utils/ApiError');
 const isEmailValid = require('../../utils/emailValidation');
 
@@ -13,8 +13,8 @@ dotenv.config();
 
 const login = async (req, res) => {
   try {
-    const { email = '', password = '' } = req.body;
-    const user = await Users.findOne({ where: { email } });
+    const { email = '', password = '', } = req.body;
+    const user = await Users.findOne({ where: { email, }, });
     // validasi
     if (!user) throw new ApiError(400, 'Email tidak terdaftar.');
     if (!bcrypt.compareSync(password, user.password)) {
@@ -61,8 +61,8 @@ const register = async (req, res) => {
       regency,
     } = req.body;
 
-    const User = await Users.findOne({ where: { email } });
-    const usernameExist = await Users.findOne({ where: { username } });
+    const User = await Users.findOne({ where: { email, }, });
+    const usernameExist = await Users.findOne({ where: { username, }, });
     // validasi
     const validateEmail = isEmailValid(email);
     if (!email) throw new ApiError(400, 'Email tidak boleh kosong.');
@@ -123,14 +123,16 @@ const register = async (req, res) => {
 const verified = async (req, res) => {
   try {
     const urlToken = req.query.token;
-    const cekToken = await Verify.findOne({ where: { tokenVerify: urlToken } });
+    const cekToken = await Verify.findOne({
+      where: { tokenVerify: urlToken, },
+    });
     const ExpiredDate = cekToken.expiredAt;
     const dateNow = Date.now();
     if (dateNow >= ExpiredDate) {
       throw new ApiError(400, 'Expired token');
     }
     const userVerify = await Users.update(
-      { verified: true },
+      { verified: true, },
       {
         where: {
           id: cekToken.userId,
@@ -150,8 +152,8 @@ const verified = async (req, res) => {
 
 // eslint-disable-next-line consistent-return
 const updateProfile = async (req, res) => {
-  const { id } = req.user;
-  const { file } = req;
+  const { id, } = req.user;
+  const { file, } = req;
 
   if (file) {
     const validFormat =
@@ -200,9 +202,9 @@ const updateProfile = async (req, res) => {
 };
 
 const getProfile = async (req, res) => {
-  const { id } = req.user;
+  const { id, } = req.user;
   try {
-    const profile = await Users.findOne({ where: { id } });
+    const profile = await Users.findOne({ where: { id, }, });
     res.status(200).json({
       profile,
     });
@@ -213,4 +215,4 @@ const getProfile = async (req, res) => {
   }
 };
 
-module.exports = { login, register, verified, updateProfile, getProfile };
+module.exports = { login, register, verified, updateProfile, getProfile, };
