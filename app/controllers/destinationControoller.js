@@ -1,10 +1,10 @@
-const { Destination, Airport } = require('../models');
+const { Destination, Airport, } = require('../models');
 const imagekit = require('../../lib/imageKit');
 
 const getDestination = async (req, res) => {
   try {
     const destinations = await Destination.findAll({
-      include: [{ model: Airport }],
+      include: [{ model: Airport, },],
     });
     res.status(200).json({
       destinations,
@@ -18,8 +18,8 @@ const getDestination = async (req, res) => {
 
 const getDestinationById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const flight = await Destination.findOne({ where: { id } });
+    const { id, } = req.params;
+    const flight = await Destination.findOne({ where: { id, }, });
     res.status(200).json({
       flight,
     });
@@ -32,8 +32,8 @@ const getDestinationById = async (req, res) => {
 
 const addDestination = async (req, res) => {
   try {
-    const { name, location, description, airportId } = req.body;
-    const { files } = req;
+    const { name, location, description, airportId, } = req.body;
+    const { files, } = req;
     req.body.images = [];
 
     await Promise.all(
@@ -84,9 +84,9 @@ const addDestination = async (req, res) => {
 
 const updateDestination = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { name, location, description, airportId } = req.body;
-    const { files } = req;
+    const { id, } = req.params;
+    const { name, location, description, airportId, } = req.body;
+    const { files, } = req;
     req.body.images = [];
 
     await Promise.all(
@@ -124,7 +124,7 @@ const updateDestination = async (req, res) => {
         description,
         airportId,
       },
-      { where: { id } }
+      { where: { id, }, }
     );
     res.status(200).json({
       message: 'data berhasil diubah',
@@ -138,8 +138,8 @@ const updateDestination = async (req, res) => {
 
 const deleteDestination = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Destination.destroy({ where: { id } });
+    const { id, } = req.params;
+    await Destination.destroy({ where: { id, }, });
     res.status(200).json({
       message: 'data berhasil dihapus',
     });
