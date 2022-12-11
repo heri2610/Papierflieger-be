@@ -19,9 +19,9 @@ const getDestination = async (req, res) => {
 const getDestinationById = async (req, res) => {
   try {
     const { id, } = req.params;
-    const flight = await Destination.findOne({ where: { id, }, });
+    const destination = await Destination.findOne({ where: { id, }, });
     res.status(200).json({
-      flight,
+      destination,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
