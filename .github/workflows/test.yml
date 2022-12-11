@@ -1,0 +1,74 @@
+name: Lint and Test Before Merge 
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+    branches:
+      - release
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    env:
+      IMAGEKIT_PUBLIC_KEY: ${{ secrets.IMAGEKIT_PUBLIC_KEY }}
+      IMAGEKIT_PRIVATE_KEY: ${{ secrets.IMAGEKIT_PRIVATE_KEY }}
+      IMAGEKIT_URL: ${{ secrets.IMAGEKIT_URL }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      PORT: 8080
+      ACCESS_TOKEN_SECRET: secret
+      REFRESH_TOKEN_SECRET: rahasia
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm install
+      - name: Migration undo
+        run: npm run db:migrate:undo
+      - name: Migration database        
+        run: npm run db:migrate
+      - name: Seed database        
+        run: npm run db:seed
+      - name: Test code
+        id: run-tests
+        run: npm run test
+  lint:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm install
+      - name: Lint code
+        run: npm run lint
+  merge:
+    needs: [test, lint]
+    environment: testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge
+        run: echo "Can Be Merge..."
+  report:
+    needs: merge
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output information
+        run: |
+          echo "Something went wrong"
+          echo "${{ toJSON(github) }}"
