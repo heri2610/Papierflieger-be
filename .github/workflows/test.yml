@@ -35,8 +35,8 @@ jobs:
         run: npm run db:migrate:undo
       - name: Migration database        
         run: npm run db:migrate
-      - name: Seed database        
-        run: npm run db:seed
+      # - name: Seed database        
+      #   run: npm run db:seed
       - name: Test code
         id: run-tests
         run: npm run test
