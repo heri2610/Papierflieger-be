@@ -1,4 +1,4 @@
-const { Payment } = require('../models');
+const { Payment, } = require('../models');
 
 const getPayment = async (req, res) => {
   try {
@@ -16,8 +16,8 @@ const getPayment = async (req, res) => {
 
 const getPaymentById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const payments = await Payment.findOne({ where: { id } });
+    const { id, } = req.params;
+    const payments = await Payment.findOne({ where: { id, }, });
     res.status(200).json({
       payments,
     });
@@ -44,8 +44,8 @@ const addPayment = async (req, res) => {
 
 const updatePayment = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Payment.update(req.body, { where: { id } });
+    const { id, } = req.params;
+    await Payment.update(req.body, { where: { id, }, });
     res.status(200).json({
       message: 'data berhasil diubah',
     });
@@ -58,8 +58,8 @@ const updatePayment = async (req, res) => {
 
 const deletePayment = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Payment.destroy({ where: { id } });
+    const { id, } = req.params;
+    await Payment.destroy({ where: { id, }, });
     res.status(200).json({
       message: 'data berhasil dihapus',
     });

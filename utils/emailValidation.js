@@ -1,6 +1,4 @@
-// eslint-disable-next-line no-useless-escape
 const emailRegex =
-  // eslint-disable-next-line no-useless-escape
   /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
 
 const isEmailValid = (email) => {
