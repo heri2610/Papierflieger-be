@@ -17,9 +17,7 @@ jobs:
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       DB_PORT: ${{ secrets.DB_PORT }}
       DB_USER: ${{ secrets.DB_USER }}
-      PORT: 8080
-      ACCESS_TOKEN_SECRET: secret
-      REFRESH_TOKEN_SECRET: rahasia
+      SECRET_KEY: secret
     steps:
       - name: Get code
         uses: actions/checkout@v3
