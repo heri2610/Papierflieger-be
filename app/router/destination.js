@@ -19,7 +19,7 @@ router.post(
   upload.array('images'),
   addDestination
 );
-router.put('/destinations/:id', auth, isAdmin, updateDestination);
+router.put('/destinations/:id', auth, isAdmin, upload.array('images'), updateDestination);
 router.delete('/destinations/:id', auth, isAdmin, deleteDestination);
 
 module.exports = router;
