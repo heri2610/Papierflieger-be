@@ -38,6 +38,12 @@ jobs:
       - name: Test code
         id: run-tests
         run: npm run test
+      - name: Send status to Discord
+        uses: nebularg/actions-discord-webhook@v1
+        with:
+          webhook_url: ${{ secrets.discord_webhook_url }} # required
+          status: ${{ job.status }} # optional, this is the default
+        if: always() # or failure() or success()
   lint:
     needs: test
     runs-on: ubuntu-latest
@@ -54,6 +60,12 @@ jobs:
         run: npm install
       - name: Lint code
         run: npm run lint
+      - name: Send status to Discord
+        uses: nebularg/actions-discord-webhook@v1
+        with:
+          webhook_url: ${{ secrets.discord_webhook_url }} # required
+          status: ${{ job.status }} # optional, this is the default
+        if: always() # or failure() or success()
   merge:
     needs: [test, lint]
     environment: testing

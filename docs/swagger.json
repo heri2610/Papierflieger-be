@@ -65,7 +65,28 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Users"
+                "type": "object",
+                "properties": {
+                  "fullName": {
+                    "type": "string",
+                    "example": "Suhaeri"
+                  },
+                  "username": {
+                    "type": "string",
+                    "example": "hetotheri"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "haerisuh@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "minLength": 8,
+                    "example": "heri1234"
+                  }
+                }
               }
             }
           }
@@ -95,6 +116,7 @@
                             },
                             "avatar": {
                               "type": "string",
+                              "format": "binary",
                               "example": "https://ik.imagekit.io/lscxjpnrv/defaultava.png"
                             },
                             "createdAt": {
@@ -2090,7 +2112,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/Destinations"
               }
@@ -2231,7 +2253,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/Destinations"
               }
@@ -2386,7 +2408,7 @@
         }
       }
     },
-    "/api/auth/update-profile": {
+    "/api/auth/profile": {
       "get": {
         "tags": [
           "User"
@@ -2430,7 +2452,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/auth/update-profile": {
       "put": {
         "tags": [
           "User"
@@ -2445,11 +2469,28 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Users"
+            "allOf": [
+              {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Users"
+                  }
+                }
+              },
+              {
+                "multipart/form-data": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "image": {
+                        "type": "string",
+                        "format": "binary"
+                      }
+                    }
+                  }
+                }
               }
-            }
+            ]
           }
         },
         "responses": {
@@ -2802,7 +2843,8 @@
             "example": "081384753928"
           },
           "birthdate": {
-            "type": "date",
+            "type": "string",
+            "format": "date-time",
             "example": "2002-09-11"
           },
           "nationality": {
@@ -3027,18 +3069,15 @@
       "Destinations": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "example": 1
-          },
           "name": {
             "type": "string",
             "example": "Pura Ulun Danu Beratan"
           },
-          "image": {
+          "images": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "format": "binary"
             }
           },
           "location": {
