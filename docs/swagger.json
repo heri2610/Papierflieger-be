@@ -56,7 +56,9 @@
     "/api/auth/register": {
       "post": {
         "summary": "Register",
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "description": "Create new user",
         "requestBody": {
           "required": true,
@@ -138,7 +140,9 @@
     "/api/auth/login": {
       "post": {
         "summary": "Login",
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "description": "Retrieve access tokens",
         "requestBody": {
           "required": true,
@@ -174,6 +178,14 @@
                     "accessToken": {
                       "type": "string",
                       "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksIndhcmVob3Vz"
+                    },
+                    "username": {
+                      "type": "string",
+                      "example": "hetotheri"
+                    },
+                    "avatar": {
+                      "type": "string",
+                      "example": "https://ik.imagekit.io/lscxjpnrv/defaultava.png"
                     }
                   }
                 }
@@ -206,9 +218,15 @@
     "/api/tickets": {
       "post": {
         "summary": "Create Ticket",
-        "tags": ["Ticket"],
+        "tags": [
+          "Ticket"
+        ],
         "description": "Add new ticket on the database",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -267,7 +285,9 @@
       },
       "get": {
         "summary": "List Tickets",
-        "tags": ["Ticket"],
+        "tags": [
+          "Ticket"
+        ],
         "description": "Retrieve list of tickets / available flights.",
         "responses": {
           "200": {
@@ -294,7 +314,9 @@
     },
     "/api/tickets/{id}": {
       "get": {
-        "tags": ["Ticket"],
+        "tags": [
+          "Ticket"
+        ],
         "summary": "Get A Ticket",
         "description": "Retrieve the ticket details",
         "parameters": [
@@ -338,10 +360,16 @@
         }
       },
       "put": {
-        "tags": ["Ticket"],
+        "tags": [
+          "Ticket"
+        ],
         "summary": "Update Ticket",
         "description": "Change ticket information",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -426,10 +454,16 @@
         }
       },
       "delete": {
-        "tags": ["Ticket"],
+        "tags": [
+          "Ticket"
+        ],
         "summary": "Delete Ticket",
         "description": "Remove existing ticket flight by id",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -501,11 +535,50 @@
         }
       }
     },
-    "/search-tickets": {
+    "/api/search-tickets": {
       "get": {
-        "tags": ["Ticket"],
+        "tags": [
+          "Ticket"
+        ],
         "summary": "Search ticket",
         "description": "Search ticket by user",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "flightFrom",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Airport id for departure"
+          },
+          {
+            "in": "query",
+            "name": "flightTo",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Airport id for destination"
+          },
+          {
+            "in": "query",
+            "name": "departureDate",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "in": "query",
+            "name": "returnDate",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -552,9 +625,15 @@
     "/api/airplanes": {
       "post": {
         "summary": "Create Airplane",
-        "tags": ["Airplane"],
+        "tags": [
+          "Airplane"
+        ],
         "description": "Add new airplane on the database",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -613,7 +692,9 @@
       },
       "get": {
         "summary": "List Airplanes",
-        "tags": ["Airplane"],
+        "tags": [
+          "Airplane"
+        ],
         "description": "Retrieve list of airplane",
         "responses": {
           "200": {
@@ -640,7 +721,9 @@
     },
     "/api/airplanes/{id}": {
       "get": {
-        "tags": ["Airplane"],
+        "tags": [
+          "Airplane"
+        ],
         "summary": "Get An Airplane",
         "description": "Retrieve airplane detail",
         "parameters": [
@@ -684,10 +767,16 @@
         }
       },
       "put": {
-        "tags": ["Airplane"],
+        "tags": [
+          "Airplane"
+        ],
         "summary": "Update Airplane",
         "description": "Change airplane information",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -772,10 +861,16 @@
         }
       },
       "delete": {
-        "tags": ["Airplane"],
+        "tags": [
+          "Airplane"
+        ],
         "summary": "Delete Airplane",
         "description": "Remove existing airplane by airplane code.",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -850,9 +945,15 @@
     "/api/airports": {
       "post": {
         "summary": "Create Airport",
-        "tags": ["Airport"],
+        "tags": [
+          "Airport"
+        ],
         "description": "Add new airport on the database",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -911,7 +1012,9 @@
       },
       "get": {
         "summary": "List Airports",
-        "tags": ["Airport"],
+        "tags": [
+          "Airport"
+        ],
         "description": "Retrieve list of airport",
         "responses": {
           "200": {
@@ -938,7 +1041,9 @@
     },
     "/api/airports/{id}": {
       "get": {
-        "tags": ["Airport"],
+        "tags": [
+          "Airport"
+        ],
         "summary": "Get An Airport",
         "description": "Retrieve airport detail",
         "parameters": [
@@ -982,10 +1087,16 @@
         }
       },
       "put": {
-        "tags": ["Airport"],
+        "tags": [
+          "Airport"
+        ],
         "summary": "Update Airport",
         "description": "Change airport information",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -1070,10 +1181,16 @@
         }
       },
       "delete": {
-        "tags": ["Airport"],
+        "tags": [
+          "Airport"
+        ],
         "summary": "Delete Airport",
         "description": "Remove existing airport by id.",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -1148,9 +1265,15 @@
     "/api/payments": {
       "post": {
         "summary": "Create Payment",
-        "tags": ["Payment"],
+        "tags": [
+          "Payment"
+        ],
         "description": "Add new payment method on the database",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1209,9 +1332,15 @@
       },
       "get": {
         "summary": "List Payment Methods",
-        "tags": ["Payment"],
+        "tags": [
+          "Payment"
+        ],
         "description": "Retrieve list of payment methods",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -1228,10 +1357,16 @@
     },
     "/api/payments/{id}": {
       "get": {
-        "tags": ["Payment"],
+        "tags": [
+          "Payment"
+        ],
         "summary": "Get a Payment Method",
         "description": "Retrieve payment method detail",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -1273,10 +1408,16 @@
         }
       },
       "put": {
-        "tags": ["Payment"],
+        "tags": [
+          "Payment"
+        ],
         "summary": "Update Payment Method",
         "description": "Change payment method information",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -1361,10 +1502,16 @@
         }
       },
       "delete": {
-        "tags": ["Payment"],
+        "tags": [
+          "Payment"
+        ],
         "summary": "Delete Payment Method",
         "description": "Remove existing payment method by id.",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -1439,9 +1586,15 @@
     "/api/orders": {
       "post": {
         "summary": "Create Order",
-        "tags": ["Order"],
+        "tags": [
+          "Order"
+        ],
         "description": "Add new order on the database",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1520,9 +1673,15 @@
       },
       "get": {
         "summary": "List Order",
-        "tags": ["Order"],
+        "tags": [
+          "Order"
+        ],
         "description": "Retrieve list of user orders.",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -1568,10 +1727,16 @@
     },
     "/api/orders/{id}": {
       "get": {
-        "tags": ["Order"],
+        "tags": [
+          "Order"
+        ],
         "summary": "Get An Order",
         "description": "Retrieve the order details",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -1613,10 +1778,16 @@
         }
       },
       "delete": {
-        "tags": ["Order"],
+        "tags": [
+          "Order"
+        ],
         "summary": "Delete Order",
         "description": "Remove existing order by id",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -1671,9 +1842,15 @@
     "/api/transactions": {
       "post": {
         "summary": "Create Transaction",
-        "tags": ["Transaction"],
+        "tags": [
+          "Transaction"
+        ],
         "description": "Add new transaction on the database",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1732,9 +1909,15 @@
       },
       "get": {
         "summary": "List Transaction",
-        "tags": ["Transaction"],
+        "tags": [
+          "Transaction"
+        ],
         "description": "Retrieve list of transactions.",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -1760,10 +1943,16 @@
     },
     "/api/transactions/{id}": {
       "get": {
-        "tags": ["Transaction"],
+        "tags": [
+          "Transaction"
+        ],
         "summary": "Get A Transaction",
         "description": "Retrieve the transaction details",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -1805,10 +1994,16 @@
         }
       },
       "delete": {
-        "tags": ["Transaction"],
+        "tags": [
+          "Transaction"
+        ],
         "summary": "Delete Transaction",
         "description": "Remove existing transaction by id",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -1883,9 +2078,15 @@
     "/api/destinations": {
       "post": {
         "summary": "Create Destination",
-        "tags": ["Destination"],
+        "tags": [
+          "Destination"
+        ],
         "description": "Add new destination on the database",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1944,7 +2145,9 @@
       },
       "get": {
         "summary": "List Destination",
-        "tags": ["Destination"],
+        "tags": [
+          "Destination"
+        ],
         "description": "Retrieve list of destination",
         "responses": {
           "200": {
@@ -1962,7 +2165,9 @@
     },
     "/api/destinations/{id}": {
       "get": {
-        "tags": ["Destination"],
+        "tags": [
+          "Destination"
+        ],
         "summary": "Get a Destination",
         "description": "Retrieve destination detail",
         "parameters": [
@@ -2006,10 +2211,16 @@
         }
       },
       "put": {
-        "tags": ["Destination"],
+        "tags": [
+          "Destination"
+        ],
         "summary": "Update Destination",
         "description": "Change destination information",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -2094,10 +2305,16 @@
         }
       },
       "delete": {
-        "tags": ["Destination"],
+        "tags": [
+          "Destination"
+        ],
         "summary": "Delete Destination",
         "description": "Remove existing destination by id.",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -2171,10 +2388,16 @@
     },
     "/api/auth/update-profile": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Get User Profile",
         "description": "Retrieve user profile information",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -2209,10 +2432,16 @@
         }
       },
       "put": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Update User Profile",
         "description": "Change user information",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2272,10 +2501,16 @@
     },
     "/api/histories": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Get User History Transaction",
         "description": "Retrieve user history transactions",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -2340,9 +2575,15 @@
     "/api/wishlist": {
       "post": {
         "summary": "Create wishlist",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "description": "Add user wishlist on the database",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2401,9 +2642,15 @@
       },
       "get": {
         "summary": "User Wishlist",
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "description": "Retrieve all user wishlist",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -2415,7 +2662,6 @@
               }
             }
           },
-
           "401": {
             "description": "Unauthorized.",
             "content": {
@@ -2441,10 +2687,16 @@
     },
     "/api/wishlist/{id}": {
       "delete": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Delete Wishlist",
         "description": "Remove existing wishlist by id.",
-        "security": [{ "bearerToken": [] }],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -2587,7 +2839,10 @@
             "items": {
               "type": "integer"
             },
-            "example": [1, 2]
+            "example": [
+              1,
+              2
+            ]
           },
           "trip": {
             "type": "string",
@@ -2669,7 +2924,7 @@
           },
           "transitDuration": {
             "type": "string",
-            "example": "1 Jam 2 Menit" 
+            "example": "1 Jam 2 Menit"
           },
           "ticketType": {
             "type": "string",

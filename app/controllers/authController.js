@@ -34,6 +34,8 @@ const login = async (req, res) => {
       res.status(200).json({
         message: 'Login berhasil.',
         token,
+        username: user.username,
+        avatar: user.avatar,
       });
     }
   } catch (error) {
