@@ -31,6 +31,6 @@
     "no-console": "error",
     "no-unused-labels": "error",
     "no-unused-vars": "error",
-    "semi": ["error", "never"]
+    "semi": ["error", "always"]
   }
 }
