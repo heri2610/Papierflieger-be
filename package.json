@@ -10,7 +10,13 @@
     "start": "node index.js",
     "test": "jest --setupFiles dotenv/config --coverage --forceExit",
     "lint": "eslint .",
-    "lint-fix": "eslint . --fix"
+    "lint-fix": "eslint . --fix",
+    "db:create": "sequelize db:create",
+    "db:migrate": "sequelize db:migrate",
+    "db:migrate:undo": "sequelize db:migrate:undo:all",
+    "db:seed": "sequelize db:seed:all",
+    "db:drop": "sequelize db:drop",
+    "db:rollback": "sequelize db:migrate:undo"
   },
   "author": "tim3",
   "license": "ISC",
