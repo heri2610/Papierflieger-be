@@ -9,7 +9,7 @@ dotenv.config();
 jest.useRealTimers();
 describe('API Login', () => {
   it('success login', async () => {
-    jest.setTimeout(10 * 1000);
+    jest.setTimeout(10 * 5000);
     const user = {
       email: 'suhaeriheri45@gmail.com',
       password: 'tim3hore',
@@ -19,7 +19,7 @@ describe('API Login', () => {
   },10000);
 
   it('failed login: password salah.', async () => {
-    jest.setTimeout(10 * 1000);
+    jest.setTimeout(10 * 5000);
     const failedUser = {
       email: 'suhaeriheri45@gmail.com',
       password: '1234656',
@@ -28,10 +28,10 @@ describe('API Login', () => {
       .post('/api/auth/login')
       .send(failedUser);
     expect(response.statusCode).toBe(400);
-  }, 10000);
+  }, 50000);
 
   it('failed login: email tidak terdaftar.', async () => {
-    jest.setTimeout(10 * 1000);
+    jest.setTimeout(10 * 5000);
     const failedUser = {
       email: 'suhaeriheri45555@gmail.com',
       password: 'tim3hore',
@@ -40,10 +40,10 @@ describe('API Login', () => {
       .post('/api/auth/login')
       .send(failedUser);
     expect(response.statusCode).toBe(400);
-  },10000);
+  },50000);
 
   it('get user who is logged in', async () => {
-    jest.setTimeout(10 * 1000);
+    jest.setTimeout(10 * 5000);
     const user = {
       email: 'suhaeriheri45@gmail.com',
       password: 'tim3hore',
@@ -54,12 +54,12 @@ describe('API Login', () => {
       .get('/api/auth/profile')
       .set('Authorization', token);
     expect(response.statusCode).toBe(200);
-  },10000);
+  },50000);
 });
 
 describe('API register', () => {
   it('registration success', async () => {
-    jest.setTimeout(10 * 1000);
+    jest.setTimeout(10 * 5000);
     const newUser = {
       username: 'jane',
       fullName: 'Jane Angel',
@@ -69,10 +69,10 @@ describe('API register', () => {
     const response = await request(app).post('/api/auth/register').send(newUser);
     expect(response.statusCode).toBe(200);
     await Users.destroy({ where: { email: newUser.email } });
-  }, 10000);
+  }, 50000);
 
   it('minimum password length is 8', async () => {
-    jest.setTimeout(10 * 1000);
+    jest.setTimeout(10 * 5000);
     const newUser = {
       username: 'jane',
       fullName: 'Jane Angel',
@@ -81,7 +81,7 @@ describe('API register', () => {
     };
     const response = await request(app).post('/api/auth/register').send(newUser);
     expect(response.statusCode).toBe(400);
-  }, 10000);
+  }, 50000);
 
   it('register email has already taken', async () => {
     const user = {
