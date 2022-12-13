@@ -43,7 +43,7 @@ jobs:
         if: always()
         with:
           severity: info
-          details: Ada Pull Request di Repo BE Tim c14
+          details: Ada Pull Request di Repo BE Tim c15
           webhookUrl: ${{ secrets.discord_webhook_url }}
       - name: Send status to Discord
         uses: nebularg/actions-discord-webhook@v1
