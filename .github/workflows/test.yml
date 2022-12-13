@@ -38,6 +38,13 @@ jobs:
       - name: Test code
         id: run-tests
         run: npm run test
+      - name: Notify Pull Request Made
+        uses: rjstone/discord-webhook-notify@v1
+        if: always()
+        with:
+          severity: info
+          details: Ada Pull Request di Repo BE Tim c15
+          webhookUrl: ${{ secrets.discord_webhook_url }}
       - name: Send status to Discord
         uses: nebularg/actions-discord-webhook@v1
         with:
