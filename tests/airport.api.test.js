@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const app = require('../index');
 
 dotenv.config();
-
+jest.useRealTimers();
 describe('API get all airport', () => {
   it('success get all data airport', async () => {
     const response = await request(app).get('/api/airports');

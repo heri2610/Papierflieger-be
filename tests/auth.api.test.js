@@ -6,7 +6,7 @@ const emailValidation = require('../utils/emailValidation');
 const { Users } = require('../app/models');
 
 dotenv.config();
-
+jest.useRealTimers();
 describe('API Login', () => {
   it('success login', async () => {
     const user = {
@@ -70,7 +70,7 @@ describe('API register', () => {
     const newUser = {
       username: 'jane',
       fullName: 'Jane Angel',
-      email: 'mbakstay@gmail.com',
+      email: 'mbakstay123@gmail.com',
       password: '12345',
     };
     const response = await request(app).post('/api/auth/register').send(newUser);
