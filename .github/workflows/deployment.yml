@@ -19,9 +19,6 @@ jobs:
       #   run: npm run start
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
-        with:
-          name: dist-files
-          path: dist
   deploy:
     needs: build
     runs-on: ubuntu-latest
