@@ -28,7 +28,7 @@ describe('API register', () => {
     const newUser = {
       username: 'jane',
       fullName: 'Jane Angel',
-      email: 'mbakstay123@gmail.com',
+      email: 'mbakstay@gmail.com',
       password: '12345',
     };
     const response = await request(app)
