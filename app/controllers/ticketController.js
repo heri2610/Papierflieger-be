@@ -36,7 +36,7 @@ const searchTicket = async (req, res) => {
   try {
     const tiketBerangkat = await Ticket.findAll(
       {
-        where: { departureDate, },
+        where: { departureDate, flightFrom, flightTo, },
       },
       {
         include: [
@@ -46,12 +46,10 @@ const searchTicket = async (req, res) => {
           {
             model: Airport,
             as: 'from',
-            where: { id: flightFrom, },
           },
           {
             model: Airport,
             as: 'to',
-            where: { id: flightTo, },
           },
           {
             model: Airport,
@@ -68,7 +66,11 @@ const searchTicket = async (req, res) => {
     }
     const tiketPulang = await Ticket.findAll(
       {
-        where: { departureDate: returnDate, },
+        where: {
+          departureDate: returnDate,
+          flightFrom: flightTo,
+          flightTo: flightFrom,
+        },
       },
       {
         include: [
@@ -78,12 +80,10 @@ const searchTicket = async (req, res) => {
           {
             model: Airport,
             as: 'from',
-            where: { id: flightTo, },
           },
           {
             model: Airport,
             as: 'to',
-            where: { id: flightFrom, },
           },
           {
             model: Airport,

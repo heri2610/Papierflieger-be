@@ -4,7 +4,7 @@ const app = require('../index');
 
 dotenv.config();
 // const baseUrl = "localhost:3000"
-
+jest.useRealTimers();
 describe('API get all ticket', () => {
   it('success get all data ticket', async () => {
     const response = await request(app).get('/api/tickets');

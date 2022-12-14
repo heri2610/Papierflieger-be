@@ -3,14 +3,14 @@ const dotenv = require('dotenv');
 const app = require('../index');
 
 dotenv.config();
-// const baseUrl = "localhost:3000"
-
+jest.useRealTimers();
 describe('API get all airport', () => {
   it('success get all data airport', async () => {
     const response = await request(app).get('/api/airports');
     expect(response.statusCode).toBe(200);
   });
 });
+
 describe('API create airport', () => {
   const token = 'bsajkhbsjakbsajkbswjgsduwedsbejbdejbjsdj';
   it('Unauthorized', async () => {
@@ -25,13 +25,29 @@ describe('API create airport', () => {
       .send(airport);
     expect(response.statusCode).toBe(401);
   });
+
+  it('success add airport data', async () => {
+    const token = 'jwt token of user with role admin';
+    const airport = {
+      airportName: "soekarno hatta",
+      city: "tangerang banten",
+      cityCode: "BTN1",
+    };
+    const response = await request(app)
+      .post('/api/airports')
+      .set("Authorization", token)
+      .send(airport);
+    expect(response.statusCode).toBe(401);
+  });
 });
+
 describe('API get airport By ID', () => {
   it('success get data airport', async () => {
     const response = await request(app).get('/api/airports/20');
     expect(response.statusCode).toBe(200);
   });
 });
+
 describe('API delete airport by ID', () => {
   it('Unauthorized', async () => {
     const token =
@@ -42,6 +58,7 @@ describe('API delete airport by ID', () => {
     expect(response.statusCode).toBe(401);
   });
 });
+
 describe('API update airport by ID', () => {
   it('Unauthorized', async () => {
     const airport = {
