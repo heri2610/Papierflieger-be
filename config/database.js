@@ -15,7 +15,7 @@ const db = {
   test: {
     username: DB_USER,
     password: DB_PASSWORD,
-    database: DB_NAME,
+    database: `${DB_NAME}_test`,
     host: DB_HOST,
     dialect: 'postgres',
   },
