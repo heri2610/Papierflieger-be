@@ -9,10 +9,10 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      # - name: Load & cache depedencies
-      #   uses: ./.github/actions/cached-deps
-      - name: Install dependencies
-        run: npm install
+      - name: Load & cache depedencies
+        uses: ./.github/cached-deps
+      # - name: Install dependencies
+      #   run: npm install
       # - name: Build website
       #   run: npm run build
       # - name: run website
