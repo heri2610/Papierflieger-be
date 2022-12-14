@@ -3,35 +3,72 @@ const request = require('supertest');
 const dotenv = require('dotenv');
 const app = require('../index');
 const emailValidation = require('../utils/emailValidation');
-const { Users } = require('../app/models');
 
 dotenv.config();
 jest.useRealTimers();
-describe('API Login', () => {
-  it('success login', async () => {
-    jest.setTimeout(10 * 5000);
-    const user = {
-      email: 'suhaeriheri45@gmail.com',
-      password: 'tim3hore',
-    };
-    const response = await request(app).post('/api/auth/login').send(user);
-    expect(response.statusCode).toBe(200);
-  },10000);
+let tokenEmail;
+beforeAll((done) => {
+   const newUser = {
+     username: 'jane',
+     fullName: 'Jane Angel',
+     email: 'mbakstay@gmail.com',
+     password: '12345678',
+   };
+  request(app)
+    .post('/api/auth/register')
+    .send(newUser)
+    .end((err, response) => {
+      tokenEmail = response.body.tokenVerifikasi; 
+      done();
+    });
+});
+describe('API register', () => {
 
+  it('minimum password length is 8', async () => {
+    const newUser = {
+      username: 'jane',
+      fullName: 'Jane Angel',
+      email: 'mbakstay123@gmail.com',
+      password: '12345',
+    };
+    const response = await request(app)
+      .post('/api/auth/register')
+      .send(newUser);
+    expect(response.statusCode).toBe(400);
+  });
+
+  it('register email has already taken', async () => {
+    const user = {
+      username: 'jane',
+      fullName: 'Jane Angel',
+      email: 'mbakstay@gmail.com',
+      password: '12345678',
+    };
+    const response = await request(app).post('/api/auth/register').send(user);
+    expect(response.statusCode).toBe(400);
+  });
+});
+describe('API veriFy email', () => {
+  it('verifikasi success', async () => {
+    const response = await request(app).get(
+      `/api/auth/send-email?token=${tokenEmail}`
+    );
+    expect(response.statusCode).toBe(200);
+  });
+});
+describe('API Login', () => {
   it('failed login: password salah.', async () => {
-    jest.setTimeout(10 * 5000);
     const failedUser = {
-      email: 'suhaeriheri45@gmail.com',
+      email: 'mbakstay@gmail.com',
       password: '1234656',
     };
     const response = await request(app)
       .post('/api/auth/login')
       .send(failedUser);
     expect(response.statusCode).toBe(400);
-  }, 50000);
+  });
 
   it('failed login: email tidak terdaftar.', async () => {
-    jest.setTimeout(10 * 5000);
     const failedUser = {
       email: 'suhaeriheri45555@gmail.com',
       password: 'tim3hore',
@@ -40,72 +77,28 @@ describe('API Login', () => {
       .post('/api/auth/login')
       .send(failedUser);
     expect(response.statusCode).toBe(400);
-  },50000);
-
-  it('get user who is logged in', async () => {
-    jest.setTimeout(10 * 5000);
-    const user = {
-      email: 'suhaeriheri45@gmail.com',
-      password: 'tim3hore',
-    };
-    const login = await request(app).post('/api/auth/login').send(user);
-    const token = login.body.token;
-    const response = await request(app)
-      .get('/api/auth/profile')
-      .set('Authorization', token);
-    expect(response.statusCode).toBe(200);
-  },50000);
-});
-
-describe('API register', () => {
-  it('registration success', async () => {
-    jest.setTimeout(10 * 5000);
-    const newUser = {
-      username: 'jane',
-      fullName: 'Jane Angel',
-      email: 'mbakstay@gmail.com',
-      password: '12345678',
-    };
-    const response = await request(app).post('/api/auth/register').send(newUser);
-    expect(response.statusCode).toBe(200);
-    await Users.destroy({ where: { email: newUser.email } });
-  }, 50000);
-
-  it('minimum password length is 8', async () => {
-    jest.setTimeout(10 * 5000);
-    const newUser = {
-      username: 'jane',
-      fullName: 'Jane Angel',
-      email: 'mbakstay123@gmail.com',
-      password: '12345',
-    };
-    const response = await request(app).post('/api/auth/register').send(newUser);
-    expect(response.statusCode).toBe(400);
-  }, 50000);
-
-  it('register email has already taken', async () => {
-    const user = {
-      username: 'suhaeri',
-      fullName: 'stringingg',
-      email: 'suhaeriheri45@gmail.com',
-      password: '123456777',
-    };
-    const response = await request(app).post('/api/auth/register').send(user);
-    expect(response.statusCode).toBe(400);
   });
-});
 
+  // it('get user who is logged in', async () => {
+  //   const user = {
+  //     email: 'suhaeriheri45@gmail.com',
+  //     password: 'tim3hore',
+  //   };
+  //   const login = await request(app).post('/api/auth/login').send(user);
+  //   const token = login.token;
+  //   const response = await request(app)
+  //     .get('/api/auth/profile')
+  //     .set('Authorization', token);
+  //   expect(response.statusCode).toBe(200);
+  // });
+});
 describe('API update profile', () => {
+      var auth = {};
+      beforeAll(loginUser(auth));
   it('profil berhasil diubah', async () => {
-    const user = {
-      email: 'suhaeriheri45@gmail.com',
-      password: 'tim3hore',
-    };
-    const login = await request(app).post('/api/auth/login').send(user);
-    const token = login.body.token;
     const response = await request(app)
       .put('/api/auth/update-profile')
-      .set('Authorization', token)
+      .set('Authorization', auth.token)
       .send({ fullName: 'stringingg' });
     expect(response.statusCode).toBe(200);
   });
@@ -130,3 +123,21 @@ describe('Validate format of email', () => {
     expect(isEmailValid).toBe(false);
   });
 });
+
+function loginUser(auth) {
+  return function (done) {
+    request(app)
+      .post('/api/auth/login')
+      .send({
+        email: 'mbakstay@gmail.com',
+        password: '12345678',
+      })
+      .expect(200)
+      .end(onResponse);
+
+    function onResponse(err, res) {
+      auth.token = res.body.token;
+      return done();
+    }
+  };
+}

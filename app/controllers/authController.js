@@ -95,7 +95,7 @@ const register = async (req, res) => {
     // email verify
     const date = Date.now() + 1000 * 60 * 60 * 24;
     const token = `${tokenVerify}${Date.now()}`;
-    await Verify.create({
+    const TokenVerify = await Verify.create({
       userId: newUser.id,
       tokenVerify: token,
       expiredAt: date,
@@ -112,6 +112,7 @@ const register = async (req, res) => {
       message:
         'Registrasi berhasil. Silakan cek email dan verifikasi akun untuk melanjutkan.',
       newUser,
+      tokenVerifikasi: TokenVerify.tokenVerify,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
