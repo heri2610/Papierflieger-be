@@ -1,47 +1,47 @@
-name: Deployment
-on:
-  push:
-    branches:
-      - main
+---
+###########################
+###########################
+## Deploy GitHub Actions ##
+###########################
+###########################
+name: NodeJS AWS SAM Deploy
+
+#
+# Documentation:
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions
+#
+
+#############################
+# Start the job on all push #
+#############################
+on: ['push']
+
+###############
+# Set the Job #
+###############
 jobs:
   build:
+    # Name the Job
+    name: NodeJS AWS SAM Deploy
+    # Set the agent to run on
     runs-on: ubuntu-latest
+
+    ##################
+    # Load all steps #
+    ##################
     steps:
-      - name: Get code
-        uses: actions/checkout@v3
-      - name: Load & cache depedencies
-        uses: ./.github/cached-deps
-      # - name: Install dependencies
-      #   run: npm install
-      # - name: Build website
-      #   run: npm run build
-      # - name: run website
-      #   run: npm run start
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get code
-        uses: actions/checkout@v3
-      # - name: Get build artifacts
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: dist-files
-      #     path: ./dist
-      - name: Output contents
-        run: ls
-      - name: Deploy site
-        id: deploy
-        uses: ./.github/deploy-s3-javascript
+      ##########################
+      # Checkout the code base #
+      ##########################
+      - name: Checkout Code
+        uses: actions/checkout@master
+
+      #############################
+      # Run NodeJS AWS SAM Deploy #
+      #############################
+      - name: NodeJS AWS SAM Deploy
+        uses: docker://admiralawkbar/aws-nodejs:latest
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-        with:
-          bucket: papierflieger
-          dist-folder: ./dist
-          # bucket-region: us-east-2
-      - name: Output Information
-        run: |
-          echo "Live URL: ${{ steps.deploy.outputs.website-url }}"
+           AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
+           AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+           
