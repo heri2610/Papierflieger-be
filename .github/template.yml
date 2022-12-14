@@ -77,7 +77,7 @@ Resources:
               Action:
                 - "lambda:InvokeFunction"
               Resource: !Ref myDateTimeFunction.Version
-      Runtime: nodejs18.x
+      Runtime: nodejs16.x
       # Specifies the name of the Lambda hook function
       FunctionName: "CodeDeployHook_afterAllowTraffic"
       DeploymentPreference:
