@@ -15,8 +15,8 @@ jobs:
         run: npm install
       # - name: Build website
       #   run: npm run build
-      - name: run website
-        run: npm run start
+      # - name: run website
+      #   run: npm run start
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
