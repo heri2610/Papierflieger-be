@@ -10,7 +10,7 @@
       "description": "local"
     },
     {
-      "url": "https://web-production-e882.up.railway.app/",
+      "url": "https://papierflieger-api.up.railway.app/",
       "description": "production"
     }
   ],
