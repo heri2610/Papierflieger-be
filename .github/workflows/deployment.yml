@@ -34,7 +34,7 @@ jobs:
       # Checkout the code base #
       ##########################
       - name: Checkout Code
-        uses: actions/checkout@master
+        uses: actions/checkout@main
 
       #############################
       # Run NodeJS AWS SAM Deploy #
