@@ -1,4 +1,4 @@
-const { Router } = require('express');
+const { Router, } = require('express');
 const swaggerUI = require('swagger-ui-express');
 const swaggerDocument = require('../../docs/swagger.json');
 const Auth = require('./auth');

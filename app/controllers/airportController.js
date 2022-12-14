@@ -1,4 +1,4 @@
-const { Airport } = require('../models');
+const { Airport, } = require('../models');
 
 const getAirport = async (req, res) => {
   try {
@@ -16,8 +16,8 @@ const getAirport = async (req, res) => {
 
 const getAirplaneById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const airport = await Airport.findOne({ where: { id } });
+    const { id, } = req.params;
+    const airport = await Airport.findOne({ where: { id, }, });
     res.status(200).json({
       airport,
     });
@@ -44,8 +44,8 @@ const addAirport = async (req, res) => {
 
 const updateAirport = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Airport.update(req.body, { where: { id } });
+    const { id, } = req.params;
+    await Airport.update(req.body, { where: { id, }, });
     res.status(200).json({
       message: 'data bandara berhasil diubah',
     });
@@ -58,8 +58,8 @@ const updateAirport = async (req, res) => {
 
 const deleteAirport = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Airport.destroy({ where: { id } });
+    const { id, } = req.params;
+    await Airport.destroy({ where: { id, }, });
     res.status(200).json({
       message: 'data bandara berhasil dihapus',
     });

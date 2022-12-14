@@ -1,4 +1,4 @@
-const { Wishlist } = require('../models');
+const { Wishlist, } = require('../models');
 
 const getWishlist = async (req, res) => {
   try {
@@ -18,7 +18,7 @@ const addWishlist = async (req, res) => {
   try {
     const userId = req.user;
     const destinationId = req.body;
-    const newWishlish = await Wishlist.create({ userId, destinationId });
+    const newWishlish = await Wishlist.create({ userId, destinationId, });
     res.status(200).json({
       message: 'data berhasil ditambahkan',
       newWishlish,
@@ -32,8 +32,8 @@ const addWishlist = async (req, res) => {
 
 const deleteWishlist = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Wishlist.destroy({ where: { id } });
+    const { id, } = req.params;
+    await Wishlist.destroy({ where: { id, }, });
     res.status(200).json({
       message: 'data berhasil dihapus',
     });

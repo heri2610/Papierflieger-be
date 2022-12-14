@@ -1,7 +1,7 @@
-const { History, Transaction } = require('../models');
+const { History, Transaction, } = require('../models');
 
 const getHistory = async (req, res) => {
-  const { id } = req.user.id;
+  const { id, } = req.user.id;
   try {
     const orderList = await History.findAll(
       {
@@ -12,7 +12,7 @@ const getHistory = async (req, res) => {
         ],
       },
       {
-        where: { id },
+        where: { id, },
       }
     );
     res.status(200).json({
