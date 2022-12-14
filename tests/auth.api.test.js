@@ -23,7 +23,18 @@ beforeAll((done) => {
     });
 });
 describe('API register', () => {
-
+  it('minimum password length is 8', async () => {
+    const newUser = {
+      username: 'jane',
+      fullName: 'Jane Angel',
+      email: 'suhaeri2610@gmail.com',
+      password: '12345789',
+    };
+    const response = await request(app)
+      .post('/api/auth/register')
+      .send(newUser);
+    expect(response.statusCode).toBe(400);
+  });
   it('minimum password length is 8', async () => {
     const newUser = {
       username: 'jane',
@@ -57,6 +68,17 @@ describe('API veriFy email', () => {
   });
 });
 describe('API Login', () => {
+   it('failed login: email belum terverifikasi.', async () => {
+     const failedUser = {
+       email: 'suhaeri2610@gmail.com',
+       password: '12345789',
+     };
+     const response = await request(app)
+       .post('/api/auth/login')
+       .send(failedUser);
+     expect(response.statusCode).toBe(400);
+   });
+
   it('failed login: password salah.', async () => {
     const failedUser = {
       email: 'mbakstay@gmail.com',
@@ -67,7 +89,6 @@ describe('API Login', () => {
       .send(failedUser);
     expect(response.statusCode).toBe(400);
   });
-
   it('failed login: email tidak terdaftar.', async () => {
     const failedUser = {
       email: 'suhaeriheri45555@gmail.com',
@@ -123,7 +144,6 @@ describe('Validate format of email', () => {
     expect(isEmailValid).toBe(false);
   });
 });
-
 function loginUser(auth) {
   return function (done) {
     request(app)
