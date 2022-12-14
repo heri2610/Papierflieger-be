@@ -8,7 +8,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: myDateTimeFunction.handler
-      Runtime: nodejs16.x
+      Runtime: nodejs14.x
       # Instructs your myDateTimeFunction is published to an alias named "live".
       AutoPublishAlias: live
       # Grants this function permission to call lambda:InvokeFunction
@@ -47,7 +47,7 @@ Resources:
               Action:
                 - "lambda:InvokeFunction"
               Resource: !Ref myDateTimeFunction.Version
-      Runtime: nodejs16.x
+      Runtime: nodejs14.x
       # Specifies the name of the Lambda hook function
       FunctionName: "CodeDeployHook_beforeAllowTraffic"
       DeploymentPreference:
@@ -77,7 +77,7 @@ Resources:
               Action:
                 - "lambda:InvokeFunction"
               Resource: !Ref myDateTimeFunction.Version
-      Runtime: nodejs16.x
+      Runtime: nodejs14.x
       # Specifies the name of the Lambda hook function
       FunctionName: "CodeDeployHook_afterAllowTraffic"
       DeploymentPreference:
