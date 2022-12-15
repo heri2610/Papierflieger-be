@@ -17,6 +17,9 @@ module.exports = {
         },
         onDelete: 'CASCADE',
       },
+      tokenTransaction: {
+        type: Sequelize.TEXT,
+      },
       paymentId: {
         type: Sequelize.INTEGER,
         references: {

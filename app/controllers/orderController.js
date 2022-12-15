@@ -1,3 +1,4 @@
+const { v4: uuidv4, } = require('uuid');
 const { Order, Ticket, } = require('../models');
 const { addTransaction, } = require('./transactionController');
 
@@ -31,6 +32,7 @@ const getOrderById = async (req, res) => {
 };
 
 const addOrder = async (req, res) => {
+  const tokenTransaksi = `${uuidv4()}${Date.now()}${Math.random()}`;
   const userId = req.user.id;
   const reqBodies = req.body;
   const orderId = [];
@@ -63,11 +65,16 @@ const addOrder = async (req, res) => {
     } else {
       totalPrice = totalPriceOneOrder[0] * reqBodies.length;
     }
-    const transaksi = addTransaction(userId, orderId, totalPrice, trip);
+    const transaksi = addTransaction(
+      userId,
+      orderId,
+      totalPrice,
+      trip,
+      tokenTransaksi
+    );
     res.status(200).json({
       message: 'data berhasil ditambahkan',
-      totalPrice: transaksi.totalPrice,
-      transaksiId: transaksi.id,
+      tokenTransaction: transaksi.tokenTransaction,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
