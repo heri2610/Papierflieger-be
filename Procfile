@@ -1,2 +1,2 @@
 web: npm start
-release: migrate
+release: npm run migrate
