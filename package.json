@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node -r dotenv/config bin/www",
     "dev": "nodemon -r dotenv/config bin/www",
-    "migrate": "sequelize db:migrate ",
+    "migrate": "sequelize db:migrate:undo --name 20221128175654-create-history.js && sequelize db:migrate:undo --name 20221128174339-create-transaction.js && sequelize db:migrate",
     "seed": "sequelize db:seed:all",
     "test": "jest --setupFiles dotenv/config --coverage --forceExit --detectOpenHandles --maxWorkers=1",
     "lint": "eslint .",

@@ -1,7 +1,8 @@
 const { Transaction, Order, Ticket, } = require('../models');
 const { addHistory, } = require('./historyController');
+const { addPayment, } = require('./paymentController');
 
-const getTransactionById = async (req, res) => {
+const getTransactionByUser = async (req, res) => {
   try {
     const { id, } = req.params;
     const transaksi = await Transaction.findOne(
@@ -26,15 +27,43 @@ const getTransactionById = async (req, res) => {
     });
   }
 };
-
-const addTransaction = async (userId, orderId, totalPrice, trip) => {
+const getTransactionByToken = async (req, res) => {
+  const Bank = [
+    { bankName: 'Mandiri', accountNumber: 2504253627, },
+    { bankName: 'BRI', accountNumber: 1508384772, },
+    { bankName: 'BTN', accountNumber: 134565672, },
+    { bankName: 'BCA', accountNumber: 13487643, },
+  ];
+  const {tokenTransaksi,} = req.params;
   try {
-    const newTransaksi = await Transaction.create(
+    const transaksi = await Transaction.findOne({
+      where: { tokenTransaksi, },
+    });
+    res.status(200).json({
+      transaksi: transaksi.totalPrice,
+      Bank,
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      message: error.message,
+    });
+  }
+};
+const addTransaction = async (
+  userId,
+  orderId,
+  totalPrice,
+  trip,
+  tokenTransaction
+) => {
+  try {
+    const newTransaksi = await Transaction.create({
       userId,
       orderId,
       totalPrice,
-      trip
-    );
+      trip,
+      tokenTransaction,
+    });
     addHistory(userId, newTransaksi.id);
     return newTransaksi;
   } catch (error) {
@@ -43,9 +72,19 @@ const addTransaction = async (userId, orderId, totalPrice, trip) => {
 };
 
 const updateTransaction = async (req, res) => {
-  try {
-    const { id, } = req.params;
-    await Transaction.update(req.body, { where: { id, }, });
+  try { 
+    const { tokenTransaction, } = req.params;
+    const { bankName, accountName, accountNumber, } = req.body;
+    const payman = addPayment(bankName, accountName, accountNumber);
+    await Transaction.update({
+      status:true, 
+      paymentId:payman.id,
+    }, 
+    { where: 
+      { 
+        tokenTransaction, 
+      }, 
+    });
     res.status(200).json({
       message: 'data berhasil diubah',
     });
@@ -71,7 +110,8 @@ const deleteTransaction = async (req, res) => {
 };
 
 module.exports = {
-  getTransactionById,
+  getTransactionByUser,
+  getTransactionByToken,
   addTransaction,
   updateTransaction,
   deleteTransaction,

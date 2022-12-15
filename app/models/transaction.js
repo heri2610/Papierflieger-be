@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   Transaction.init(
     {
       userId: DataTypes.INTEGER,
+      tokenTransaction:DataTypes.TEXT,
       paymentId: DataTypes.INTEGER,
       trip: DataTypes.STRING,
       orderId: DataTypes.ARRAY(DataTypes.INTEGER),

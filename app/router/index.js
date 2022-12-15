@@ -7,6 +7,7 @@ const airplane = require('./airplane');
 const airport = require('./airport');
 const destination = require('./destination');
 const payment = require('./payment');
+const { getAboutUs, } = require('../controllers/aboutUsController');
 
 const router = Router();
 
@@ -18,6 +19,7 @@ router.get('/', (req, res) => {
     message: 'API is running',
   });
 });
+router.get('/api/about-us', getAboutUs);
 
 router.use('/api', Auth);
 router.use('/api', ticket);

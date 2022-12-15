@@ -4,7 +4,7 @@ const getPayment = async (req, res) => {
   try {
     const payments = await Payment.findAll();
     res.status(200).json({
-      message: 'data metode pembayaran',
+      message: 'metode pembayaran',
       payments,
     });
   } catch (error) {
@@ -27,18 +27,17 @@ const getPaymentById = async (req, res) => {
     });
   }
 };
-
-const addPayment = async (req, res) => {
+ 
+const addPayment = async (bankName, accountName, accountNumber) => {
   try {
-    const newPayment = await Payment.create(req.body);
-    res.status(200).json({
-      message: 'Berhasil menambahkan metode pembayaran.',
-      newPayment,
+    const newPayment = await Payment.create({
+      bankName,
+      accountName,
+      accountNumber,
     });
+    return newPayment;
   } catch (error) {
-    res.status(error.statusCode || 500).json({
-      message: error.message,
-    });
+    return false;
   }
 };
 
