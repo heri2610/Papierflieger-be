@@ -29,7 +29,7 @@ describe('API create airplane', () => {
 describe('API get airplane By ID', () => {
   it('success get data airplane', async () => {
     const response = await request(app).get('/api/airplanes/20');
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(404);
   });
 });
 describe('API delete airplane by ID', () => {

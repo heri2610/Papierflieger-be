@@ -1,4 +1,5 @@
 const { Airport, } = require('../models');
+const ApiError = require('../../utils/ApiError');
 
 const getAirport = async (req, res) => {
   try {
@@ -18,6 +19,7 @@ const getAirplaneById = async (req, res) => {
   try {
     const { id, } = req.params;
     const airport = await Airport.findOne({ where: { id, }, });
+    if (!airport) throw new ApiError(404, 'airport not found');
     res.status(200).json({
       airport,
     });
@@ -45,6 +47,8 @@ const addAirport = async (req, res) => {
 const updateAirport = async (req, res) => {
   try {
     const { id, } = req.params;
+    const airport = await Airport.findOne({ where: { id, }, });
+    if (!airport) throw new ApiError(404, 'airport not found');
     await Airport.update(req.body, { where: { id, }, });
     res.status(200).json({
       message: 'data bandara berhasil diubah',
@@ -59,6 +63,8 @@ const updateAirport = async (req, res) => {
 const deleteAirport = async (req, res) => {
   try {
     const { id, } = req.params;
+    const airport = await Airport.findOne({ where: { id, }, });
+    if (!airport) throw new ApiError(404, 'airport not found');
     await Airport.destroy({ where: { id, }, });
     res.status(200).json({
       message: 'data bandara berhasil dihapus',

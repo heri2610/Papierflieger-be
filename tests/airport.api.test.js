@@ -44,7 +44,7 @@ describe('API create airport', () => {
 describe('API get airport By ID', () => {
   it('success get data airport', async () => {
     const response = await request(app).get('/api/airports/20');
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(404);
   });
 });
 

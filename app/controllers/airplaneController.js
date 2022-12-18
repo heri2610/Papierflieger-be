@@ -1,4 +1,5 @@
 const { Airplane, } = require('../models');
+const ApiError = require('../../utils/ApiError');
 
 const getAirplane = async (req, res) => {
   try {
@@ -18,6 +19,7 @@ const getAirplaneById = async (req, res) => {
   try {
     const { id, } = req.params;
     const flight = await Airplane.findOne({ where: { id, }, });
+    if (!flight) throw new ApiError(404, 'airplane not found');
     res.status(200).json({
       message: 'data pesawat berdasarkan id',
       flight,
@@ -46,6 +48,8 @@ const addAirplane = async (req, res) => {
 const updateAirplane = async (req, res) => {
   try {
     const { id, } = req.params;
+    const flight = await Airplane.findOne({ where: { id, }, });
+    if (!flight) throw new ApiError(404, 'airplane not found');
     await Airplane.update(req.body, { where: { id, }, });
     res.status(200).json({
       message: 'data pesawat berhasil diubah',
@@ -60,6 +64,8 @@ const updateAirplane = async (req, res) => {
 const deleteAirplane = async (req, res) => {
   try {
     const { id, } = req.params;
+    const flight = await Airplane.findOne({ where: { id, }, });
+    if (!flight) throw new ApiError(404, 'airplane not found');
     await Airplane.destroy({ where: { id, }, });
     res.status(200).json({
       message: 'data pesawat berhasil dihapus',
