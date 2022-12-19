@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable consistent-return */
 const { Ticket, Airport, Airplane, } = require('../models');
 
 const getTicket = async (req, res) => {
@@ -139,7 +141,54 @@ const getTicketById = async (req, res) => {
     });
   }
 };
-
+const addTickets = async(req, res)=>{
+  const tikets = req.body;
+  try {
+    tikets.map((tiket)=>{
+      if (
+        !tiket.ticketNumber || 
+        !tiket.departureDate || 
+        !tiket.departureTime  || 
+        !tiket.arrivalDate ||
+        !tiket.arrivalTime  || 
+        !tiket.flightFrom || 
+        !tiket.flightTo || 
+        !tiket.airplaneId || 
+        !tiket.price || 
+        !tiket.totalTransit || 
+        !tiket.transitPoint || 
+        !tiket.transitDuration || 
+        !tiket.ticketType || 
+        !tiket.flightDuration || 
+        !tiket.arrivalTimeAtTransit  || 
+        !tiket.departureTimeFromTransit){
+        return res.status(200).json({
+          message: 'inputan tdak boleh kosong',
+        });
+      }
+    });
+    if (tikets.length === 1) {
+      const newTicket = await Ticket.create(tikets[0]);
+      return res.status(200).json({
+        message: 'tiket berhasil ditambahkan',
+        newTicket,
+      });
+    }
+    if (tikets.length === 2) {
+      const newTicket1 = await Ticket.create(tikets[0]);
+      const newTicket2 = await Ticket.create(tikets[1]);
+      return res.status(200).json({
+        message: 'tiket berhasil ditambahkan',
+        newTicket1,
+        newTicket2,
+      });
+    }
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      message: error.message,
+    });
+  }
+};
 const addTicket = async (req, res) => {
   try {
     const newTicket = await Ticket.create(req.body);
@@ -189,4 +238,5 @@ module.exports = {
   addTicket,
   updateTicket,
   deleteTicket,
+  addTickets,
 };
