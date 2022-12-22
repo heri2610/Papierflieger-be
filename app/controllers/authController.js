@@ -156,6 +156,24 @@ const verified = async (req, res) => {
 const updateProfile = async (req, res) => {
   const { id, } = req.user;
   const { file, } = req;
+  const {
+    title,
+    fullName,
+    username,
+    email,
+    password,
+    phone,
+    birthdate,
+    nationality,
+    country,
+    province,
+    regency,
+  } = req.body;
+  const user = await Users.findOne({ where: { email, }, });
+  if (user.email !== email) throw new ApiError(400, 'Email tidak boleh Diganti.');
+  if (password) throw new ApiError(400, 'Password tidak boleh Diganti.');
+  if (!fullName) throw new ApiError(400, 'Nama tidak boleh kosong.');
+  if (!username) throw new ApiError(400, 'Username tidak boleh kosong.');
 
   if (file) {
     const validFormat =
@@ -191,7 +209,18 @@ const updateProfile = async (req, res) => {
   }
 
   if (req.body) {
-    await Users.update(req.body, {
+    await Users.update({
+      title,
+      fullName,
+      username,
+      phone,
+      birthdate,
+      nationality,
+      country,
+      province,
+      regency,
+    },
+    {
       where: {
         id,
       },
