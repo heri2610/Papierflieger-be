@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 const { Ticket, Airport, Airplane, } = require('../models');
@@ -89,8 +90,7 @@ const searchTicket = async (req, res) => {
         const bandara1 = await Airport.findOne({ where: { id: flightFrom, }, });
         const bandara2 = await Airport.findOne({ where: { id: flightTo, }, });
         return res.status(200).json({
-          message: `mohon maaf, perjalanan dari ${bandara1.airportName} 
-                    ke ${bandara2.airportName} tidak tersedia`,
+          message: `mohon maaf, perjalanan dari ${bandara1.airportName} ${bandara2.airportName} tidak tersedia`,
         });
       }
       const newTiketBerangkat = createTiketNew(tiketBerangkat2, departureDate);
@@ -101,7 +101,6 @@ const searchTicket = async (req, res) => {
     }
     if (!returnDate) {
       return res.status(200).json({
-        message: 'tiket hasil pencarian',
         tiketBerangkat,
       });
     }
@@ -145,8 +144,8 @@ const searchTicket = async (req, res) => {
           where: { id: flightTo, },
         });
         return res.status(200).json({
-          message: `mohon maaf, perjalanan dari ${bandara1.airportName} 
-              ke ${bandara2.airportName} tidak tersedia`,
+          message: `mohon maaf, perjalanan pulang dari ${bandara2.airportName} ke ${bandara1.airportName} tidak tersedia`,
+          tiketBerangkat,
         });
       }
       const newTiketPulang = createTiketNew(tiketPulang2, departureDate);
@@ -177,12 +176,6 @@ const searchTicket = async (req, res) => {
         message: 'tiket hasil pencarian',
         newTiketBerangkat,
         newTiketPulang,
-      });
-    }
-    if (!returnDate) {
-      return res.status(200).json({
-        message: 'tiket hasil pencarian',
-        tiketBerangkat,
       });
     }
     res.status(200).json({
