@@ -81,12 +81,12 @@ const searchTicket = async (req, res) => {
         ],
       }
     );
-    if (!tiketBerangkat && !returnDate) {
+    if (tiketBerangkat.length === 0 && !returnDate) {
       const tiketBerangkat2 = await Ticket.findAll({
         where: { flightFrom, flightTo, },
       });
-      if(!tiketBerangkat2){
-        const bandara1 = await Airport.findOne({where:{id:flightFrom, },}) ;
+      if (tiketBerangkat2.length === 0) {
+        const bandara1 = await Airport.findOne({ where: { id: flightFrom, }, });
         const bandara2 = await Airport.findOne({ where: { id: flightTo, }, });
         return res.status(200).json({
           message: `mohon maaf, perjalanan dari ${bandara1.airportName} 
@@ -133,11 +133,11 @@ const searchTicket = async (req, res) => {
         ],
       }
     );
-    if (!tiketPulang){
+    if (tiketPulang.length === 0) {
       const tiketPulang2 = await Ticket.findAll({
         where: { flightFrom: flightTo, flightTo: flightFrom, },
       });
-      if (!tiketPulang2) {
+      if (tiketPulang2.length === 0) {
         const bandara1 = await Airport.findOne({
           where: { id: flightFrom, },
         });
@@ -156,7 +156,7 @@ const searchTicket = async (req, res) => {
         newTiketPulang,
       });
     }
-    if (!tiketBerangkat && !tiketPulang) {
+    if (tiketBerangkat.length === 0 && tiketPulang.length === 0) {
       const tiketBerangkat2 = await Ticket.findAll({
         where: { flightFrom, flightTo, },
       });
