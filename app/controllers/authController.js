@@ -169,65 +169,69 @@ const updateProfile = async (req, res) => {
     province,
     regency,
   } = req.body;
-  const user = await Users.findOne({ where: { email, }, });
-  if (user.email !== email) throw new ApiError(400, 'Email tidak boleh Diganti.');
-  if (password) throw new ApiError(400, 'Password tidak boleh Diganti.');
-  if (!fullName) throw new ApiError(400, 'Nama tidak boleh kosong.');
-  if (!username) throw new ApiError(400, 'Username tidak boleh kosong.');
+  try {
+    const user = await Users.findOne({ where: { email, }, });
+    if (user.email !== email) throw new ApiError(400, 'Email tidak boleh Diganti.');
+    if (password) throw new ApiError(400, 'Password tidak boleh Diganti.');
+    if (!fullName) throw new ApiError(400, 'Nama tidak boleh kosong.');
+    if (!username) throw new ApiError(400, 'Username tidak boleh kosong.');
 
-  if (file) {
-    const validFormat =
-      file.mimetype === 'image/png' ||
-      file.mimetype === 'image/jpg' ||
-      file.mimetype === 'image/jpeg' ||
-      file.mimetype === 'image/gif';
-    if (!validFormat) {
-      res.status(400).json({
-        status: 'failed',
-        message: 'Wrong Image Format',
+    if (file) {
+      const validFormat =
+        file.mimetype === 'image/png' ||
+        file.mimetype === 'image/jpg' ||
+        file.mimetype === 'image/jpeg' ||
+        file.mimetype === 'image/gif';
+      if (!validFormat) {
+        res.status(400).json({
+          status: 'failed',
+          message: 'Wrong Image Format',
+        });
+      }
+      const split = file.originalname.split('.');
+      const ext = split[split.length - 1];
+
+      // upload file ke imagekit
+      const img = await imageKit.upload({
+        file: file.buffer,
+        fileName: `IMG-${Date.now()}.${ext}`,
       });
+
+      await Users.update(
+        {
+          avatar: img.url,
+        },
+        {
+          where: {
+            id,
+          },
+        }
+      );
     }
-    const split = file.originalname.split('.');
-    const ext = split[split.length - 1];
-
-    // upload file ke imagekit
-    const img = await imageKit.upload({
-      file: file.buffer,
-      fileName: `IMG-${Date.now()}.${ext}`,
-    });
-
-    await Users.update(
-      {
-        avatar: img.url,
+    if (req.body) {
+      await Users.update({
+        title,
+        fullName,
+        username,
+        phone,
+        birthdate,
+        nationality,
+        country,
+        province,
+        regency,
       },
       {
         where: {
           id,
         },
-      }
-    );
-  }
-
-  if (req.body) {
-    await Users.update({
-      title,
-      fullName,
-      username,
-      phone,
-      birthdate,
-      nationality,
-      country,
-      province,
-      regency,
-    },
-    {
-      where: {
-        id,
-      },
-    });
-
-    return res.status(200).json({
+      });
+    }
+    res.status(200).json({
       message: 'Update profil berhasil.',
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      message: error.message,
     });
   }
 };

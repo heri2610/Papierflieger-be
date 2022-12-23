@@ -32,6 +32,27 @@ const getTicket = async (req, res) => {
     });
   }
 };
+const createTiketNew = async (tiketBerangkat, departureDate) => {
+  const newTiket = await Ticket.create({
+    ticketNumber: tiketBerangkat.ticketNumber,
+    departureDate,
+    departureTime: tiketBerangkat.departureTime,
+    arrivalDate: tiketBerangkat.arrivalDate,
+    arrivalTime: tiketBerangkat.arrivalTime,
+    flightFrom: tiketBerangkat.flightFrom,
+    flightTo: tiketBerangkat.flightTo,
+    airplaneId: tiketBerangkat.airplaneId,
+    price: tiketBerangkat.price,
+    totalTransit: tiketBerangkat.totalTransit,
+    transitPoint: tiketBerangkat.transitPoint,
+    transitDuration: tiketBerangkat.transitDuration,
+    ticketType: tiketBerangkat.ticketType,
+    flightDuration: tiketBerangkat.flightDuration,
+    arrivalTimeAtTransit: tiketBerangkat.arrivalTimeAtTransit,
+    departureTimeFromTransit: tiketBerangkat.departureTimeFromTransit,
+  });
+  return newTiket;
+};
 // eslint-disable-next-line consistent-return
 const searchTicket = async (req, res) => {
   const { flightFrom, flightTo, departureDate, returnDate, } = req.query;
@@ -60,6 +81,24 @@ const searchTicket = async (req, res) => {
         ],
       }
     );
+    if (!tiketBerangkat && !returnDate) {
+      const tiketBerangkat2 = await Ticket.findAll({
+        where: { flightFrom, flightTo, },
+      });
+      if(!tiketBerangkat2){
+        const bandara1 = await Airport.findOne({where:{id:flightFrom, },}) ;
+        const bandara2 = await Airport.findOne({ where: { id: flightTo, }, });
+        return res.status(200).json({
+          message: `mohon maaf, perjalanan dari ${bandara1.airportName} 
+                    ke ${bandara2.airportName} tidak tersedia`,
+        });
+      }
+      const newTiketBerangkat = createTiketNew(tiketBerangkat2, departureDate);
+      return res.status(200).json({
+        message: 'tiket hasil pencarian',
+        newTiketBerangkat,
+      });
+    }
     if (!returnDate) {
       return res.status(200).json({
         message: 'tiket hasil pencarian',
@@ -94,6 +133,58 @@ const searchTicket = async (req, res) => {
         ],
       }
     );
+    if (!tiketPulang){
+      const tiketPulang2 = await Ticket.findAll({
+        where: { flightFrom: flightTo, flightTo: flightFrom, },
+      });
+      if (!tiketPulang2) {
+        const bandara1 = await Airport.findOne({
+          where: { id: flightFrom, },
+        });
+        const bandara2 = await Airport.findOne({
+          where: { id: flightTo, },
+        });
+        return res.status(200).json({
+          message: `mohon maaf, perjalanan dari ${bandara1.airportName} 
+              ke ${bandara2.airportName} tidak tersedia`,
+        });
+      }
+      const newTiketPulang = createTiketNew(tiketPulang2, departureDate);
+      return res.status(200).json({
+        message: 'tiket hasil pencarian',
+        tiketBerangkat,
+        newTiketPulang,
+      });
+    }
+    if (!tiketBerangkat && !tiketPulang) {
+      const tiketBerangkat2 = await Ticket.findAll({
+        where: { flightFrom, flightTo, },
+      });
+      const tiketPulang2 = await Ticket.findAll({
+        where: { flightFrom: flightTo, flightTo: flightFrom, },
+      });
+      if (!tiketBerangkat2) {
+        const bandara1 = await Airport.findOne({ where: { id: flightFrom, }, });
+        const bandara2 = await Airport.findOne({ where: { id: flightTo, }, });
+        return res.status(200).json({
+          message: `mohon maaf, perjalanan dari ${bandara1.airportName} 
+                    ke ${bandara2.airportName} tidak tersedia`,
+        });
+      }
+      const newTiketBerangkat = createTiketNew(tiketBerangkat2, departureDate);
+      const newTiketPulang = createTiketNew(tiketPulang2, departureDate);
+      return res.status(200).json({
+        message: 'tiket hasil pencarian',
+        newTiketBerangkat,
+        newTiketPulang,
+      });
+    }
+    if (!returnDate) {
+      return res.status(200).json({
+        message: 'tiket hasil pencarian',
+        tiketBerangkat,
+      });
+    }
     res.status(200).json({
       message: 'tiket hasil pencarian',
       tiketBerangkat,
@@ -142,7 +233,7 @@ const getTicketById = async (req, res) => {
   }
 };
 const addTickets = async(req, res)=>{
-  const tikets = req.body;
+  const {tikets,} = req.body;
   try {
     tikets.map((tiket)=>{
       if (

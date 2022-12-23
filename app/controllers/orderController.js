@@ -34,23 +34,23 @@ const getOrderById = async (req, res) => {
 const addOrder = async (req, res) => {
   const tokenTransaksi = `${uuidv4()}${Date.now()}${Math.random()}`;
   const userId = req.user.id;
-  const reqBodies = req.body;
+  const { passengers, } = req.body;
   const orderId = [];
   let trip;
   const ticketId = [];
   const totalPriceOneOrder = [];
   try {
-    if (reqBodies[0].ticketId.length === 2) {
+    if (passengers[0].ticketId.length === 2) {
       trip = 'round-trip';
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < 2; i++) {
-        ticketId.push(reqBodies[0].ticketId[i]);
+        ticketId.push(passengers[0].ticketId[i]);
       }
     } else {
       trip = 'one-way';
-      ticketId.push(reqBodies[0].ticketId[0]);
+      ticketId.push(passengers[0].ticketId[0]);
     }
-    reqBodies.forEach(async (reqBody) => {
+    passengers.forEach(async (reqBody) => {
       const order = await Order.create(reqBody);
       orderId.push(order.id);
     });
@@ -61,9 +61,9 @@ const addOrder = async (req, res) => {
     let totalPrice;
     if (ticketId.length === 2) {
       totalPrice =
-        (totalPriceOneOrder[0] + totalPriceOneOrder[1]) * reqBodies.length;
+        (totalPriceOneOrder[0] + totalPriceOneOrder[1]) * passengers.length;
     } else {
-      totalPrice = totalPriceOneOrder[0] * reqBodies.length;
+      totalPrice = totalPriceOneOrder[0] * passengers.length;
     }
     const transaksi = addTransaction(
       userId,
