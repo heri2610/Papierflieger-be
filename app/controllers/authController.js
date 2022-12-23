@@ -170,8 +170,8 @@ const updateProfile = async (req, res) => {
     regency,
   } = req.body;
   try {
-    const user = await Users.findOne({ where: { email, }, });
-    if (user.email !== email) throw new ApiError(400, 'Email tidak boleh Diganti.');
+    // const user = await Users.findOne({ where: { id, }, });
+    if (email) throw new ApiError(400, 'Email tidak boleh Diganti.');
     if (password) throw new ApiError(400, 'Password tidak boleh Diganti.');
     if (!fullName) throw new ApiError(400, 'Nama tidak boleh kosong.');
     if (!username) throw new ApiError(400, 'Username tidak boleh kosong.');
