@@ -90,7 +90,7 @@ const searchTicket = async (req, res) => {
         const bandara1 = await Airport.findOne({ where: { id: flightFrom, }, });
         const bandara2 = await Airport.findOne({ where: { id: flightTo, }, });
         return res.status(200).json({
-          message: `mohon maaf, perjalanan dari ${bandara1.airportName} ${bandara2.airportName} tidak tersedia`,
+          message: `mohon maaf, perjalanan dari ${bandara1.city} ${bandara2.city} tidak tersedia`,
         });
       }
       const newTiketBerangkat = createTiketNew(tiketBerangkat2, departureDate);
@@ -144,7 +144,7 @@ const searchTicket = async (req, res) => {
           where: { id: flightTo, },
         });
         return res.status(200).json({
-          message: `mohon maaf, perjalanan pulang dari ${bandara2.airportName} ke ${bandara1.airportName} tidak tersedia`,
+          message: `mohon maaf, perjalanan pulang dari ${bandara2.city} ke ${bandara1.city} tidak tersedia`,
           tiketBerangkat,
         });
       }
@@ -166,8 +166,7 @@ const searchTicket = async (req, res) => {
         const bandara1 = await Airport.findOne({ where: { id: flightFrom, }, });
         const bandara2 = await Airport.findOne({ where: { id: flightTo, }, });
         return res.status(200).json({
-          message: `mohon maaf, perjalanan dari ${bandara1.airportName} 
-                    ke ${bandara2.airportName} tidak tersedia`,
+          message: `mohon maaf, perjalanan dari ${bandara1.city} ke ${bandara2.city} tidak tersedia`,
         });
       }
       const newTiketBerangkat = createTiketNew(tiketBerangkat2, departureDate);
