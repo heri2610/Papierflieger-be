@@ -19,7 +19,10 @@ const getDestination = async (req, res) => {
 const getDestinationById = async (req, res) => {
   try {
     const { id, } = req.params;
-    const destination = await Destination.findOne({ where: { id, }, });
+    const destination = await Destination.findOne({
+      where: { id, },
+      include: [{ model: Airport, },],
+    });
     res.status(200).json({
       destination,
     });
