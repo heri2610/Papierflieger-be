@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable max-len */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
@@ -33,7 +34,10 @@ const getTicket = async (req, res) => {
     });
   }
 };
-const createTiketNew = async (tiketBerangkat, departureDate) => {
+const createTiketNew = async (tiketBerangkats, departureDate) => {
+  // eslint-disable-next-line no-console
+  console.log(tiketBerangkats);
+  const tiketBerangkat = tiketBerangkats[0];
   const newTiket = await Ticket.create({
     ticketNumber: tiketBerangkat.ticketNumber,
     departureDate,
@@ -56,7 +60,9 @@ const createTiketNew = async (tiketBerangkat, departureDate) => {
 };
 // eslint-disable-next-line consistent-return
 const searchTicket = async (req, res) => {
-  const { flightFrom, flightTo, departureDate, returnDate, } = req.query;
+  const { departureDate, returnDate, } = req.query;
+  const flightFrom = parseInt(req.query.flightFrom);
+  const flightTo = parseInt(req.query.flightTo);
   try {
     const tiketBerangkat = await Ticket.findAll(
       {
@@ -82,10 +88,13 @@ const searchTicket = async (req, res) => {
         ],
       }
     );
+    // eslint-disable-next-line no-console
+    console.log('nyampe sisni ngga');
     if (tiketBerangkat.length === 0 && !returnDate) {
       const tiketBerangkat2 = await Ticket.findAll({
         where: { flightFrom, flightTo, },
       });
+
       if (tiketBerangkat2.length === 0) {
         const bandara1 = await Airport.findOne({ where: { id: flightFrom, }, });
         const bandara2 = await Airport.findOne({ where: { id: flightTo, }, });
@@ -93,7 +102,7 @@ const searchTicket = async (req, res) => {
           message: `mohon maaf, perjalanan dari ${bandara1.city} ke ${bandara2.city} tidak tersedia`,
         });
       }
-      const newTiketBerangkat = createTiketNew(tiketBerangkat2, departureDate);
+      const newTiketBerangkat = await createTiketNew(tiketBerangkat2, departureDate);
       return res.status(200).json({
         message: 'tiket hasil pencarian',
         newTiketBerangkat,
@@ -148,7 +157,7 @@ const searchTicket = async (req, res) => {
           tiketBerangkat,
         });
       }
-      const newTiketPulang = createTiketNew(tiketPulang2, departureDate);
+      const newTiketPulang = await createTiketNew(tiketPulang2, departureDate);
       return res.status(200).json({
         message: 'tiket hasil pencarian',
         tiketBerangkat,
@@ -162,15 +171,15 @@ const searchTicket = async (req, res) => {
       const tiketPulang2 = await Ticket.findAll({
         where: { flightFrom: flightTo, flightTo: flightFrom, },
       });
-      if (!tiketBerangkat2) {
+      if (tiketBerangkat.length === 0) {
         const bandara1 = await Airport.findOne({ where: { id: flightFrom, }, });
         const bandara2 = await Airport.findOne({ where: { id: flightTo, }, });
         return res.status(200).json({
           message: `mohon maaf, perjalanan dari ${bandara1.city} ke ${bandara2.city} tidak tersedia`,
         });
       }
-      const newTiketBerangkat = createTiketNew(tiketBerangkat2, departureDate);
-      const newTiketPulang = createTiketNew(tiketPulang2, departureDate);
+      const newTiketBerangkat = await createTiketNew(tiketBerangkat2, departureDate);
+      const newTiketPulang = await createTiketNew(tiketPulang2, departureDate);
       return res.status(200).json({
         message: 'tiket hasil pencarian',
         newTiketBerangkat,
