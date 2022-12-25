@@ -2,6 +2,8 @@ const { Router, } = require('express');
 const swaggerUI = require('swagger-ui-express');
 const swaggerDocument = require('../../docs/swagger.json');
 const Auth = require('./auth');
+const Users = require('./users');
+const Notif = require('./notif');
 const ticket = require('./ticket');
 const airplane = require('./airplane');
 const airport = require('./airport');
@@ -22,10 +24,12 @@ router.get('/', (req, res) => {
 router.get('/api/about-us', getAboutUs);
 
 router.use('/api', Auth);
+router.use('/api', Users);
 router.use('/api', ticket);
 router.use('/api', airplane);
 router.use('/api', destination);
 router.use('/api', airport);
 router.use('/api', payment);
+router.use('/api', Notif);
 
 module.exports = router;

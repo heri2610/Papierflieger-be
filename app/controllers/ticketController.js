@@ -35,28 +35,50 @@ const getTicket = async (req, res) => {
   }
 };
 const createTiketNew = async (tiketBerangkats, departureDate) => {
-  // eslint-disable-next-line no-console
-  console.log(tiketBerangkats);
-  const tiketBerangkat = tiketBerangkats[0];
+  const tikets = tiketBerangkats[0];
   const newTiket = await Ticket.create({
-    ticketNumber: tiketBerangkat.ticketNumber,
+    ticketNumber: tikets.ticketNumber,
     departureDate,
-    departureTime: tiketBerangkat.departureTime,
-    arrivalDate: tiketBerangkat.arrivalDate,
-    arrivalTime: tiketBerangkat.arrivalTime,
-    flightFrom: tiketBerangkat.flightFrom,
-    flightTo: tiketBerangkat.flightTo,
-    airplaneId: tiketBerangkat.airplaneId,
-    price: tiketBerangkat.price,
-    totalTransit: tiketBerangkat.totalTransit,
-    transitPoint: tiketBerangkat.transitPoint,
-    transitDuration: tiketBerangkat.transitDuration,
-    ticketType: tiketBerangkat.ticketType,
-    flightDuration: tiketBerangkat.flightDuration,
-    arrivalTimeAtTransit: tiketBerangkat.arrivalTimeAtTransit,
-    departureTimeFromTransit: tiketBerangkat.departureTimeFromTransit,
+    departureTime: tikets.departureTime,
+    arrivalDate: tikets.arrivalDate,
+    arrivalTime: tikets.arrivalTime,
+    flightFrom: tikets.flightFrom,
+    flightTo: tikets.flightTo,
+    airplaneId: tikets.airplaneId,
+    price: tikets.price,
+    totalTransit: tikets.totalTransit,
+    transitPoint: tikets.transitPoint,
+    transitDuration: tikets.transitDuration,
+    ticketType: tikets.ticketType,
+    flightDuration: tikets.flightDuration,
+    arrivalTimeAtTransit: tikets.arrivalTimeAtTransit,
+    departureTimeFromTransit: tikets.departureTimeFromTransit,
   });
-  return newTiket;
+  const tiketBerangkat = await Ticket.findAll(
+    {
+      where: { id:newTiket.id,},
+    },
+    {
+      include: [
+        {
+          model: Airplane,
+        },
+        {
+          model: Airport,
+          as: 'from',
+        },
+        {
+          model: Airport,
+          as: 'to',
+        },
+        {
+          model: Airport,
+          as: 'transit',
+        },
+      ],
+    }
+  );
+  return tiketBerangkat;
 };
 // eslint-disable-next-line consistent-return
 const searchTicket = async (req, res) => {
@@ -88,8 +110,6 @@ const searchTicket = async (req, res) => {
         ],
       }
     );
-    // eslint-disable-next-line no-console
-    console.log('nyampe sisni ngga');
     if (tiketBerangkat.length === 0 && !returnDate) {
       const tiketBerangkat2 = await Ticket.findAll({
         where: { flightFrom, flightTo, },

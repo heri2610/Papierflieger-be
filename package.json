@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "db:create": "sequelize db:create",
-    "db:migrate": "sequelize db:migrate",
+    "db:migrate": "sequelize db:migrate --name 20221225122410-create-notification.js",
     "db:migrate:undo": "sequelize db:migrate:undo:all",
     "db:seed": "sequelize db:seed:all",
     "db:drop": "sequelize db:drop"
