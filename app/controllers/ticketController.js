@@ -220,30 +220,26 @@ const searchTicket = async (req, res) => {
 const getTicketById = async (req, res) => {
   try {
     const { id, } = req.params;
-    const ticket = await Ticket.findOne(
-      {
-        where: { id, },
-      },
-      {
-        include: [
-          {
-            model: Airplane,
-          },
-          {
-            model: Airport,
-            as: 'from',
-          },
-          {
-            model: Airport,
-            as: 'to',
-          },
-          {
-            model: Airport,
-            as: 'transit',
-          },
-        ],
-      }
-    );
+    const ticket = await Ticket.findOne({
+      where: { id, },
+      include: [
+        {
+          model: Airplane,
+        },
+        {
+          model: Airport,
+          as: 'from',
+        },
+        {
+          model: Airport,
+          as: 'to',
+        },
+        {
+          model: Airport,
+          as: 'transit',
+        },
+      ],
+    });
     res.status(200).json({
       ticket,
     });
@@ -253,27 +249,27 @@ const getTicketById = async (req, res) => {
     });
   }
 };
-const addTickets = async(req, res)=>{
-  const {tikets,} = req.body;
+const addTickets = async (req, res) => {
+  const { tikets, } = req.body;
   try {
-    tikets.map((tiket)=>{
+    tikets.map((tiket) => {
       if (
-        !tiket.ticketNumber || 
-        !tiket.departureDate || 
-        !tiket.departureTime  || 
+        !tiket.ticketNumber ||
+        !tiket.departureDate ||
+        !tiket.departureTime ||
         !tiket.arrivalDate ||
-        !tiket.arrivalTime  || 
-        !tiket.flightFrom || 
-        !tiket.flightTo || 
-        !tiket.airplaneId || 
-        !tiket.price || 
-        !tiket.totalTransit || 
-        !tiket.transitPoint || 
-        !tiket.transitDuration || 
-        !tiket.ticketType || 
-        !tiket.flightDuration || 
-        !tiket.arrivalTimeAtTransit  || 
-        !tiket.departureTimeFromTransit){
+        !tiket.arrivalTime ||
+        !tiket.flightFrom ||
+        !tiket.flightTo ||
+        !tiket.airplaneId ||
+        !tiket.price ||
+        !tiket.totalTransit ||
+        !tiket.transitPoint ||
+        !tiket.transitDuration ||
+        !tiket.ticketType ||
+        !tiket.flightDuration ||
+        !tiket.arrivalTimeAtTransit ||
+        !tiket.departureTimeFromTransit) {
         return res.status(200).json({
           message: 'inputan tdak boleh kosong',
         });
