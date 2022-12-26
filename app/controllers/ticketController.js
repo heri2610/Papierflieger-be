@@ -2,6 +2,7 @@
 /* eslint-disable max-len */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
+
 const { Ticket, Airport, Airplane, } = require('../models');
 
 const getTicket = async (req, res) => {
@@ -56,9 +57,7 @@ const createTiketNew = async (tiketBerangkats, departureDate) => {
   });
   const tiketBerangkat = await Ticket.findAll(
     {
-      where: { id:newTiket.id,},
-    },
-    {
+      where: { id: newTiket.id, },
       include: [
         {
           model: Airplane,
@@ -66,10 +65,12 @@ const createTiketNew = async (tiketBerangkats, departureDate) => {
         {
           model: Airport,
           as: 'from',
+          where: { id: newTiket.flightFrom, },
         },
         {
           model: Airport,
           as: 'to',
+          where: { id: newTiket.flightTo, },
         },
         {
           model: Airport,
@@ -89,9 +90,7 @@ const searchTicket = async (req, res) => {
   try {
     const tiketBerangkat = await Ticket.findAll(
       {
-        where: { departureDate, flightFrom, flightTo, },
-      },
-      {
+        where: {departureDate, },
         include: [
           {
             model: Airplane,
@@ -99,10 +98,12 @@ const searchTicket = async (req, res) => {
           {
             model: Airport,
             as: 'from',
+            where: { id: flightFrom, },
           },
           {
             model: Airport,
             as: 'to',
+            where: { id: flightTo, },
           },
           {
             model: Airport,
@@ -110,12 +111,14 @@ const searchTicket = async (req, res) => {
           },
         ],
       }
+
     );
+    // eslint-disable-next-line no-console
+    console.log(tiketBerangkat);
     if (tiketBerangkat.length === 0 && !returnDate) {
       const tiketBerangkat2 = await Ticket.findAll({
         where: { flightFrom, flightTo, },
       });
-
       if (tiketBerangkat2.length === 0) {
         const bandara1 = await Airport.findOne({ where: { id: flightFrom, }, });
         const bandara2 = await Airport.findOne({ where: { id: flightTo, }, });
@@ -141,8 +144,6 @@ const searchTicket = async (req, res) => {
           flightFrom: flightTo,
           flightTo: flightFrom,
         },
-      },
-      {
         include: [
           {
             model: Airplane,
