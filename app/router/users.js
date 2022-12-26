@@ -6,6 +6,6 @@ const {
 } = require('../controllers/userController');
 
 router.get('/users', auth, isAdmin, getUser);
-router.put('/add-admin', auth, isAdmin,  addAdmin);
+router.put('/add-admin/:id', auth, isAdmin,  addAdmin);
 
 module.exports = router;
