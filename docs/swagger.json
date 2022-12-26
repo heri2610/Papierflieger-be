@@ -319,12 +319,8 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "data": {
+                    "dataTicket": {
                       "$ref": "#/components/schemas/ticketResponse"
-                    },
-                    "count": {
-                      "type": "integer",
-                      "example": 1
                     }
                   }
                 }
@@ -354,7 +350,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ticketResponse"
+                  "type": "object",
+                  "properties": {
+                    "ticket": {
+                      "$ref": "#/components/schemas/ticketResponse"
+                    }
+                  }
                 }
               }
             }
@@ -726,12 +727,12 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/airplaneResponse"
+                    "message": {
+                      "type": "string",
+                      "example": "data semua pesawat"
                     },
-                    "count": {
-                      "type": "integer",
-                      "example": 1
+                    "dataAirplane": {
+                      "$ref": "#/components/schemas/airplaneResponse"
                     }
                   }
                 }
@@ -1046,12 +1047,12 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/airportResponse"
+                    "message": {
+                      "type": "string",
+                      "example": "data semua bandara"
                     },
-                    "count": {
-                      "type": "integer",
-                      "example": 1
+                    "airports": {
+                      "$ref": "#/components/schemas/airportResponse"
                     }
                   }
                 }
@@ -1712,12 +1713,8 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "data": {
+                    "orderList": {
                       "$ref": "#/components/schemas/Orders"
-                    },
-                    "count": {
-                      "type": "integer",
-                      "example": 1
                     }
                   }
                 }
@@ -1948,12 +1945,8 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "data": {
+                    "transaksi": {
                       "$ref": "#/components/schemas/transactionResponse"
-                    },
-                    "count": {
-                      "type": "integer",
-                      "example": 1
                     }
                   }
                 }
@@ -2177,7 +2170,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Destinations"
+                  "type": "object",
+                  "properties": {
+                    "destinations": {
+                      "$ref": "#/components/schemas/Destinations"
+                    }
+                  }
                 }
               }
             }
