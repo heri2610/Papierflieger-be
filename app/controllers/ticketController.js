@@ -85,6 +85,7 @@ const searchTicket = async (req, res) => {
   const { departureDate, returnDate, } = req.query;
   const flightFrom = parseInt(req.query.flightFrom);
   const flightTo = parseInt(req.query.flightTo);
+  // const person = parseInt(req.query.person);
   try {
     const tiketBerangkat = await Ticket.findAll(
       {
@@ -125,7 +126,7 @@ const searchTicket = async (req, res) => {
       const newTiketBerangkat = await createTiketNew(tiketBerangkat2, departureDate);
       return res.status(200).json({
         message: 'tiket hasil pencarian',
-        newTiketBerangkat,
+        tiketBerangkat:newTiketBerangkat,
       });
     }
     if (!returnDate) {
@@ -181,7 +182,7 @@ const searchTicket = async (req, res) => {
       return res.status(200).json({
         message: 'tiket hasil pencarian',
         tiketBerangkat,
-        newTiketPulang,
+        tiketPulang:newTiketPulang,
       });
     }
     if (tiketBerangkat.length === 0 && tiketPulang.length === 0) {
@@ -202,8 +203,8 @@ const searchTicket = async (req, res) => {
       const newTiketPulang = await createTiketNew(tiketPulang2, departureDate);
       return res.status(200).json({
         message: 'tiket hasil pencarian',
-        newTiketBerangkat,
-        newTiketPulang,
+        tiketBerangkat:newTiketBerangkat,
+        tiketPulang: newTiketPulang,
       });
     }
     res.status(200).json({
