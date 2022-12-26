@@ -111,10 +111,7 @@ const searchTicket = async (req, res) => {
           },
         ],
       }
-
     );
-    // eslint-disable-next-line no-console
-    console.log(tiketBerangkat);
     if (tiketBerangkat.length === 0 && !returnDate) {
       const tiketBerangkat2 = await Ticket.findAll({
         where: { flightFrom, flightTo, },
