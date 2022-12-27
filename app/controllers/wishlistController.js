@@ -33,7 +33,7 @@ const addWishlist = async (req, res) => {
     });
     if (!destination) throw new ApiError(404, 'destinationId is not found');
 
-    const exist = await Wishlist.findAll({
+    const exist = await Wishlist.findOne({
       where: {
         [Op.and]: [{ userId, }, { destinationId, },],
       },
