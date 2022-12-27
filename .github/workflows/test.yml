@@ -37,9 +37,9 @@ jobs:
         run: npm run db:migrate
       # - name: Seed database        
       #   run: npm run db:seed
-      - name: Test code
-        id: run-tests
-        run: npm run test
+      # - name: Test code
+      #   id: run-tests
+      #   run: npm run test
       - name: Notify Pull Request Made
         uses: rjstone/discord-webhook-notify@v1
         if: always()
