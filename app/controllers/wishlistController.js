@@ -1,11 +1,20 @@
-const { Wishlist, } = require('../models');
+const { Op, } = require('sequelize');
+const ApiError = require('../../utils/ApiError');
+const { Wishlist, Destination, } = require('../models');
 
 const getWishlist = async (req, res) => {
+  const userId = req.user.id;
   try {
-    const dataAirplane = await Wishlist.findAll();
+    const wishlist = await Wishlist.findAll({
+      where: { userId, },
+      include: [
+        {
+          model: Destination,
+        },
+      ],
+    });
     res.status(200).json({
-      message: 'data pesawat',
-      dataAirplane,
+      wishlist,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
@@ -16,12 +25,18 @@ const getWishlist = async (req, res) => {
 
 const addWishlist = async (req, res) => {
   try {
-    const userId = req.user;
-    const destinationId = req.body;
-    const newWishlish = await Wishlist.create({ userId, destinationId, });
+    const userId = req.user.id;
+    const { destinationId, } = req.body;
+
+    const destination = await Destination.findOne({
+      where: { id: destinationId, },
+    });
+    if (!destination) throw new ApiError(404, 'destinationId is not found');
+
+    const newWishlist = await Wishlist.create({ userId, destinationId, });
     res.status(200).json({
-      message: 'data berhasil ditambahkan',
-      newWishlish,
+      message: 'Berhasil menambahkan destinasi ke dalam wishlist',
+      newWishlist,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
@@ -32,10 +47,21 @@ const addWishlist = async (req, res) => {
 
 const deleteWishlist = async (req, res) => {
   try {
-    const { id, } = req.params;
-    await Wishlist.destroy({ where: { id, }, });
+    const userId = req.user.id;
+    const { destinationId, } = req.params;
+
+    const destination = await Destination.findOne({
+      where: { id: destinationId, },
+    });
+    if (!destination) throw new ApiError(404, 'destinationId is not found');
+
+    await Wishlist.destroy({
+      where: {
+        [Op.and]: [{ userId, }, { destinationId, },],
+      },
+    });
     res.status(200).json({
-      message: 'data berhasil dihapus',
+      message: 'Berhasil menghapus destinasi dari wishlist',
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({

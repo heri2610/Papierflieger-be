@@ -2628,7 +2628,13 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Wishlists"
+                "type": "object",
+                "properties": {
+                  "destinationId": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
               }
             }
           }
@@ -2724,13 +2730,13 @@
         }
       }
     },
-    "/api/wishlist/{id}": {
+    "/api/wishlist/{destinationId}": {
       "delete": {
         "tags": [
           "User"
         ],
         "summary": "Delete Wishlist",
-        "description": "Remove existing wishlist by id.",
+        "description": "Remove existing logged in user wishlist by destination id.",
         "security": [
           {
             "bearerToken": []
@@ -2739,7 +2745,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "destinationId",
             "required": true
           }
         ],
@@ -2757,7 +2763,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Berhasil menghapus wishlist."
+                      "example": "Berhasil menghapus destinasi dari wishlist."
                     }
                   }
                 }
