@@ -31,10 +31,10 @@ jobs:
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         run: npm install
-      - name: Migration undo
-        run: npm run db:migrate:undo
-      - name: Migration database        
-        run: npm run db:migrate
+      # - name: Migration undo
+      #   run: npm run db:migrate:undo
+      # - name: Migration database        
+      #   run: npm run db:migrate
       # - name: Seed database        
       #   run: npm run db:seed
       # - name: Test code
