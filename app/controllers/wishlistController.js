@@ -33,6 +33,13 @@ const addWishlist = async (req, res) => {
     });
     if (!destination) throw new ApiError(404, 'destinationId is not found');
 
+    const exist = await Wishlist.findAll({
+      where: {
+        [Op.and]: [{ userId, }, { destinationId, },],
+      },
+    });
+    if (exist) throw new ApiError(400, 'Destinasi telah ada dalam wishlist');
+
     const newWishlist = await Wishlist.create({ userId, destinationId, });
     res.status(200).json({
       message: 'Berhasil menambahkan destinasi ke dalam wishlist',
