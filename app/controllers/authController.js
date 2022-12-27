@@ -188,7 +188,7 @@ const register = async (req, res) => {
                 <tr>
                   <td align="center" valign="top" style="padding: 36px 24px;">
                     <a href="https://papierflieger.netlify.app/" target="_blank" style="display: inline-block;">
-                      <img src="https://ik.imagekit.io/lscxjpnrv/logo_papierflieger.png" alt="Logo" border="0" width="48" style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
+                      <img src="https://ik.imagekit.io/lscxjpnrv/logo_papierflieger.png" alt="Papierflieger" border="0" width="48" style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
                     </a>
                   </td>
                 </tr>
@@ -233,7 +233,7 @@ const register = async (req, res) => {
                           <table border="0" cellpadding="0" cellspacing="0">
                             <tr>
                               <td align="center" bgcolor="#1a82e2" style="border-radius: 6px;">
-                                <a href="${process.env.VERIF_EMAIL}?token=${token}" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Verification Account</a>
+                                <a href="${process.env.URLSENDEMAIL}?token=${token}" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Verification Account</a>
                               </td>
                             </tr>
                           </table>
@@ -316,7 +316,7 @@ const verified = async (req, res) => {
     if (dateNow >= ExpiredDate) {
       throw new ApiError(400, 'Expired token');
     }
-    const userVerify = await Users.update(
+    await Users.update(
       { verified: true, },
       {
         where: {
@@ -324,10 +324,11 @@ const verified = async (req, res) => {
         },
       }
     );
-    res.status(200).json({
-      message: 'Akun Anda berhasil diverifikasi.',
-      userVerify: userVerify.verified,
-    });
+    // res.status(200).json({
+    //   message: 'Akun Anda berhasil diverifikasi.',
+    //   userVerify: userVerify.verified,
+    // });
+    res.status(200).redirect(`${process.env.VERIF_EMAIL}?message=Akun%20berhasil%20diverifikasi`);
   } catch (error) {
     res.status(error.statusCode || 500).json({
       message: error.message,
