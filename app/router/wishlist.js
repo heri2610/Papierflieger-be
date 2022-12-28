@@ -6,8 +6,8 @@ const {
   deleteWishlist,
 } = require('../controllers/wishlistController');
 
-router.get('/wishlist', getWishlist);
+router.get('/wishlist', auth, getWishlist);
 router.post('/wishlist', auth, addWishlist);
-router.delete('/wishlist/:id', auth, deleteWishlist);
+router.delete('/wishlist/:destinationId', auth, deleteWishlist);
 
 module.exports = router;

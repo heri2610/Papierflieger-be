@@ -10,6 +10,7 @@ const airport = require('./airport');
 const destination = require('./destination');
 const payment = require('./payment');
 const order = require('./order');
+const wishlist = require('./wishlist');
 const { getAboutUs, } = require('../controllers/aboutUsController');
 
 const router = Router();
@@ -33,5 +34,6 @@ router.use('/api', airport);
 router.use('/api', payment);
 router.use('/api', order);
 router.use('/api', Notif);
+router.use('/api', wishlist);
 
 module.exports = router;
