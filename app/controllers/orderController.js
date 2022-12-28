@@ -1,6 +1,6 @@
 const { v4: uuidv4, } = require('uuid');
-const { Order, Ticket, } = require('../models');
-const { addTransaction, } = require('./transactionController');
+const { Order, Ticket, Airport, Airplane, } = require('../models');
+const { addTransaction,} = require('./transactionController');
 
 const getOrder = async (req, res) => {
   try {
@@ -57,27 +57,83 @@ const addOrder = async (req, res) => {
     ticketId.forEach(async (id) => {
       const prices = await Ticket.findOne({ where: { id, }, });
       totalPriceOneOrder.push(prices.price);
-    });
+    });    
+    const tiketBerangkat = await Ticket.findAll(
+      {
+        where: {id:ticketId[0], },
+        include: [
+          {
+            model: Airplane,
+          },
+          {
+            model: Airport,
+            as: 'from',
+          },
+          {
+            model: Airport,
+            as: 'to',
+          },
+        ],
+      }
+    );
     setTimeout(async() => {
       let totalPrice;
+      let price;
       if (ticketId.length === 2) {
         totalPrice =
           (totalPriceOneOrder[0] + totalPriceOneOrder[1]) * passengers.length;
+        price = totalPriceOneOrder[0] + totalPriceOneOrder[1];
       } else {
         totalPrice = totalPriceOneOrder[0] * passengers.length;
+        // eslint-disable-next-line prefer-destructuring
+        price = totalPriceOneOrder[0];
       }
       const transaksi = await addTransaction(
         userId,
         orderId,
         totalPrice,
         trip,
-        tokenTransaksi
+        tokenTransaksi,
+        price
       );
-      res.status(200).json({
-        message: 'data berhasil ditambahkan',
-        tokenTransaction: transaksi.tokenTransaction,
-        totalPrice: transaksi.totalPrice,
-      });
+      if (ticketId.length === 2) {
+        const tiketPulang = await Ticket.findAll(
+          {
+            where: {id:ticketId[0], },
+            include: [
+              {
+                model: Airplane,
+              },
+              {
+                model: Airport,
+                as: 'from',
+              },
+              {
+                model: Airport,
+                as: 'to',
+              },
+            ],
+          }
+        );
+        res.status(200).json({
+          message: 'data berhasil ditambahkan',
+          tokenTransaction: transaksi.tokenTransaction,
+          totalPrice: transaksi.totalPrice,
+          tiketBerangkat,
+          tiketPulang,
+          price,
+          passengers:passengers.length,
+        });
+      } else {
+        res.status(200).json({
+          message: 'data berhasil ditambahkan',
+          tokenTransaction: transaksi.tokenTransaction,
+          totalPrice: transaksi.totalPrice,
+          tiketBerangkat,
+          price,
+          passengers:passengers.length,
+        });
+      }
     }, 400);
   } catch (error) {
     res.status(error.statusCode || 500).json({

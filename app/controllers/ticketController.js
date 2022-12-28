@@ -4,6 +4,7 @@
 /* eslint-disable consistent-return */
 
 const { Ticket, Airport, Airplane, } = require('../models');
+const ApiError = require('../../utils/ApiError');
 
 const getTicket = async (req, res) => {
   try {
@@ -119,9 +120,8 @@ const searchTicket = async (req, res) => {
       if (tiketBerangkat2.length === 0) {
         const bandara1 = await Airport.findOne({ where: { id: flightFrom, }, });
         const bandara2 = await Airport.findOne({ where: { id: flightTo, }, });
-        return res.status(200).json({
-          message: `mohon maaf, perjalanan dari ${bandara1.city} ke ${bandara2.city} tidak tersedia`,
-        });
+        throw new ApiError(400, `mohon maaf, perjalanan dari ${bandara1.city}
+           ke ${bandara2.city} tidak tersedia`);
       }
       const newTiketBerangkat = await createTiketNew(tiketBerangkat2, departureDate);
       return res.status(200).json({
@@ -160,6 +160,33 @@ const searchTicket = async (req, res) => {
         ],
       }
     );
+    if (tiketBerangkat.length === 0 && tiketPulang.length === 0) {
+      const tiketBerangkat2 = await Ticket.findAll({
+        where: { flightFrom, flightTo, },
+      });
+      const tiketPulang2 = await Ticket.findAll({
+        where: { flightFrom: flightTo, flightTo: flightFrom, },
+      });
+      if (tiketBerangkat2.length === 0) {
+        const bandara1 = await Airport.findOne({ where: { id: flightFrom, }, });
+        const bandara2 = await Airport.findOne({ where: { id: flightTo, }, });
+        throw new ApiError(400, `mohon maaf, perjalanan dari ${bandara1.city}
+           ke ${bandara2.city} tidak tersedia`);
+      }
+      if (tiketPulang2.length === 0) {
+        const bandara1 = await Airport.findOne({ where: { id: flightFrom, }, });
+        const bandara2 = await Airport.findOne({ where: { id: flightTo, }, });
+        throw new ApiError(400, `mohon maaf, perjalanan dari ${bandara1.city}
+           ke ${bandara2.city} tidak tersedia`);
+      }
+      const newTiketBerangkat = await createTiketNew(tiketBerangkat2, departureDate);
+      const newTiketPulang = await createTiketNew(tiketPulang2, departureDate);
+      return res.status(200).json({
+        message: 'tiket hasil pencarian',
+        tiketBerangkat:newTiketBerangkat,
+        tiketPulang: newTiketPulang,
+      });
+    }
     if (tiketPulang.length === 0) {
       const tiketPulang2 = await Ticket.findAll({
         where: { flightFrom: flightTo, flightTo: flightFrom, },
@@ -171,38 +198,14 @@ const searchTicket = async (req, res) => {
         const bandara2 = await Airport.findOne({
           where: { id: flightTo, },
         });
-        return res.status(200).json({
-          message: `mohon maaf, perjalanan pulang dari ${bandara2.city} ke ${bandara1.city} tidak tersedia`,
-          tiketBerangkat,
-        });
+        throw new ApiError(400, `mohon maaf, perjalanan dari ${bandara1.city}
+           ke ${bandara2.city} tidak tersedia`);
       }
       const newTiketPulang = await createTiketNew(tiketPulang2, departureDate);
       return res.status(200).json({
         message: 'tiket hasil pencarian',
         tiketBerangkat,
         tiketPulang:newTiketPulang,
-      });
-    }
-    if (tiketBerangkat.length === 0 && tiketPulang.length === 0) {
-      const tiketBerangkat2 = await Ticket.findAll({
-        where: { flightFrom, flightTo, },
-      });
-      const tiketPulang2 = await Ticket.findAll({
-        where: { flightFrom: flightTo, flightTo: flightFrom, },
-      });
-      if (tiketBerangkat.length === 0) {
-        const bandara1 = await Airport.findOne({ where: { id: flightFrom, }, });
-        const bandara2 = await Airport.findOne({ where: { id: flightTo, }, });
-        return res.status(200).json({
-          message: `mohon maaf, perjalanan dari ${bandara1.city} ke ${bandara2.city} tidak tersedia`,
-        });
-      }
-      const newTiketBerangkat = await createTiketNew(tiketBerangkat2, departureDate);
-      const newTiketPulang = await createTiketNew(tiketPulang2, departureDate);
-      return res.status(200).json({
-        message: 'tiket hasil pencarian',
-        tiketBerangkat:newTiketBerangkat,
-        tiketPulang: newTiketPulang,
       });
     }
     res.status(200).json({
