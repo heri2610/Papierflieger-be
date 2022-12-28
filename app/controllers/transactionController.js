@@ -74,8 +74,7 @@ const addTransaction = async (
 
 const updateTransaction = async (req, res) => {
   try { 
-    const { tokenTransaction, } = req.params;
-    const { bankName, accountName, accountNumber, } = req.body;
+    const { bankName, accountName, accountNumber, tokenTransaction,} = req.body;
     const payman = addPayment(bankName, accountName, accountNumber);
     await Transaction.update({
       status:true, 
