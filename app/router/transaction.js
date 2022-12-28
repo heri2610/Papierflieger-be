@@ -12,7 +12,7 @@ const {
 router.get('/transactions-token/:tokenTransaksi', auth, getTransactionByUser);
 router.get('/transactions/:id', auth, getTransactionByToken);
 router.post('/transactions', auth, addTransaction);
-router.put('/transactions/', auth, updateTransaction);
+router.put('/transactions', auth, updateTransaction);
 router.delete('/transactions/:id', auth, isAdmin, deleteTransaction);
 
 module.exports = router;

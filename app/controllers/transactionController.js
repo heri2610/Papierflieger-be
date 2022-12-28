@@ -86,7 +86,7 @@ const updateTransaction = async (req, res) => {
       }, 
     });
     res.status(200).json({
-      message: 'data berhasil diubah',
+      message: 'yey pembayaran berhasil dilakukan',
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
