@@ -1,6 +1,6 @@
 const { v4: uuidv4, } = require('uuid');
-const { Order, Ticket, } = require('../models');
-const { addTransaction, } = require('./transactionController');
+const { Order, Ticket, Airport, Airplane, } = require('../models');
+const { addTransaction,} = require('./transactionController');
 
 const getOrder = async (req, res) => {
   try {
@@ -32,14 +32,14 @@ const getOrderById = async (req, res) => {
 };
 
 const addOrder = async (req, res) => {
-  const tokenTransaksi = `${uuidv4()}${Date.now()}${Math.random()}`;
-  const userId = req.user.id;
-  const { passengers, } = req.body;
-  const orderId = [];
-  let trip;
-  const ticketId = [];
-  const totalPriceOneOrder = [];
   try {
+    const tokenTransaksi = `${uuidv4()}${Date.now()}${Math.random()}`;
+    const userId = req.user.id;
+    const { passengers, } = req.body;
+    const orderId = [];
+    let trip;
+    const ticketId = [];
+    const totalPriceOneOrder = [];
     if (passengers[0].ticketId.length === 2) {
       trip = 'round-trip';
       // eslint-disable-next-line no-plusplus
@@ -57,25 +57,84 @@ const addOrder = async (req, res) => {
     ticketId.forEach(async (id) => {
       const prices = await Ticket.findOne({ where: { id, }, });
       totalPriceOneOrder.push(prices.price);
-    });
-    let totalPrice;
-    if (ticketId.length === 2) {
-      totalPrice =
-        (totalPriceOneOrder[0] + totalPriceOneOrder[1]) * passengers.length;
-    } else {
-      totalPrice = totalPriceOneOrder[0] * passengers.length;
-    }
-    const transaksi = addTransaction(
-      userId,
-      orderId,
-      totalPrice,
-      trip,
-      tokenTransaksi
+    });    
+    const tiketBerangkat = await Ticket.findAll(
+      {
+        where: {id:ticketId[0], },
+        include: [
+          {
+            model: Airplane,
+          },
+          {
+            model: Airport,
+            as: 'from',
+          },
+          {
+            model: Airport,
+            as: 'to',
+          },
+        ],
+      }
     );
-    res.status(200).json({
-      message: 'data berhasil ditambahkan',
-      tokenTransaction: transaksi.tokenTransaction,
-    });
+    setTimeout(async() => {
+      let totalPrice;
+      let price;
+      if (ticketId.length === 2) {
+        totalPrice =
+          (totalPriceOneOrder[0] + totalPriceOneOrder[1]) * passengers.length;
+        price = totalPriceOneOrder[0] + totalPriceOneOrder[1];
+      } else {
+        totalPrice = totalPriceOneOrder[0] * passengers.length;
+        // eslint-disable-next-line prefer-destructuring
+        price = totalPriceOneOrder[0];
+      }
+      const transaksi = await addTransaction(
+        userId,
+        orderId,
+        totalPrice,
+        trip,
+        tokenTransaksi,
+        price
+      );
+      if (ticketId.length === 2) {
+        const tiketPulang = await Ticket.findAll(
+          {
+            where: {id:ticketId[0], },
+            include: [
+              {
+                model: Airplane,
+              },
+              {
+                model: Airport,
+                as: 'from',
+              },
+              {
+                model: Airport,
+                as: 'to',
+              },
+            ],
+          }
+        );
+        res.status(200).json({
+          message: 'data berhasil ditambahkan',
+          tokenTransaction: transaksi.tokenTransaction,
+          totalPrice: transaksi.totalPrice,
+          tiketBerangkat,
+          tiketPulang,
+          price,
+          passengers:passengers.length,
+        });
+      } else {
+        res.status(200).json({
+          message: 'data berhasil ditambahkan',
+          tokenTransaction: transaksi.tokenTransaction,
+          totalPrice: transaksi.totalPrice,
+          tiketBerangkat,
+          price,
+          passengers:passengers.length,
+        });
+      }
+    }, 400);
   } catch (error) {
     res.status(error.statusCode || 500).json({
       message: error.message,
