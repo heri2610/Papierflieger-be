@@ -1,11 +1,13 @@
 const router = require('express').Router();
 const auth = require('../../midleware/auth');
 const {
+  postNotif,
   getNotif,
   updateNotif,
-} = require('../controllers/notifControler');
+} = require('../controllers/notifController');
 
+router.post('/notifications', auth, postNotif);
 router.get('/notifications', auth, getNotif);
-router.get('/notifications/:id',auth, updateNotif);
+router.put('/notifications', auth, updateNotif);
 
 module.exports = router;

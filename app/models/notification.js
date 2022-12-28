@@ -11,12 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.Users, { foreignKey: 'userId' });
     }
   }
   notification.init({
     name: DataTypes.STRING,
     message: DataTypes.TEXT,
-    read: DataTypes.BOOLEAN,
+    read: { type: DataTypes.BOOLEAN, defaultValue: false },
     userId: DataTypes.INTEGER,
   }, {
     sequelize,

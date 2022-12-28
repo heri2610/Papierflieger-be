@@ -1623,7 +1623,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Orders"
+                "$ref": "#/components/schemas/Passengers"
               }
             }
           }
@@ -1645,7 +1645,7 @@
                       "example": "Data penumpang berhasil ditambahkan."
                     },
                     "data": {
-                      "$ref": "#/components/schemas/Orders"
+                      "$ref": "#/components/schemas/Passengers"
                     }
                   }
                 }
@@ -1695,7 +1695,7 @@
         }
       },
       "get": {
-        "summary": "List Order",
+        "summary": "List Passenger in an order",
         "tags": [
           "Order"
         ],
@@ -1714,7 +1714,7 @@
                   "type": "object",
                   "properties": {
                     "orderList": {
-                      "$ref": "#/components/schemas/Orders"
+                      "$ref": "#/components/schemas/Passengers"
                     }
                   }
                 }
@@ -1769,7 +1769,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Orders"
+                  "$ref": "#/components/schemas/Passengers"
                 }
               }
             }
@@ -2812,6 +2812,156 @@
           }
         }
       }
+    },
+    "/api/notifications": {
+      "post": {
+        "summary": "Create wishlist",
+        "tags": [
+          "User"
+        ],
+        "description": "Add user wishlist on the database",
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Transaksi"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "Pembelian tiket nomor 2782729 berhasil dilakukan."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "notifikasi": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "Transaksi"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Pembelian tiket nomor 2782729 berhasil dilakukan."
+                        },
+                        "read": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "userId": {
+                          "type": "integer",
+                          "example": 3
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "User notifications",
+        "tags": [
+          "User"
+        ],
+        "description": "Retrieve all user notifications",
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Menampilkan semua notifikasi"
+                    },
+                    "notifikasi": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "Transaksi"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Pembelian tiket nomor 2782729 berhasil dilakukan."
+                        },
+                        "read": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "userId": {
+                          "type": "integer",
+                          "example": 3
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update notification",
+        "description": "Change user notification read status",
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Pemberitahuan sudah dibaca"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2990,49 +3140,46 @@
           }
         }
       },
-      "Orders": {
-        "type": "object",
-        "properties": {
-          "passengerName": {
-            "type": "string",
-            "example": "Mika Tahinakiwi"
-          },
-          "birthDate": {
-            "type": "date",
-            "example": "2000-03-11"
-          },
-          "seat": {
-            "type": "string",
-            "example": "18A"
-          },
-          "gate": {
-            "type": "integer",
-            "example": 3
-          },
-          "nationality": {
-            "type": "string",
-            "example": "Indonesia"
-          },
-          "passportNumber": {
-            "type": "string",
-            "example": "79326729"
-          },
-          "issuingCountry": {
-            "type": "string",
-            "example": "Indonesia"
-          },
-          "expired": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2025-01-22"
-          },
-          "NIK": {
-            "type": "string",
-            "example": "3687489019930001"
-          },
-          "ticketId": {
-            "type": "integer",
-            "example": 3
+      "Passengers": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "passengerName": {
+              "type": "string",
+              "example": "Mika Tahinakiwi"
+            },
+            "birthDate": {
+              "type": "date",
+              "example": "2000-03-11"
+            },
+            "nationality": {
+              "type": "string",
+              "example": "Indonesia"
+            },
+            "passportNumber": {
+              "type": "string",
+              "example": "79326729"
+            },
+            "issuingCountry": {
+              "type": "string",
+              "example": "Indonesia"
+            },
+            "expired": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2025-01-22"
+            },
+            "NIK": {
+              "type": "string",
+              "example": "3687489019930001"
+            },
+            "ticketId": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
           }
         }
       },
