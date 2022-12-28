@@ -170,14 +170,12 @@ const searchTicket = async (req, res) => {
       if (tiketBerangkat2.length === 0) {
         const bandara1 = await Airport.findOne({ where: { id: flightFrom, }, });
         const bandara2 = await Airport.findOne({ where: { id: flightTo, }, });
-        throw new ApiError(400, `mohon maaf, perjalanan dari ${bandara1.city}
-           ke ${bandara2.city} tidak tersedia`);
+        throw new ApiError(400, `mohon maaf, perjalanan dari ${bandara1.city} ke ${bandara2.city} tidak tersedia`);
       }
       if (tiketPulang2.length === 0) {
         const bandara1 = await Airport.findOne({ where: { id: flightFrom, }, });
         const bandara2 = await Airport.findOne({ where: { id: flightTo, }, });
-        throw new ApiError(400, `mohon maaf, perjalanan dari ${bandara1.city}
-           ke ${bandara2.city} tidak tersedia`);
+        throw new ApiError(400, `mohon maaf, perjalanan dari ${bandara1.city} ke ${bandara2.city} tidak tersedia`);
       }
       const newTiketBerangkat = await createTiketNew(tiketBerangkat2, departureDate);
       const newTiketPulang = await createTiketNew(tiketPulang2, departureDate);
@@ -198,8 +196,7 @@ const searchTicket = async (req, res) => {
         const bandara2 = await Airport.findOne({
           where: { id: flightTo, },
         });
-        throw new ApiError(400, `mohon maaf, perjalanan dari ${bandara1.city}
-           ke ${bandara2.city} tidak tersedia`);
+        throw new ApiError(400, `mohon maaf, perjalanan dari ${bandara1.city} ke ${bandara2.city} tidak tersedia`);
       }
       const newTiketPulang = await createTiketNew(tiketPulang2, departureDate);
       return res.status(200).json({
