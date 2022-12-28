@@ -32,14 +32,14 @@ const getOrderById = async (req, res) => {
 };
 
 const addOrder = async (req, res) => {
-  const tokenTransaksi = `${uuidv4()}${Date.now()}${Math.random()}`;
-  const userId = req.user.id;
-  const { passengers, } = req.body;
-  const orderId = [];
-  let trip;
-  const ticketId = [];
-  const totalPriceOneOrder = [];
   try {
+    const tokenTransaksi = `${uuidv4()}${Date.now()}${Math.random()}`;
+    const userId = req.user.id;
+    const { passengers, } = req.body;
+    const orderId = [];
+    let trip;
+    const ticketId = [];
+    const totalPriceOneOrder = [];
     if (passengers[0].ticketId.length === 2) {
       trip = 'round-trip';
       // eslint-disable-next-line no-plusplus
@@ -58,24 +58,27 @@ const addOrder = async (req, res) => {
       const prices = await Ticket.findOne({ where: { id, }, });
       totalPriceOneOrder.push(prices.price);
     });
-    let totalPrice;
-    if (ticketId.length === 2) {
-      totalPrice =
-        (totalPriceOneOrder[0] + totalPriceOneOrder[1]) * passengers.length;
-    } else {
-      totalPrice = totalPriceOneOrder[0] * passengers.length;
-    }
-    const transaksi = addTransaction(
-      userId,
-      orderId,
-      totalPrice,
-      trip,
-      tokenTransaksi
-    );
-    res.status(200).json({
-      message: 'data berhasil ditambahkan',
-      tokenTransaction: transaksi.tokenTransaction,
-    });
+    setTimeout(async() => {
+      let totalPrice;
+      if (ticketId.length === 2) {
+        totalPrice =
+          (totalPriceOneOrder[0] + totalPriceOneOrder[1]) * passengers.length;
+      } else {
+        totalPrice = totalPriceOneOrder[0] * passengers.length;
+      }
+      const transaksi = await addTransaction(
+        userId,
+        orderId,
+        totalPrice,
+        trip,
+        tokenTransaksi
+      );
+      res.status(200).json({
+        message: 'data berhasil ditambahkan',
+        tokenTransaction: transaksi.tokenTransaction,
+        totalPrice: transaksi.totalPrice,
+      });
+    }, 400);
   } catch (error) {
     res.status(error.statusCode || 500).json({
       message: error.message,
