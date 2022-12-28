@@ -178,7 +178,7 @@ const searchTicket = async (req, res) => {
         throw new ApiError(400, `mohon maaf, perjalanan dari ${bandara1.city} ke ${bandara2.city} tidak tersedia`);
       }
       const newTiketBerangkat = await createTiketNew(tiketBerangkat2, departureDate);
-      const newTiketPulang = await createTiketNew(tiketPulang2, departureDate);
+      const newTiketPulang = await createTiketNew(tiketPulang2, returnDate);
       return res.status(200).json({
         message: 'tiket hasil pencarian',
         tiketBerangkat:newTiketBerangkat,
@@ -198,7 +198,7 @@ const searchTicket = async (req, res) => {
         });
         throw new ApiError(400, `mohon maaf, perjalanan dari ${bandara1.city} ke ${bandara2.city} tidak tersedia`);
       }
-      const newTiketPulang = await createTiketNew(tiketPulang2, departureDate);
+      const newTiketPulang = await createTiketNew(tiketPulang2, returnDate);
       return res.status(200).json({
         message: 'tiket hasil pencarian',
         tiketBerangkat,
