@@ -99,7 +99,7 @@ const addOrder = async (req, res) => {
       if (ticketId.length === 2) {
         const tiketPulang = await Ticket.findAll(
           {
-            where: {id:ticketId[0], },
+            where: {id:ticketId[1], },
             include: [
               {
                 model: Airplane,
