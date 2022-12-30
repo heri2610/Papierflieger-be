@@ -7,15 +7,15 @@ const getTransactionByUser = async (req, res) => {
     const { id, } = req.params;
     const transaksi = await Transaction.findOne(
       {
+        where: { id, },
+      },
+      {
         include: [
           {
             model: Order,
             include: [{ model: Ticket, },],
           },
         ],
-      },
-      {
-        where: { id, },
       }
     );
     res.status(200).json({
@@ -34,7 +34,7 @@ const getTransactionByToken = async (req, res) => {
     { bankName: 'BTN', accountNumber: 134565672, },
     { bankName: 'BCA', accountNumber: 13487643, },
   ];
-  const {tokenTransaksi,} = req.params;
+  const { tokenTransaksi, } = req.params;
   try {
     const transaksi = await Transaction.findOne({
       where: { tokenTransaksi, },
@@ -73,20 +73,24 @@ const addTransaction = async (
 };
 
 const updateTransaction = async (req, res) => {
-  try { 
-    const { bankName, accountName, accountNumber, tokenTransaction,} = req.body;
+  try {
+    const {
+      bankName,
+      accountName,
+      accountNumber,
+      tokenTransaction,
+    } = req.body;
     const payman = addPayment(bankName, accountName, accountNumber);
     await Transaction.update({
-      status:true, 
-      paymentId:payman.id,
-    }, 
-    { where: 
-      { 
-        tokenTransaction, 
-      }, 
+      status: true,
+      paymentId: payman.id,
+    }, {
+      where: {
+        tokenTransaction,
+      },
     });
     res.status(200).json({
-      message: 'yey pembayaran berhasil dilakukan',
+      message: 'Selamat pembayaran berhasil dilakukan!',
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
