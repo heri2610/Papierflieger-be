@@ -34,14 +34,14 @@ const getNotif = async (req, res) => {
 
 const updateNotif = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const {id,} = req.params;
     await notification.update({
       read: true,
     }, {
-      where: { userId, },
+      where: { id, },
     });
     res.status(200).json({
-      message: 'Semua pesan telah dibaca',
+      message: 'pesan telah dibaca',
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({

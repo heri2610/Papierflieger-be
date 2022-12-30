@@ -1,20 +1,12 @@
-const { Transaction, Order, Ticket, } = require('../models');
+const { Transaction, Payment, } = require('../models');
 const { addHistory, } = require('./historyController');
 const { addPayment, } = require('./paymentController');
 
-const getAllTransaction = async (req, res) => {
+const getTransaction = async (req, res) => {
   try {
     const transaksi = await Transaction.findAll(
       {
-        include: [
-          {
-            model: Order,
-            include: [
-              {
-                model: Ticket,
-              },
-            ],
-          },
+        include: [{ model: Payment, },
         ],
       }
     );
@@ -116,9 +108,9 @@ const deleteTransaction = async (req, res) => {
 };
 
 module.exports = {
-  getAllTransaction,
   getTransactionByToken,
   addTransaction,
   updateTransaction,
   deleteTransaction,
+  getTransaction,
 };

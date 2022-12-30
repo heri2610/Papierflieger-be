@@ -3,13 +3,13 @@ const auth = require('../../midleware/auth');
 const isAdmin = require('../../midleware/isAdmin');
 const {
   addTransaction,
-  getAllTransaction,
   getTransactionByToken,
   updateTransaction,
   deleteTransaction,
+  getTransaction,
 } = require('../controllers/transactionController');
 
-router.get('/transactions', auth, isAdmin, getAllTransaction);
+router.get('/transactions', auth, isAdmin, getTransaction);
 router.get('/transactions/:tokenTransaksi', auth, getTransactionByToken);
 router.post('/transactions', auth, addTransaction);
 router.put('/transactions', auth, updateTransaction);
