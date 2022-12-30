@@ -1,4 +1,4 @@
-const { Transaction, Order, Ticket, Payment,Users, } = require('../models');
+const { Transaction, Order, Ticket, Payment,Users,notification, } = require('../models');
 const { addHistory, } = require('./historyController');
 const { addPayment, } = require('./paymentController');
 
@@ -92,6 +92,7 @@ const addTransaction = async (
 };
 
 const updateTransaction = async (req, res) => {
+  const userId = req.user.id;
   try {
     const {
       bankName,
@@ -99,7 +100,7 @@ const updateTransaction = async (req, res) => {
       accountNumber,
       tokenTransaction,
     } = req.body;
-    const payman = addPayment(bankName, accountName, accountNumber);
+    const payman = await addPayment(bankName, accountName, accountNumber);
     await Transaction.update({
       status: true,
       paymentId: payman.id,
@@ -108,6 +109,13 @@ const updateTransaction = async (req, res) => {
         tokenTransaction,
       },
     });
+    const data = {
+      name: 'Booking Tiket Berhasil',
+      // eslint-disable-next-line max-len
+      message: `Pembayaran atas ${accountName} telah berhasil, terimakasih telah menggunkaan laynan kami untuk perjalanan anda`,
+      userId,
+    };
+    await notification(data);
     res.status(200).json({
       message: 'Selamat pembayaran berhasil dilakukan!',
     });
