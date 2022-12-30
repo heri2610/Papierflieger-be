@@ -6,8 +6,6 @@ const getHistory = async (req, res) => {
     const orderList = await History.findAll(
       {
         where: { userId, },
-      },
-      {
         include: [
           {
             model: Transaction,

@@ -7,13 +7,15 @@ const getTransactionByUser = async (req, res) => {
     const { id, } = req.params;
     const transaksi = await Transaction.findOne(
       {
-        where: { id, },
-      },
-      {
+        where: { userid: id, },
         include: [
           {
             model: Order,
-            include: [{ model: Ticket, },],
+            include: [
+              {
+                model: Ticket,
+              },
+            ],
           },
         ],
       }
