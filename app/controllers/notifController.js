@@ -55,7 +55,7 @@ const updateNotif = async (req, res) => {
     await notification.update({
       read: true,
     }, {
-      where: { id, },
+      where: { userId:id, },
     });
     res.status(200).json({
       message: 'pesan telah dibaca',
