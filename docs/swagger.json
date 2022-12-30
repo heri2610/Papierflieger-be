@@ -50,6 +50,14 @@
     {
       "name": "User",
       "description": "Users API Collection"
+    },
+    {
+      "name": "Wishlist",
+      "description": "Wishlist API Collection"
+    },
+    {
+      "name": "Notification",
+      "description": "Notification API Collection"
     }
   ],
   "paths": {
@@ -2017,7 +2025,7 @@
         }
       }
     },
-    "/api/transactions/{id}": {
+    "/api/transaction/{tokenTransaction}": {
       "get": {
         "tags": [
           "Transaction"
@@ -2068,7 +2076,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/transactions/{id}": {
       "delete": {
         "tags": [
           "Transaction"
@@ -2669,7 +2679,7 @@
       "post": {
         "summary": "Create wishlist",
         "tags": [
-          "User"
+          "Wishlist"
         ],
         "description": "Add user wishlist on the database",
         "security": [
@@ -2742,7 +2752,7 @@
       "get": {
         "summary": "User Wishlist",
         "tags": [
-          "User"
+          "Wishlist"
         ],
         "description": "Retrieve all user wishlist",
         "security": [
@@ -2787,7 +2797,7 @@
     "/api/wishlist/{destinationId}": {
       "delete": {
         "tags": [
-          "User"
+          "Wishlist"
         ],
         "summary": "Delete Wishlist",
         "description": "Remove existing logged in user wishlist by destination id.",
@@ -2871,7 +2881,7 @@
       "post": {
         "summary": "Create wishlist",
         "tags": [
-          "User"
+          "Notification"
         ],
         "description": "Add user wishlist on the database",
         "security": [
@@ -2938,7 +2948,7 @@
       "get": {
         "summary": "User notifications",
         "tags": [
-          "User"
+          "Notification"
         ],
         "description": "Retrieve all user notifications",
         "security": [
@@ -2985,16 +2995,25 @@
             }
           }
         }
-      },
+      }
+    },
+    "api/notifications/{id}": {
       "put": {
         "tags": [
-          "User"
+          "Notification"
         ],
         "summary": "Update notification",
         "description": "Change user notification read status",
         "security": [
           {
             "bearerToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true
           }
         ],
         "responses": {
