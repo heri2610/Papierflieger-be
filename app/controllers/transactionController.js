@@ -2,12 +2,10 @@ const { Transaction, Order, Ticket, } = require('../models');
 const { addHistory, } = require('./historyController');
 const { addPayment, } = require('./paymentController');
 
-const getTransactionByUser = async (req, res) => {
+const getAllTransaction = async (req, res) => {
   try {
-    const { id, } = req.params;
-    const transaksi = await Transaction.findOne(
+    const transaksi = await Transaction.findAll(
       {
-        where: { userid: id, },
         include: [
           {
             model: Order,
@@ -29,6 +27,7 @@ const getTransactionByUser = async (req, res) => {
     });
   }
 };
+
 const getTransactionByToken = async (req, res) => {
   const Bank = [
     { bankName: 'Mandiri', accountNumber: 2504253627, },
@@ -51,6 +50,7 @@ const getTransactionByToken = async (req, res) => {
     });
   }
 };
+
 const addTransaction = async (
   userId,
   orderId,
@@ -106,7 +106,7 @@ const deleteTransaction = async (req, res) => {
     const { id, } = req.params;
     await Transaction.destroy({ where: { id, }, });
     res.status(200).json({
-      message: 'data berhasil dihapus',
+      message: 'Transaksi berhasil dibatalkan.',
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
@@ -116,7 +116,7 @@ const deleteTransaction = async (req, res) => {
 };
 
 module.exports = {
-  getTransactionByUser,
+  getAllTransaction,
   getTransactionByToken,
   addTransaction,
   updateTransaction,
