@@ -1888,15 +1888,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Transaksi berhasil."
-                    },
-                    "data": {
+                    "newTransaksi": {
                       "$ref": "#/components/schemas/transactionResponse"
                     }
                   }
@@ -1931,7 +1923,7 @@
         "tags": [
           "Transaction"
         ],
-        "description": "Retrieve list of transactions.",
+        "description": "Retrieve list of transactions for admin page.",
         "security": [
           {
             "bearerToken": []
@@ -1954,6 +1946,75 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Transaction"
+        ],
+        "summary": "Update transaction status",
+        "description": "Change transaction status and payment information",
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Payments"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "tokenTransaction": {
+                        "type": "string",
+                        "example": "Diperoleh dari order"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Selamat pembayaran berhasil dilakukan!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The transaction token is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Token transaksi tidak ditemukan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/transactions/{id}": {
@@ -1962,7 +2023,7 @@
           "Transaction"
         ],
         "summary": "Get A Transaction",
-        "description": "Retrieve the transaction details",
+        "description": "Retrieve the transaction details by transaction token.",
         "security": [
           {
             "bearerToken": []
@@ -1971,7 +2032,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "tokenTransaksi",
             "required": true
           }
         ],
@@ -3018,6 +3079,10 @@
           "userId": {
             "type": "integer",
             "example": 2
+          },
+          "tokenTransaction": {
+            "type": "string",
+            "example": "dari proses order"
           },
           "paymentId": {
             "type": "integer",
