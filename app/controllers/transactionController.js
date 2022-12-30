@@ -1,4 +1,4 @@
-const { Transaction, Order, Ticket, } = require('../models');
+const { Transaction, Order, Ticket, Payment, } = require('../models');
 const { addHistory, } = require('./historyController');
 const { addPayment, } = require('./paymentController');
 
@@ -16,6 +16,23 @@ const getTransactionByUser = async (req, res) => {
       },
       {
         where: { id, },
+      }
+    );
+    res.status(200).json({
+      transaksi,
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      message: error.message,
+    });
+  }
+};
+const getTransaction = async (req, res) => {
+  try {
+    const transaksi = await Transaction.findAll(
+      {
+        include: [{ model: Payment, },
+        ],
       }
     );
     res.status(200).json({
@@ -115,4 +132,5 @@ module.exports = {
   addTransaction,
   updateTransaction,
   deleteTransaction,
+  getTransaction,
 };

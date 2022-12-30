@@ -7,9 +7,11 @@ const {
   getTransactionByToken,
   updateTransaction,
   deleteTransaction,
+  getTransaction,
 } = require('../controllers/transactionController');
 
 router.get('/transactions-token/:tokenTransaksi', auth, getTransactionByUser);
+router.get('/transactions',  getTransaction);
 router.get('/transactions/:id', auth, getTransactionByToken);
 router.post('/transactions', auth, addTransaction);
 router.put('/transactions', auth, updateTransaction);
