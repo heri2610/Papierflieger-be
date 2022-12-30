@@ -1,4 +1,4 @@
-const { Transaction, Order, Ticket, Payment, } = require('../models');
+const { Transaction, Order, Ticket, Payment,Users, } = require('../models');
 const { addHistory, } = require('./historyController');
 const { addPayment, } = require('./paymentController');
 
@@ -33,7 +33,7 @@ const getTransaction = async (req, res) => {
   try {
     const transaksi = await Transaction.findAll(
       {
-        include: [{ model: Payment, },
+        include: [{ model: Payment, },{ model: Users, },
         ],
       }
     );

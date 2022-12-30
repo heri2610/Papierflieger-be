@@ -11,7 +11,7 @@ const {
 } = require('../controllers/transactionController');
 
 router.get('/transactions-token/:tokenTransaksi', auth, getTransactionByUser);
-router.get('/transactions', auth, isAdmin,  getTransaction);
+router.get('/transactions',  getTransaction);
 router.get('/transactions/:id', auth, getTransactionByToken);
 router.post('/transactions', auth, addTransaction);
 router.put('/transactions', auth, updateTransaction);
