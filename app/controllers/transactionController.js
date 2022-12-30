@@ -1,12 +1,22 @@
-const { Transaction, Payment, } = require('../models');
+const { Transaction, Order, Ticket, Payment,Users, } = require('../models');
 const { addHistory, } = require('./historyController');
 const { addPayment, } = require('./paymentController');
 
-const getTransaction = async (req, res) => {
+const getTransactionByUser = async (req, res) => {
   try {
-    const transaksi = await Transaction.findAll(
+    const { id, } = req.params;
+    const transaksi = await Transaction.findOne(
       {
-        include: [{ model: Payment, },
+        where: { userid: id, },
+        include: [
+          {
+            model: Order,
+            include: [
+              {
+                model: Ticket,
+              },
+            ],
+          },
         ],
       }
     );
@@ -19,7 +29,23 @@ const getTransaction = async (req, res) => {
     });
   }
 };
-
+const getTransaction = async (req, res) => {
+  try {
+    const transaksi = await Transaction.findAll(
+      {
+        include: [{ model: Payment, },{ model: Users, },
+        ],
+      }
+    );
+    res.status(200).json({
+      transaksi,
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      message: error.message,
+    });
+  }
+};
 const getTransactionByToken = async (req, res) => {
   const Bank = [
     { bankName: 'Mandiri', accountNumber: 2504253627, },
@@ -42,7 +68,6 @@ const getTransactionByToken = async (req, res) => {
     });
   }
 };
-
 const addTransaction = async (
   userId,
   orderId,
@@ -98,7 +123,7 @@ const deleteTransaction = async (req, res) => {
     const { id, } = req.params;
     await Transaction.destroy({ where: { id, }, });
     res.status(200).json({
-      message: 'Transaksi berhasil dibatalkan.',
+      message: 'data berhasil dihapus',
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
@@ -108,6 +133,7 @@ const deleteTransaction = async (req, res) => {
 };
 
 module.exports = {
+  getTransactionByUser,
   getTransactionByToken,
   addTransaction,
   updateTransaction,
