@@ -2550,13 +2550,6 @@
             "bearerToken": []
           }
         ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "userId",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "A successful response.",

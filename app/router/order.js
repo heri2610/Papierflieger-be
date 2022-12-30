@@ -8,9 +8,9 @@ const {
   deleteOrder,
 } = require('../controllers/orderController');
 
-router.get('/orders', getOrder);
-router.get('/orders/:id', getOrderById);
-router.post('/orders', auth, isAdmin, addOrder);
+router.get('/orders', auth, getOrder);
+router.get('/orders/:id', auth, getOrderById);
+router.post('/orders', auth, addOrder);
 router.delete('/orders/:id', auth, isAdmin, deleteOrder);
 
 module.exports = router;
