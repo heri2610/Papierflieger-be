@@ -32,9 +32,26 @@ const getNotif = async (req, res) => {
   }
 };
 
-const updateNotif = async (req, res) => {
+const updateNotifById = async (req, res) => {
   try {
     const {id,} = req.params;
+    await notification.update({
+      read: true,
+    }, {
+      where: { id, },
+    });
+    res.status(200).json({
+      message: 'pesan telah dibaca',
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      message: error.message,
+    });
+  }
+};
+const updateNotif = async (req, res) => {
+  try {
+    const {id,} = req.user;
     await notification.update({
       read: true,
     }, {
@@ -54,4 +71,5 @@ module.exports = {
   postNotif,
   getNotif,
   updateNotif,
+  updateNotifById,
 };
