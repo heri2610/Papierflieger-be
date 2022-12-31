@@ -39,7 +39,12 @@ const dashboardAdmin = async ( req, res)=>{
 };
 const notifCount = async ( req, res)=>{ 
   try {
-    const countNotif = await notification.count();
+    const { id, } = req.user;
+    const countNotif = await notification.count({
+      where: {
+        userId: id,
+      },
+    });
     res.status(200).json({
       countNotif,
     });
