@@ -2995,6 +2995,36 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Notification"
+        ],
+        "summary": "Update notification",
+        "description": "Change all notification status to read",
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Pemberitahuan sudah dibaca"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "api/notifications/{id}": {
