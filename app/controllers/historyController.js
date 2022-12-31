@@ -1,21 +1,31 @@
-const { History, Transaction, } = require('../models');
+const { History, Transaction, Order,Ticket, } = require('../models');
+// const { History, Transaction,Order, } = require('../models');
 
 const getHistory = async (req, res) => {
-  const userId = req.user.id;
   try {
-    const orderList = await History.findAll(
+    // const userId = req.user.id;
+    const userId = 1;
+    const transaction = await Transaction.findAll(
       {
         where: { userId, },
-        include: [
-          {
-            model: Transaction,
-          },
-        ],
       }
     );
-    res.status(200).json({
-      orderList,
-    });
+    const order = [];
+    // eslint-disable-next-line max-len, no-return-await
+    await transaction.map((item)=>item.orderId.map(async(id)=>order.push(await Order.findOne({where:{id,},}))));
+    setTimeout(() => {
+      const ticket = [];
+      // eslint-disable-next-line max-len, no-return-await
+      order.map((item)=>item.ticketId.map(async(id)=>ticket.push(await Ticket.findOne({where:{id,},}))));
+      setTimeout(() => {
+        res.status(200).json({
+          transaction,
+          order,
+          ticket,
+        });
+      }, 1000);
+    }, 1100);
+ 
   } catch (error) {
     res.status(error.statusCode || 500).json({
       message: error.message,
