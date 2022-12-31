@@ -27,7 +27,16 @@ const getPaymentById = async (req, res) => {
     });
   }
 };
- 
+
+const getPaymentByNoRek = async (noRek) => {
+  try {
+    const detail = await Payment.findOne({ where: { accountNumber: noRek, }, });
+    return detail;
+  } catch (error) {
+    return error;
+  }
+};
+
 const addPayment = async (bankName, accountName, accountNumber) => {
   try {
     const newPayment = await Payment.create({
@@ -75,4 +84,5 @@ module.exports = {
   addPayment,
   updatePayment,
   deletePayment,
+  getPaymentByNoRek,
 };
