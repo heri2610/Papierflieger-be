@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const imageKit = require('../../lib/imageKit');
 const sendMail = require('../../lib/nodemailer');
-const { Users, Verify, } = require('../models');
+const { Users, Verify, notification, } = require('../models');
 const ApiError = require('../../utils/ApiError');
 const isEmailValid = require('../../utils/emailValidation');
 
@@ -328,6 +328,10 @@ const verified = async (req, res) => {
     //   message: 'Akun Anda berhasil diverifikasi.',
     //   userVerify: userVerify.verified,
     // });
+    await notification.create({ 
+      name:'Verifikasi Email',
+      message: 'akun anda berhasil di verifikasi, nkmati berbagai layanan yang telah kami sediakan',
+    });
     res.status(200).redirect(`${process.env.VERIF_EMAIL}?message=Akun%20berhasil%20diverifikasi`);
   } catch (error) {
     res.status(error.statusCode || 500).json({

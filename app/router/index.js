@@ -13,7 +13,7 @@ const order = require('./order');
 const wishlist = require('./wishlist');
 const history = require('./history');
 const transaction = require('./transaction');
-const { getAboutUs, } = require('../controllers/aboutUsController');
+const Dashboard = require('./dashboard');
 
 const router = Router();
 
@@ -25,9 +25,10 @@ router.get('/', (req, res) => {
     message: 'API is running',
   });
 });
-router.get('/api/about-us', getAboutUs);
+
 
 router.use('/api', Auth);
+router.use('/api', Dashboard);
 router.use('/api', Users);
 router.use('/api', ticket);
 router.use('/api', airplane);
