@@ -42,7 +42,7 @@ const notifCount = async ( req, res)=>{
     const { id, } = req.user;
     const countNotif = await notification.count({
       where: {
-        userId: id,
+        userId: id,read:true,
       },
     });
     res.status(200).json({

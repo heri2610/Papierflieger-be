@@ -1,10 +1,8 @@
 const { History, Transaction, Order,Ticket, } = require('../models');
-// const { History, Transaction,Order, } = require('../models');
 
 const getHistory = async (req, res) => {
   try {
-    // const userId = req.user.id;
-    const userId = 1;
+    const userId = req.user.id;
     const transaction = await Transaction.findAll(
       {
         where: { userId, },

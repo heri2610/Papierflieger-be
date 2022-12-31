@@ -19,7 +19,8 @@ const postNotif = async (req, res) => {
 const getNotif = async (req, res) => {
   try {
     const userId = req.user.id;
-    const notifikasi = await notification.findAll({ where: { userId, }, });
+    const notifikasi = await notification.findAll({ where: 
+      { userId, }, });
 
     res.status(200).json({
       message: 'Menampilkan semua notifikasi',
