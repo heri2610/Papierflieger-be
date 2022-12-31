@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
-const { History, Transaction, Order,Ticket, } = require('../models');
+const { History, Transaction, Order,Ticket,Airport, Airplane, } = require('../models');
 
 const getHistory = async (req, res) => {
   try {
@@ -14,7 +14,24 @@ const getHistory = async (req, res) => {
     }
     const ticket = [];
     for (const ord of order) {
-      const ordTickets = await Ticket.findAll({ where: { id: ord.ticketId, }, });
+      const ordTickets = await Ticket.findAll({ where: { id: ord.ticketId,
+        include: [
+          {
+            model: Airplane,
+          },
+          {
+            model: Airport,
+            as: 'from',
+          },
+          {
+            model: Airport,
+            as: 'to',
+          },
+          {
+            model: Airport,
+            as: 'transit',
+          },
+        ], }, });
       ticket.push(...ordTickets);
     }
     res.status(200).json({
