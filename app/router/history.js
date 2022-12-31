@@ -1,7 +1,7 @@
 const router = require('express').Router();
-// const auth = require('../../midleware/auth');
+const auth = require('../../midleware/auth');
 const { getHistory, } = require('../controllers/historyController');
 
-router.get('/histories', getHistory);
+router.get('/histories',auth, getHistory);
 
 module.exports = router;
