@@ -215,7 +215,7 @@ const updateTransaction = async (req, res) => {
             justify-content: space-between;
             border: 1px solid #777;
             border-radius: 10px;
-            margin: 0 24px 20px;
+            margin: 0 24px;
           }
       
           .grid-item1 {
@@ -259,23 +259,23 @@ const updateTransaction = async (req, res) => {
                 <tr>
                   <td align="left" bgcolor="#ffffff" style="padding: 36px 24px 0; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; 
                     border-top: 3px solid #d4dadf;">
-                    <h1 style="margin: 0; font-size: 20px; font-weight: 400; letter-spacing: -1px; line-height: 36x;">Halo,
-                      ${namaPenerima}!</h1>
+                    <h4 style="margin: 0; font-size: 14px; font-weight: 400;">Halo,
+                      ${namaPenerima}!</h4>
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
           <!-- end hero -->
-      
+
           <!-- start copy block -->
           <tr>
             <td align="center" bgcolor="#e9ecef">
               <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; margin-bottom: 32px;">
                 <!-- start copy -->
                 <tr>
-                  <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; 
-                    font-size: 16px; line-height: 24px;">
+                  <td align="left" bgcolor="#ffffff" style="padding: 10px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; 
+                    font-size: 14px; line-height: 24px;">
                     <p style="margin: 0;"><strong>Pemesanan tiket pesawat kamu berhasil dibayar</strong></p>
                     <p>Berikut detail pemesanan tiket kamu :</p>
                   </td>
