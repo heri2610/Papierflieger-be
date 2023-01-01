@@ -14,7 +14,7 @@ const getHistory = async (req, res) => {
     }
     const ticket = [];
     for (const ord of order) {
-      const ordTickets = await Ticket.findAll({ where: { id: ord.ticketId,
+      const ordTickets = await Ticket.findAll({ where: { id: ord.ticketId,},
         include: [
           {
             model: Airplane,
@@ -31,7 +31,7 @@ const getHistory = async (req, res) => {
             model: Airport,
             as: 'transit',
           },
-        ], }, });
+        ], });
       ticket.push(...ordTickets);
     }
     res.status(200).json({
