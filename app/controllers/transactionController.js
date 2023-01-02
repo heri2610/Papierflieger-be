@@ -118,7 +118,7 @@ const updateTransaction = async (req, res) => {
 
     const data = {
       name: 'Booking Tiket Berhasil',
-      message: `Pembayaran atas ${accountName} telah berhasil, terimakasih telah menggunkaan layanan kami untuk perjalanan anda`,
+      message: `Pembayaran atas nama ${accountName} dengan nomor rekening ${accountNumber} telah berhasil, terimakasih telah menggunakan layanan kami untuk perjalanan Anda`,
       userId,
     };
     await notification.create(data);

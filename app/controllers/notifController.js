@@ -19,8 +19,10 @@ const postNotif = async (req, res) => {
 const getNotif = async (req, res) => {
   try {
     const userId = req.user.id;
-    const notifikasi = await notification.findAll({ where: 
-      { userId, }, });
+    const notifikasi = await notification.findAll({
+      where: { userId, },
+      order: [['createdAt', 'DESC',],],
+    });
 
     res.status(200).json({
       message: 'Menampilkan semua notifikasi',
@@ -35,7 +37,7 @@ const getNotif = async (req, res) => {
 
 const updateNotifById = async (req, res) => {
   try {
-    const {id,} = req.params;
+    const { id, } = req.params;
     await notification.update({
       read: true,
     }, {
@@ -52,11 +54,11 @@ const updateNotifById = async (req, res) => {
 };
 const updateNotif = async (req, res) => {
   try {
-    const {id,} = req.user;
+    const { id, } = req.user;
     await notification.update({
       read: true,
     }, {
-      where: { userId:id, },
+      where: { userId: id, },
     });
     res.status(200).json({
       message: 'pesan telah dibaca',
