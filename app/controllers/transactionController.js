@@ -10,6 +10,7 @@ const getTransactionByUser = async (req, res) => {
     const transaksi = await Transaction.findOne(
       {
         where: { userid: id, },
+        order: [['createdAt', 'DESC',],],
         include: [
           {
             model: Order,
@@ -35,6 +36,7 @@ const getTransaction = async (req, res) => {
   try {
     const transaksi = await Transaction.findAll(
       {
+        order: [['createdAt', 'DESC',],],
         include: [{ model: Payment, }, { model: Users, },],
       }
     );

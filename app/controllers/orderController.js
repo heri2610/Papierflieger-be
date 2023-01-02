@@ -1,10 +1,12 @@
 const { v4: uuidv4, } = require('uuid');
 const { Order, Ticket, Airport, Airplane, } = require('../models');
-const { addTransaction,} = require('./transactionController');
+const { addTransaction, } = require('./transactionController');
 
 const getOrder = async (req, res) => {
   try {
-    const orderList = await Order.findAll();
+    const orderList = await Order.findAll({
+      order: [['createdAt', 'DESC',],],
+    });
     res.status(200).json({
       orderList,
     });
@@ -57,10 +59,10 @@ const addOrder = async (req, res) => {
     ticketId.forEach(async (id) => {
       const prices = await Ticket.findOne({ where: { id, }, });
       totalPriceOneOrder.push(prices.price);
-    });    
+    });
     const tiketBerangkat = await Ticket.findAll(
       {
-        where: {id:ticketId[0], },
+        where: { id: ticketId[0], },
         include: [
           {
             model: Airplane,
@@ -76,7 +78,7 @@ const addOrder = async (req, res) => {
         ],
       }
     );
-    setTimeout(async() => {
+    setTimeout(async () => {
       let totalPrice;
       let price;
       if (ticketId.length === 2) {
@@ -99,7 +101,7 @@ const addOrder = async (req, res) => {
       if (ticketId.length === 2) {
         const tiketPulang = await Ticket.findAll(
           {
-            where: {id:ticketId[1], },
+            where: { id: ticketId[1], },
             include: [
               {
                 model: Airplane,
@@ -122,7 +124,7 @@ const addOrder = async (req, res) => {
           tiketBerangkat,
           tiketPulang,
           price,
-          passengers:passengers.length,
+          passengers: passengers.length,
         });
       } else {
         res.status(200).json({
@@ -131,7 +133,7 @@ const addOrder = async (req, res) => {
           totalPrice: transaksi.totalPrice,
           tiketBerangkat,
           price,
-          passengers:passengers.length,
+          passengers: passengers.length,
         });
       }
     }, 400);
