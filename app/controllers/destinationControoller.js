@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const { Destination, Airport, } = require('../models');
 const imagekit = require('../../lib/imageKit');
 
@@ -92,9 +91,8 @@ const updateDestination = async (req, res) => {
     const { name, location, description, airportId, } = req.body;
     const { files, } = req;
     req.body.images = [];
-    console.log(files);
 
-    if (files.length !== 0) {
+    if (files && files.length !== 0) {
       await Promise.all(
         // eslint-disable-next-line consistent-return
         files.map(async (file) => {
@@ -134,8 +132,7 @@ const updateDestination = async (req, res) => {
         { where: { id, }, }
       );
     }
-    if (files || files.length === 0) {
-      console.log(('tidak ada gambar'));
+    if (files === undefined || files?.length === 0) {
       await Destination.update(
         {
           name,
