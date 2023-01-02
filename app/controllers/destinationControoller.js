@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const { Destination, Airport, } = require('../models');
 const imagekit = require('../../lib/imageKit');
 
@@ -91,46 +92,63 @@ const updateDestination = async (req, res) => {
     const { name, location, description, airportId, } = req.body;
     const { files, } = req;
     req.body.images = [];
+    console.log(files);
 
-    await Promise.all(
-      // eslint-disable-next-line consistent-return
-      files.map(async (file) => {
-        const validFormat =
-          file.mimetype === 'image/png' ||
-          file.mimetype === 'image/jpg' ||
-          file.mimetype === 'image/jpeg' ||
-          file.mimetype === 'image/gif';
-        if (!validFormat) {
-          return res.status(400).json({
-            status: 'failed',
-            message: 'Wrong Image Format',
+    if (files.length !== 0) {
+      await Promise.all(
+        // eslint-disable-next-line consistent-return
+        files.map(async (file) => {
+          const validFormat =
+            file.mimetype === 'image/png' ||
+            file.mimetype === 'image/jpg' ||
+            file.mimetype === 'image/jpeg' ||
+            file.mimetype === 'image/gif';
+          if (!validFormat) {
+            return res.status(400).json({
+              status: 'failed',
+              message: 'Wrong Image Format',
+            });
+          }
+          // untuk dapat extension file nya
+          const split = file.originalname.split('.');
+          const ext = split[split.length - 1];
+
+          // upload file ke imagekit
+          const img = await imagekit.upload({
+            file: file.buffer,
+            fileName: `IMG-${Date.now()}.${ext}`,
           });
-        }
-        // untuk dapat extension file nya
-        const split = file.originalname.split('.');
-        const ext = split[split.length - 1];
 
-        // upload file ke imagekit
-        const img = await imagekit.upload({
-          file: file.buffer,
-          fileName: `IMG-${Date.now()}.${ext}`,
-        });
+          req.body.images.push(img.url);
+        })
+      );
 
-        req.body.images.push(img.url);
-      })
-    );
-    await Destination.update(
-      {
-        name,
-        image: req.body.images,
-        location,
-        description,
-        airportId,
-      },
-      { where: { id, }, }
-    );
+      await Destination.update(
+        {
+          name,
+          image: req.body.images,
+          location,
+          description,
+          airportId,
+        },
+        { where: { id, }, }
+      );
+    }
+    if (files || files.length === 0) {
+      console.log(('tidak ada gambar'));
+      await Destination.update(
+        {
+          name,
+          location,
+          description,
+          airportId,
+        },
+        { where: { id, }, }
+      );
+    }
+
     res.status(200).json({
-      message: 'data berhasil diubah',
+      message: 'destinasi berhasil diubah',
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({
