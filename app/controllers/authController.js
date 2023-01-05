@@ -324,13 +324,9 @@ const verified = async (req, res) => {
         },
       }
     );
-    // res.status(200).json({
-    //   message: 'Akun Anda berhasil diverifikasi.',
-    //   userVerify: userVerify.verified,
-    // });
-    await notification.create({ 
-      name:'Verifikasi Email',
-      message: 'akun anda berhasil di verifikasi, nkmati berbagai layanan yang telah kami sediakan',
+    await notification.create({
+      name: 'Verifikasi Email',
+      message: 'akun anda berhasil di verifikasi, nikmati berbagai layanan yang telah kami sediakan',
     });
     res.status(200).redirect(`${process.env.VERIF_EMAIL}?message=Akun%20berhasil%20diverifikasi`);
   } catch (error) {
@@ -437,4 +433,34 @@ const getProfile = async (req, res) => {
   }
 };
 
-module.exports = { login, register, verified, updateProfile, getProfile, };
+const resetPassword = async (req, res) => {
+  try {
+    const { password = '', newPassword = '', } = req.body;
+
+    if (!bcrypt.compareSync(password, req.user.password)) {
+      throw new ApiError(400, 'Password lama tidak sesuai.');
+    }
+
+    if (bcrypt.compareSync(password, req.user.password)) {
+      const hashedPassword = bcrypt.hashSync(newPassword, 10);
+
+      await Users.update({
+        password: hashedPassword,
+      }, {
+        where: {
+          id: req.user.id,
+        },
+      });
+
+      res.status(200).json({
+        message: 'Password berhasil diubah.',
+      });
+    }
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      message: error.message,
+    });
+  }
+};
+
+module.exports = { login, register, verified, updateProfile, getProfile, resetPassword, };
