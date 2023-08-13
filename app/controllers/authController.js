@@ -72,8 +72,8 @@ const register = async (req, res) => {
     if (!password) throw new ApiError(400, 'Password tidak boleh kosong.');
     if (!fullName) throw new ApiError(400, 'Nama tidak boleh kosong.');
     if (!username) throw new ApiError(400, 'Username tidak boleh kosong.');
-    if (User) throw new ApiError(400, 'Email telah terdaftar.');
-    if (usernameExist) throw new ApiError(400, 'Username telah digunakan.');
+    // if (User) throw new ApiError(400, 'Email telah terdaftar.');
+    // if (usernameExist) throw new ApiError(400, 'Username telah digunakan.');
     if (password.length < 8) {
       throw new ApiError(400, 'Masukkan password minimal 8 karakter');
     }
